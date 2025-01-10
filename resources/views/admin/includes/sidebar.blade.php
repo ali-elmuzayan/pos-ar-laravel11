@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="category.php" class="nav-link">
+                    <a href="{{route('categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             الفئات
@@ -63,7 +63,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="productlist.php" class="nav-link">
+                    <a href="{{route('products.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
                            المنتجات
@@ -135,7 +135,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="registration.php" class="nav-link">
+                    <a href="{{route('users.index')}}" class="nav-link">
                         <i class="nav-icon far fa-plus-square"></i>
                         <p>
                             اضافة مستخدم
@@ -156,7 +156,7 @@
 
 
                 <li class="nav-item">
-                    <a href="logout.php" class="nav-link">
+                    <a href="{{route('logout')}}" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             تسجيل الخروج

@@ -1,3 +1,4 @@
+
 .width30{
     width:30%;
 }
@@ -11,4 +12,39 @@
 .card_title_center{
     width: 100%;
     text-align: center !important;
+}
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip-content {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 125%; /* Position the tooltip above the text */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+#show-description
+{
+    margin-left: -20px !important;
+    max-width: 50% !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+
+
+.tooltip-container:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
 }

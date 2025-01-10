@@ -8,7 +8,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('dashboard')}}">الصفحة الرئيسية</a></li>
+                        <li class="breadcrumb-item"><a href="@yield('prev-link')">@yield('prev-link-title')</a></li>
                         <li class="breadcrumb-item active">@yield('content-page-name')</li>
                     </ol>
                 </div><!-- /.col -->
