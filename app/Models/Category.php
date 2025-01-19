@@ -10,4 +10,15 @@ class Category extends Model
     use HasFactory;
     protected $table = 'categories';
     protected $guarded = [];
+
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
+    /**
+     * Get the count of products related to the category.
+     */
+    public function productCount()
+    {
+        return $this->products()->count();
+    }
 }

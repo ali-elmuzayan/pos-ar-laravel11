@@ -2,28 +2,19 @@
 
 namespace App\Http\Traits;
 
-use App\Driver;
-use App\ImageManager;
+
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
 
 trait handleImage
 {
 
     public function uploadImage($image , $path, $width = null, $height = null) {
-        $manager = new ImageManager(new Driver());
-        $image_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-        $image= $manager->read($image);
-        $image->toJpeg(80)->save(public_path($path). $image_gen);
 
-        if ($width != null) {
-            if($height != null){
-                $image->resize($width, $height);
-            }else {
+        $fileName = date('ymhis').  '.' . $image->getClientOriginalExtension();
+        $image->move(public_path($path), $fileName);
 
-                $image->resize($width, $width);
-            }
-        }
-
-        return $path . $image_gen;
+        return $path . '/' .  $fileName;
     }
 
 }
