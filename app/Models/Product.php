@@ -15,4 +15,12 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function supplier() : BelongsTo
+    {
+        return $this->belongsTo(supplier::class);
+    }
+
+    public function totalProfit() {
+        return 0;
+    }
 }

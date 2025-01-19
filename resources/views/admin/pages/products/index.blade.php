@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '7Star system')
+@section('title', 'المنتجات')
 @section('prev-link', route('dashboard'))
 @section('prev-link-title', 'الصفحة الرئيسية')
 @section('content-title', 'المنتجات')
@@ -15,7 +15,9 @@
              <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h5 class="card-title">بيانات المنتجات</h5>
-
+                    <div class="float-left">
+                        <a href="{{route("products.create")}}" class="btn btn-outline-secondary">اضف منتج جديد</a>
+                    </div>
                 </div>
                  <div class="card-body">
 
@@ -48,13 +50,16 @@
                                  <td>{{$info->stock}}</td>
                                  <td>{{$info->buying_price}}</td>
                                  <td>{{$info->selling_price}}</td>
-                                 <td><img src="{{ $info->image ? asset('uploads/' . $info->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
+                                 <td><img src="{{ $info->image ? asset( $info->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
                                  <td>
                                      <div class="btn-group">
-                                         <a href="#" class="btn btn-dark btn-xs" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="PrintBarcode"></span></a>
-                                         <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
-                                         <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
-                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>
+{{--                                         <a id="{{$info->id}}" class="ml-2 text-secondary add-quantity" data-id="{{ $info->id }}" ><i class="nav-icon fas fa-plus-square"></i></a>--}}
+                                         <a data-id="{{$info->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
+
+                                         <a href="{{route('barcode.product.show', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="PrintBarcode"></span></a>
+                                         <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
+                                         <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
+{{--                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>--}}
 
 
                                      </div>
@@ -93,7 +98,7 @@
     <link rel="stylesheet" href="{{asset("plugins")}}/datatables-buttons/css/buttons.bootstrap4.min.css">
 
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{asset("plugins")}}/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
 
 @endpush
 
@@ -123,69 +128,119 @@
         });
     </script>
 
-{{--    <script>--}}
-{{--        $(document).ready(function() {--}}
-{{--            $('[data-toggle="tooltip"]').tooltip();--}}
-{{--        });--}}
-{{--    </script>--}}
     <script>
         $(document).ready(function() {
         $('[data-toggle="tooltip"], .tooltip-container').tooltip();
         });
     </script>
+{{--    delete the product --}}
+{{--    <script>--}}
+{{--        $(document).ready(function() {--}}
+{{--            $('.btndelete').click(function() {--}}
+{{--                var tdh = $(this);--}}
+{{--                var id = $(this).attr("id");--}}
+
+
+{{--                Swal.fire({--}}
+{{--                    title: 'هل تريد الحذف؟',--}}
+{{--                    text: "لن يمكنك التراجع عن هذا الإجراء",--}}
+{{--                    icon: 'warning',--}}
+{{--                    showCancelButton: true,--}}
+{{--                    confirmButtonColor: '#3085d6',--}}
+{{--                    cancelButtonColor: '#d33',--}}
+{{--                    confirmButtonText: 'نعم! احذف',--}}
+{{--                    cancelButtonText: 'إلغاء'--}}
+{{--                }).then((result) => {--}}
+{{--                    if (result.value) {--}}
+{{--                        // Construct the URL dynamically with the ID--}}
+{{--                        const url = "{{ route('products.destroy', ':id') }}".replace(':id', id);--}}
+{{--                        console.log(url);--}}
+{{--                        $.ajax({--}}
+{{--                            url: url, // Use the dynamically constructed URL--}}
+{{--                            // url: '/test/1',--}}
+{{--                            type: 'post', // Use DELETE method--}}
+{{--                            data: {--}}
+{{--                                _token: "{{ csrf_token() }}", // Add CSRF token--}}
+{{--                                _method: 'DELETE' // Spoof the DELETE method--}}
+{{--                            },--}}
+{{--                            success: function(response) {--}}
+{{--                                if (response.success) {--}}
+{{--                                    tdh.parents('tr').fadeOut('fast');--}}
+{{--                                    Swal.fire('تم الحذف!', response.message, 'success');--}}
+{{--                                } else {--}}
+{{--                                    Swal.fire('خطأ!', response.message, 'error');--}}
+{{--                                }--}}
+{{--                            },--}}
+{{--                            error: function() {--}}
+{{--                                Swal.fire('خطأ!', 'حدث خطأ أثناء الحذف.', 'error');--}}
+{{--                            }--}}
+{{--                        });--}}
+
+{{--                    }--}}
+{{--                });--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
+
+{{--    add quantity to the product --}}
     <script>
         $(document).ready(function() {
-            $('.btndelete').click(function() {
+            $('.add-quantity').click(function() {
                 var tdh = $(this);
-                var id = $(this).attr("id");
-
+                var id = this.getAttribute('data-id');
 
                 Swal.fire({
-                    title: 'هل تريد الحذف؟',
-                    text: "لن يمكنك التراجع عن هذا الاجراء",
-                    icon: 'warning',
+                    title: 'إضافة كمية',
+                    input: 'number',
+                    inputLabel: 'أدخل الكمية المطلوبة',
+                    inputPlaceholder: 'الكمية',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم! احذف',
-                    cancelButtonText: 'إلغاء'
+                    confirmButtonText: 'إضافة',
+                    cancelButtonText: 'إلغاء',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'يجب إدخال كمية!';
+                        }
+                        if (value <= 0) {
+                            return 'يجب ان تكون القيمة اكبر من او تساوي الصفر';
+                        }
+
+                    }
                 }).then((result) => {
-                    if (result.isConfirmed) {
-
-
+                    if (result.value) {
+                        const quantity = result.value;
+                        const url = "{{ route('products.add.quantity', ':id') }}".replace(':id', id);
+                        console.log(url)
 
                         $.ajax({
-                            url: 'productdelete.php',
+                            url: url,
                             type: 'post',
                             data: {
-                                pidd: id
+                                _token: "{{ csrf_token() }}",
+                                _method: 'PUT',
+                                quantity: quantity // Send the quantity to the server
                             },
+
                             success: function(response) {
+                                console.log(response);
                                 if (response.success) {
-                                    tdh.parents('tr').fadeOut('fast');
-                                    Swal.fire('تم الحذف!', response.message, 'success');
+                                    Swal.fire('تم الإضافة!', response.message, 'success');
+                                    // Optionally, you can update the UI here
                                 } else {
+                                    console.log(quantity)
                                     Swal.fire('خطأ!', response.message, 'error');
                                 }
                             },
                             error: function() {
-                                Swal.fire('خطأ!', 'حدث خطأ أثناء الحذف.', 'error');
+                                Swal.fire('خطأ!', 'حدث خطأ أثناء الإضافة.', 'error');
                             }
-
-
                         });
-
-                        Swal.fire(
-                            'Deleted!',
-                            'Your Product has been deleted.',
-                            'success'
-                        )
                     }
-                })
+                });
             });
         });
     </script>
 
     <!-- SweetAlert2 -->
-    <script src="{{asset('plugins')}}/sweetalert2/sweetalert2.min.js"></script>
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 @endpush

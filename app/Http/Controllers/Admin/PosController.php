@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PosController extends Controller
@@ -11,7 +13,10 @@ class PosController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.pos.index');
+        $products = Product::where('stock', '>', 0)->select('name', 'id','code')->get();
+
+        $row = [];
+        return view('admin.pages.pos.index', compact('products', 'row'));
     }
 
     /**
@@ -51,7 +56,22 @@ class PosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+    }
+
+
+    // to get the product
+    public function getProdcutAjax(string $code){
+        $product = Product::where('code', $code)
+            ->orWhere('id', $code)
+            ->orWhere('name', $code)
+            ->first();
+        if ($product){
+
+        return response()->json($product);
+        }else {
+            return response()->json(['message' => 'Product not found']);
+        }
     }
 
     /**

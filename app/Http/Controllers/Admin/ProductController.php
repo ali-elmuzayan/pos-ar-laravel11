@@ -3,24 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductRequest;
+use App\Http\Requests\Admin\UpdateProductRequest;
+use App\Http\Traits\HandleBarcode;
 use App\Http\Traits\handleImage;
 use App\Http\Traits\HandleTime;
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
 
 class ProductController extends Controller
 {
     use handleImage;
     use HandleTime;
-    /**
-     * Display a listing of the resource.
-     */
+    use HandleBarcode;
+
+    // display lists of products;
     public function index()
     {
         $counter = 1;
-        $data = Product::all();
+        $data = Product::latest()->paginate(50);
 //        $data = Product::latest()->paginate(50);
 
         return view('admin.pages.products.index', compact('data', 'counter'));
@@ -31,18 +37,41 @@ class ProductController extends Controller
      */
     public function create()
     {
+
+
         $lastProductCode = Product::latest('id')->value('code');
 
+        $barcode = 'PR-0' . $this->generateCode($lastProductCode);
+        $suppliers = Supplier::all();
+
         $categories = Category::all();
-        return view('admin.pages.products.create', compact('categories'));
+        return view('admin.pages.products.create', compact('categories', 'barcode', 'suppliers'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        // if the image is added
+        if($request->hasFile('image')) {
+            $image = $this->uploadImage($request->file('image'), 'uploads/products');
+        }
+
+
+
+        Product::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'description' => $request->description,
+            'stock' => $request->stock,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'image' => $image
+        ]);
+        return redirect()->route('products.index');
     }
 
     /**
@@ -51,7 +80,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $barcode = DNS1D::getBarcodeHtml('123456789', 'c128', 1, 15);
+        $barcode = DNS1D::getBarcodeHtml('123456789', 'c128', 1, 25);
 //        dd($barcode);
 
         // created at &&  updated at
@@ -69,29 +98,104 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        dd($product);
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+       return view('admin.pages.products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        dd($request);
+        $image = $product->image;
+        // if the image is added
 
+        if($request->hasFile('image')) {
 
-        if (!is_null($request->file('image'))){
-            $path = '/uploads';
-
-            $save_image = $this->uploadImage($request->file('image'), $path);
+            // in case the image is empty so we need to check first
+            if(!empty($product->image))
+            {
+            unlink($product->image);
+            }
+            $image = $this->uploadImage($request->file('image'), 'uploads/products');
         }
+
+        $product->update([
+            'code' => $product->code,
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'description' => $request->description,
+            'stock' => $request->stock,
+            'buying_price' => $request->buying_price,
+            'selling_price' => $request->selling_price,
+            'image' => $image
+        ]);
+        return redirect()->route('products.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        if (!empty($product->image)){
+        unlink($product->image);
+        }
+        $product->delete();
+        return response()->json(['success' => true, 'message' => '', 'id' => $id]);
+
+//
+//        $id->delete();
+////        return back();
+//        return response();
+    }
+
+    // add quantity
+    public function addQuantity(Request $request,$id)
+    {
+
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid quantity provided.',
+            ], 400);
+        }
+
+
+        // Find the product by ID
+        $product = Product::find($id);
+
+
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'هذا المنتج غير موجود',
+            ]);
+        }
+
+
+        // Update the product quantity
+        $product->stock += $request->input('quantity'); // Add the new quantity to the existing quantity
+        Inventory::create([
+            'product_id' => $id,
+            'quantity_change' => $request->input('quantity'),
+            'type' => 'in'
+        ]);
+        $product->save();
+
+//
+        // Return a success response
+        return response()->json([
+            'success' => true,
+            'message' =>   ' تمت اضافة الكمية بنجاح الكمية الحالية ' . $product->stock,
+        ]);
     }
 }
