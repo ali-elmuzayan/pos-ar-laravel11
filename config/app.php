@@ -123,4 +123,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+
+    // provider
+    'provider' => [
+        // Other Service providers....
+        App\Providers\BladeServiceProvider::class,
+    ]
 ];

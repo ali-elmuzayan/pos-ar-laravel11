@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     // constants that I need
-    public const PAGINATION_LIMIT = 5;
+    public const PAGINATION_LIMIT = 10;
 
 
 

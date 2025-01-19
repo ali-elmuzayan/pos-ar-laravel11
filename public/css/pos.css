@@ -1,0 +1,24 @@
+.tableFixHead {
+    overflow: scroll;
+    height: 520px;
+}
+.tableFixHead thead th {
+    position: sticky;
+    top:0;
+    z-index: 1;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100px;
+}
+th,td {
+    padding: 8px 16px;
+}
+th {
+    background: #eee;
+}
+
+hr {
+    height:2px; border-width:0; color:black; background-color:black;
+}

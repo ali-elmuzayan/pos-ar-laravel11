@@ -115,9 +115,9 @@
 {{--            </a>--}}
 {{--        </li>--}}
         <li class="nav-item">
-            <form method="POST" action="{{route('logout')}}" style="display: inline;">
+            <form method="post" action="{{route('logout')}}" style="display: inline;">
                 @csrf
-                <button type="submit" class="nav-link btn btn-link" style="color: inherit; text-decoration: none;">
+                <button type="submit" class="nav-link btn btn-link " style="color: inherit; text-decoration: none;">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </form>
