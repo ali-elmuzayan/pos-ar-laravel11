@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\OrderService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +18,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // to bind the service
+        $this->app->bind(OrderService::class, function ($app) {
+            return new OrderService();
+        });
     }
 
     /**

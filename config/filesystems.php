@@ -37,6 +37,12 @@ return [
             'throw' => false,
         ],
 
+        'backups' => [
+            'driver' => 'local',
+            'root' => env('BACKUP_DIR', storage_path('app/backups')), // Custom backup directory
+        ],
+
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
