@@ -4,7 +4,7 @@
 @section('prev-link', route('dashboard'))
 @section('prev-link-title', 'الصفحة الرئيسية')
 @section('content-title', 'تعديل البيانات')
-@section('content-page-name', 'تعديل البيانات الشخصية')
+@section('content-page-name', 'تعديل بيانات الضبط العام')
 
 @section('content')
 
@@ -12,62 +12,80 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card card-info card-outline">
+            <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">تعديل البيانات</h5>
+                    <h3 class="card-title card_title_center">بيانات الضبط العام</h3>
                 </div>
-
-
+                <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8 ml-auto">
-                                <div class="card-body box-profile">
-                                    <div class="text-center">
 
-                                        <img class="profile-user-img img-fluid img-circle" id="showImage"
-                                             src="{{ $user->image ? asset($user->image) : asset("uploads/no-user.jpg")}}"
-                                             alt="User profile picture">
-                                    <h3 class="profile-username text-center">{{$user->name}}</h3>
+                    @if(!empty($setting))
 
-                                    <p class="text-muted text-center">{{$user->email}}</p>
-                                    </div>
-                                    <div>
-                                        <form action="{{route('profile.update')}}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('put')
-                                                <div class="form-group">
-                                                    <label for="name">الاسم الشخصي</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="اسم المستخدم"  name="name" value="{{$user->name ?? old('name')}}" required>
-                                                    @error('name') <p class="text-danger">{{ $message }}</p> @enderror
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="username">اسم المستخدم</label>
-                                                    <input type="text" class="form-control"  placeholder="اسم المستخدم" name="username" value="{{$user->username ?? old('username')}}"  required>
-                                                    @error('username') <p class="text-danger">{{ $message }}</p> @enderror
+                        <form action="{{route('settings.update', $setting->id)}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="name"> اسم الشركة </label>
+                                <input type="text" name="name" id="name" class="form-control" value="{{old('name') ?? $setting->name}}" required
+                                       placeholder="ادخل اسم الشركة" oninvalid="setCustomValidity('من فضلك ادخل بعض البيانات')" onchange="try{setCustomValidity('')}catch(e){}">
+                                @error('name') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
 
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="email">البريد الاكتروني</label>
-                                                    <input type="email" class="form-control"  placeholder="البريد الاكتروني" name="email" value="{{$user->email ?? old('email')}}"  required>
-                                                    @error('email') <p class="text-danger">{{ $message }}</p> @enderror
-                                                </div>
+                            <div class="form-group">
+                                <label for="address"> عنوان الشركة </label>
+                                <input type="text" name="address" id="address" class="form-control" value="{{old('address') ?? $setting->address}}" required
+                                       placeholder="ادخل عنوان الشركة" oninvalid="setCustomValidity('من فضلك ادخل بعض البيانات')" onchange="try{setCustomValidity('')}catch(e){}">
+                                @error('address') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
 
-                                                <div class="form-group">
-                                                    <label for="image">الصورة الشخصية</label>
-                                                    <div class="custom-file">
-                                                        <input type="file" class="form-control" name="image" id="image">
-                                                        <label class="custom-file-label" for="image">تحديث الصورةالشخصية</label>
-                                                    </div>
-                                                    @error('image') <p class="text-danger">{{ $message }}</p> @enderror
-                                                </div>
-                                                <div class="form-group text-center">
-                                                <button class="btn btn-outline-info">تحديث الملف الشخصي</button>
-                                                </div>
-                                        </form>
-                                    </div>
-                             </div>
+                            <div class="form-group">
+                                <label for="phone"> هاتف الشركة </label>
+                                <input type="text" name="phone" id="phone" class="form-control" value="{{old('phone') ?? $setting->phone}}" required
+                                       placeholder="ادخل هاتف الشركة" oninvalid="setCustomValidity('من فضلك ادخل بعض البيانات')" onchange="try{setCustomValidity('')}catch(e){}">
+                                @error('phone') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">وصف </label>
+                                <input type="text" name="description" id="description" class="form-control" value="{{old('description') ?? $setting->description}}"
+                                       placeholder="قم باضافة وصف للشركة" oninvalid="setCustomValidity('من فضلك ادخل بعض البيانات')" onchange="try{setCustomValidity('')}catch(e){}">
+                                @error('description') <span class="text-danger">{{$message}}</span> @enderror
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="img">شعار الشركة </label>
+                                <div class="image" >
+                                    <img src="{{asset($setting->logo)}}" alt="logo" class="custom_img" id="showImage" >
+                                    <button type="button" id="updateImg" class="btn btn-sm btn-danger">تغير الصورة</button>
+                                    <button type="button" id="cancelUpdateImg" style="display:none;" class="btn btn-sm btn-success">الغاء التغيير</button>
+                                    @error('logo') <span class="text-danger">{{$message}}</span> @enderror
+                                </div>
+                                <div id="oldImg">
+
+                                </div>
+
+
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-info">حفظ التعديلات</button>
+
+                            </div>
+
+
+
+                        </form>
+
+
+                    @else
+                        <div class="alert alert-danger" style="opacity:75%;">
+                            عفوا لا يوجد بيانات لعرضها
                         </div>
-                    </div>
+                    @endif
+
+
+
+
                 </div>
             </div>
         </div>
@@ -76,15 +94,5 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e){
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#showImage').attr('src',e.target.result)
-                }
-                reader.readAsDataURL(e.target.files['0']);
-            });
-        });
-
-    </script>@endpush
+    <script src="{{asset('js/image.js')}}"></script>
+    @endpush

@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{route('dashboard')}}" class="brand-link">
-        <img src="{{asset("dist/img/AdminLTELogo.png")}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <img src="{{asset($setting->logo)}}" alt="pos Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light"><strong>7star</strong> POS</span>
+        <span class="brand-text font-weight-light"><strong>{{$setting->name}}</strong></span>
     </a>
 
     <!-- Sidebar -->
@@ -91,6 +91,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('users.index')}}" class="nav-link">
+                        <i class="nav-icon far fa-plus-square"></i>
+                        <p>
+                            اضافة مستخدم
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -132,22 +141,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('profile.edit')}}" class="nav-link">
+                            <a href="{{route('settings.index')}}" class="nav-link">
+                                <i class="fas fa-server nav-icon"></i>
+                                <p>اعدادات عامة</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('profile.edit.password')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-lock"></i>
                                 <p>تغيير الباسورد</p>
                             </a>
                         </li>
+
                     </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{route('users.index')}}" class="nav-link">
-                        <i class="nav-icon far fa-plus-square"></i>
-                        <p>
-                            اضافة مستخدم
-
-                        </p>
-                    </a>
                 </li>
 @endIsAdmin
                 <li class="nav-item">

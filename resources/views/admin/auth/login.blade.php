@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>erp system | Log in</title>
+    <link rel="icon" href="{{asset('uploads/no-logo.png')}}" type="image/icon type">
+    <title>erp system | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,16 +31,20 @@
       <p class="login-box-msg mb-3">قم بتسجيل الدخول</p>
 
 
-      <form action="{{route('login.store')}}" method="post">
+
+        <form action="{{route('login.store')}}" method="post">
           @csrf
-        <div class="input-group mb-3">
+            <div class="form-group mb-3">
+        <div class="input-group ">
+
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
           <input type="text" name="username" class="form-control" placeholder="اسم المستخدم" required>
-            @error('username') <p class="text-danger">{{$message}}</p> @enderror
+            </div>
+            @error('username') <span class="text-danger">{{$message}}</span> @enderror
         </div>
         <div class="input-group mb-3">
           <div class="input-group-append">
@@ -47,9 +52,9 @@
               <span class="fas fa-lock"></span>
             </div>
           </div>
-          <input type="password" name="password" class="form-control" placeholder="كلمة السر">
-            @error('password') <p class="d-block text-danger">{{$message}}</p> @enderror
+          <input type="password" name="password" class="form-control" placeholder="كلمة السر" required>
         </div>
+            @error('password') <span class=" text-danger">{{$message}}</span> @enderror
         <div class="row justify-content-between align-items-center">
 
           <div class="col-6">

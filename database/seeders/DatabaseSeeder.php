@@ -18,11 +18,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // this should run when start the app
-        Supplier::create([
-            'name' => 'بدون موزع',
-            'phone' => '0000000',
-            'email' => 'test@test.com',
-            'image' => 'null',
+//        Supplier::create([
+//            'name' => 'بدون موزع',
+//            'phone' => '0000000',
+//            'email' => 'test@test.com',
+//            'image' => 'null',
+//        ]);
+
+        // call the settingSededer
+        $this->call([
+            settingsSeeder::class,
         ]);
 
 

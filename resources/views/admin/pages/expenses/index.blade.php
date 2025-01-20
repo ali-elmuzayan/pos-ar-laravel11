@@ -2,7 +2,7 @@
 
 @section('title', '7Star system')
 @section('prev-link', route('dashboard'))
-@section('main-color', 'info'))
+@section('main-color', 'info')
 @section('prev-link-title', 'الصفحة الرئيسية')
 @section('content-title', 'النفقات')
 @section('content-page-name', 'النفقات')

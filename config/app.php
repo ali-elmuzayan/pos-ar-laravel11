@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'ar'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
@@ -129,5 +129,6 @@ return [
     'provider' => [
         // Other Service providers....
         App\Providers\BladeServiceProvider::class,
+        App\Providers\SettingsServiceProvider::class,
     ]
 ];

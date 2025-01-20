@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ProfileController;
@@ -19,8 +20,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/password', [ProfileController::class, 'editPassword'])->name('profile.edit.password');
     Route::put('/profile/', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
     /*  ===============================================  */
+
+
+    /*  ============ settings  ============  */
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings/{setting}/edit', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
+    /*  ===============================================  */
+
 
 
     /*  ============ Resources  ============  */
@@ -68,4 +79,6 @@ Route::middleware('auth')->group(function () {
     /*  ============ Expenses  ============  */
     Route::resource('/expenses', ExpenseController::class)->only('index', 'store', 'update');
     /*  ===================================  */
+
+
 });

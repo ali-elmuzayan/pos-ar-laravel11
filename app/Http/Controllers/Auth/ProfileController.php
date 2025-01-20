@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ChangePasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Traits\handleImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -20,18 +22,28 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('admin.pages.settings.edit', [
+        return view('admin.pages.profile.edit', [
             'user' => $request->user(),
         ]);
     }
 
 
-
-    public function changePassword(Request $request): View
+    // change the password
+    public function editPassword(Request $request): View
     {
-        return view('profile.edit', [
+        return view('admin.pages.profile.edit-password', [
             'user' => $request->user(),
         ]);
+    }
+
+    // update the password
+    public function updatePassword(ChangePasswordRequest $request): RedirectResponse
+    {
+        $user = $request->user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profile.edit.password');
     }
 
     /**
