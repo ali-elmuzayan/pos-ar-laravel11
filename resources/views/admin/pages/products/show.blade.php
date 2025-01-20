@@ -34,12 +34,16 @@
                                      <li class="list-group-item"><b>الموزع</b> <span class="badge badge-light float-right">{{$product->supplier->name}}</span></li>
                                      <li class="list-group-item"><b>الوصف</b><span id="show-description" class=" float-right">{{$product->description ?? 'لا يوجد وصف لهذا لامنتج'}}</span></li>
                                      <li class="list-group-item"><b>الكمية المتاحة</b> <span  class="badge @if($product->stock > 5)badge-success @else badge-danger @endif float-right">{{$product->stock}}</span></li>
+                                     @isAdmin
                                      <li class="list-group-item"><b>سعر الشراء</b><span class="badge  badge-secondary float-right">{{$product->buying_price}}</span></li>
+                                     @endIsAdmin
                                      <li class="list-group-item"><b>سعر البيع</b> <span class="badge badge-secondary float-right">{{$product->selling_price}}</span></li>
+                                     @isAdmin
                                      <li class="list-group-item"><b>المكسب</b> <span class="badge @if($profit > 20)badge-success @else badge-danger @endif float-right">{{$profit}}</span></li>
                                      <li class="list-group-item"><b>المكسب الكلي</b> <span class="badge @if($product->totalProfit() < 0)badge-success @else badge-danger @endif float-right">{{$product->totalProfit()}}</span></li>
                                      <li class="list-group-item"><b>تم انشاءه في</b> <span class="badge badge-dark float-right">{{$created_at}}</span></li>
                                      <li class="list-group-item"><b>اخر تعديل في</b> <span class="badge badge-dark float-right">{{$updated_at}}</span></li>
+                                     @endIsAdmin
                                  </ul>
                              </div>
 

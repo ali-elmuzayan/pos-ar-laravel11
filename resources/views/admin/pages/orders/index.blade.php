@@ -20,15 +20,13 @@
                  <div class="card-body">
 
                      @if(!empty($data))
-                         <table class="table table-bordered table-hover " id="table_product">
+                         <table class="table table-bordered table-hover w-100 " id="table_product">
                              <thead>
                              <tr>
                                  <td>#</td>
                                  <td>رقم الاوردر</td>
                                  <td>عدد المنتجات</td>
                                  <td>السعر</td>
-                                 <td>الفئة</td>
-                                 <td>الوصف</td>
                                  <td>طريقة الدفع</td>
                                  <td>التاريخ</td>
                                  <td>المكسب</td>
@@ -43,8 +41,6 @@
                                  <td>{{$info->invoice_no}}</td>
                                  <td>{{$info->total_products}}</td>
                                  <td>{{$info->total_price}}</td>
-                                 <td>{{$info->sub_total}}</td>
-                                 <td>{{$info->payment_status}}</td>
                                  <td>{{$info->pay}}</td>
                                  <td>{{$info->created_at}}</td>
                                  <td> {{$info->profit()}} </td>

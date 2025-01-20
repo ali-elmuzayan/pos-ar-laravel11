@@ -15,14 +15,16 @@
              <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h5 class="card-title">بيانات المنتجات</h5>
+                    @isAdmin
                     <div class="float-left">
                         <a href="{{route("products.create")}}" class="btn btn-outline-secondary">اضف منتج جديد</a>
                     </div>
+                    @endIsAdmin
                 </div>
                  <div class="card-body">
 
                      @if(!empty($data))
-                         <table class="table table-bordered table-hover " id="table_product">
+                         <table class="table table-bordered table-hover w-100" id="table_product">
                              <thead>
                              <tr>
                                  <td>المنتج</td>
@@ -31,7 +33,7 @@
                                  <td>الفئة</td>
                                  <td>الوصف</td>
                                  <td>الكمية</td>
-                                 <td>سعر الشراء</td>
+                                 @isAdmin<td>سعر الشراء</td>@endIsAdmin
                                  <td>سعر البيع</td>
                                  <td>صورة</td>
                                  <td>النشاط</td>
@@ -48,17 +50,20 @@
                                          {{ Str::limit($info->description, 20, '...') ?? 'لا يوجد وصف' }}
                                      </div></td>
                                  <td>{{$info->stock}}</td>
-                                 <td>{{$info->buying_price}}</td>
+                                 @isAdmin<td>{{$info->buying_price}}</td>@endIsAdmin
                                  <td>{{$info->selling_price}}</td>
                                  <td><img src="{{ $info->image ? asset( $info->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
                                  <td>
                                      <div class="btn-group">
 {{--                                         <a id="{{$info->id}}" class="ml-2 text-secondary add-quantity" data-id="{{ $info->id }}" ><i class="nav-icon fas fa-plus-square"></i></a>--}}
+                                         @isAdmin
                                          <a data-id="{{$info->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
-
+                                         @endIsAdmin
                                          <a href="{{route('barcode.product.show', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="PrintBarcode"></span></a>
                                          <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
+                                         @isAdmin
                                          <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
+                                         @endIsAdmin
 {{--                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>--}}
 
 

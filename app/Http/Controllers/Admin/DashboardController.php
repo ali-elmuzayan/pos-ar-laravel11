@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $totalOrders = Order::count();
         $totalProducts = Product::count();
         $totalProfit = Order::totalProfitForAllOrders();
-        $newCustomers = Customer::count();
+        $newCustomers = Customer::getNewCustomersThisMonthCount();
         return view('admin.index', compact('totalOrders', 'totalProducts', 'totalProfit', 'newCustomers'));
     }
 

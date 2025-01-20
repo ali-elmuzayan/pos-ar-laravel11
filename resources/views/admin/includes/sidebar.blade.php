@@ -24,6 +24,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
 
+                @isAdmin
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -33,6 +34,7 @@
                         </p>
                     </a>
                 </li>
+                @endIsAdmin
                 <li class="nav-item">
                     <a href="{{route('categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
@@ -42,6 +44,7 @@
                         </p>
                     </a>
                 </li>
+
                 @isAdmin
                 <li class="nav-item">
                     <a href="{{route('expenses.index')}}" class="nav-link">
@@ -100,6 +103,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('customers.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            العملاء
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -122,6 +134,7 @@
                         </li>
                     </ul>
                 </li>
+
 
 
                 <li class="nav-item">
@@ -152,9 +165,9 @@
                                 <p>تغيير الباسورد</p>
                             </a>
                         </li>
-
                     </ul>
                 </li>
+
 @endIsAdmin
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="post" class="d-inline">

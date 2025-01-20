@@ -57,15 +57,15 @@
             @error('password') <span class=" text-danger">{{$message}}</span> @enderror
         <div class="row justify-content-between align-items-center">
 
-          <div class="col-6">
+          <div class="col-6 ">
             <button type="submit" class="btn btn-primary btn-block btn-flat">تسجيل الدخول</button>
           </div>
           <!-- /.col -->
-            <div class="col-6">
-                <p class="mb-1 float-left">
-                    <a href="#">نسيت كلمة المرور</a>
-                </p>
-            </div>
+{{--            <div class="col-6">--}}
+{{--                <p class="mb-1 float-left">--}}
+{{--                    <a href="#">نسيت كلمة المرور</a>--}}
+{{--                </p>--}}
+{{--            </div>--}}
 
         </div>
       </form>
