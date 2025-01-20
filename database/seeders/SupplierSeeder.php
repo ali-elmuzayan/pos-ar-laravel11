@@ -13,6 +13,11 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Supplier::factory()->count(10)->create();
+                Supplier::create([
+            'name' => 'بدون موزع',
+            'phone' => '0000000',
+            'email' => 'test@test.com',
+            'image' => 'null',
+        ]);
     }
 }

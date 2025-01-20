@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('buying_date')->nullable();
 
-            $table->foreignIdFor(Category::class)->constrained();
-            $table->foreignIdFor(Supplier::class)->constrained();
+            $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Supplier::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

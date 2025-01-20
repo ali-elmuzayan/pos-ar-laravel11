@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('total_products');
             $table->string('total_price');
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();            $table->foreignIdFor(Customer::class)->constrained();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

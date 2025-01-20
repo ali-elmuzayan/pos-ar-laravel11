@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\Returns;
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->integer('quantity');
             $table->decimal('total_price');
-            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(OrderDetails::class)->constrained();
             $table->foreignIdFor(Returns::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

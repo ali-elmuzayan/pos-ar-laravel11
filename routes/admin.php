@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ProfileController;
@@ -28,8 +29,9 @@ Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('s
 /*  ===============================================  */
 
 
-/*  ============ Customers ============  */
+/*  ============ Customers & suppliers ============  */
 Route::resource('customers', CustomerController::class)->only('index', 'edit', 'update');
+Route::resource('suppliers', SupplierController::class)->only('index', 'edit', 'update', 'create', 'store');
 /*  ============================================  */
 
 /*  ============ Products ============  */

@@ -18,16 +18,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // this should run when start the app
-//        Supplier::create([
-//            'name' => 'بدون موزع',
-//            'phone' => '0000000',
-//            'email' => 'test@test.com',
-//            'image' => 'null',
-//        ]);
 
-        // call the settingSededer
+
+        // call the settingSeeder
         $this->call([
+            userSeeder::class,
             settingsSeeder::class,
+//            SupplierSeeder::class,
         ]);
 
 
@@ -42,9 +39,7 @@ class DatabaseSeeder extends Seeder
 //            CategorySeeder::class,
 //        ]);
 
-//        $this->call([
-//            SupplierSeeder::class,
-//        ]);
+
 
 //        $this->call([
 //            ProductSeeder::class,
