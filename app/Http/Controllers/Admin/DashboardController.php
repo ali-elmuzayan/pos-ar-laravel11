@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +15,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+
+        $totalOrders = Order::count();
+        $totalProducts = Product::count();
+        $totalProfit = Order::totalProfitForAllOrders();
+        $newCustomers = Customer::count();
+        return view('admin.index', compact('totalOrders', 'totalProducts', 'totalProfit', 'newCustomers'));
     }
 
 
