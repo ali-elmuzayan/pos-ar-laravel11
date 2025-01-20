@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderDetails;
+use App\Models\Supplier;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,7 +17,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // this should run when start the app
+        Supplier::create([
+            'name' => 'بدون موزع',
+            'phone' => '0000000',
+            'email' => 'test@test.com',
+            'image' => 'null',
+        ]);
+
+
+
         // User::factory(10)->create();
+
+//        Customer::factory(10)->create();
+//        Order::factory(100)->create();
+//        OrderDetails::factory(10)->create();
 
 //        $this->call([
 //            CategorySeeder::class,
@@ -23,9 +41,9 @@ class DatabaseSeeder extends Seeder
 //            SupplierSeeder::class,
 //        ]);
 
-        $this->call([
-            ProductSeeder::class,
-        ]);
+//        $this->call([
+//            ProductSeeder::class,
+//        ]);
 
 
 //        User::factory()->create([
