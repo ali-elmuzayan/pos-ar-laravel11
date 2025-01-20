@@ -4,15 +4,31 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
 {
+
+    protected $orderService;
+
+    /**
+     * Constructor to inject OrderService.
+     *
+     * @param OrderService $orderService
+     */
+    public function __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
         $products = Product::where('stock', '>', 0)->select('name', 'id','code')->get();
 
         $row = [];
@@ -24,7 +40,7 @@ class PosController extends Controller
      */
     public function create()
     {
-        //
+        DB::transaction(function () {});
     }
 
     /**
