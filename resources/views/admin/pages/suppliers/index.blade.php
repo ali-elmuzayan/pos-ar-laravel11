@@ -73,6 +73,7 @@
                                         <th>#</th>
                                         <th>اسم الموزع</th>
                                         <th>رقم الهاتف </th>
+                                        <th>عدد المنتجات الخاصة بالموزع</th>
                                         <th>الايميل</th>
                                         <th>العنوان </th>
                                         <th>النشاط </th>
@@ -85,14 +86,16 @@
                                             <td>{{$supplier->id}}</td>
                                             <td>{{$supplier->name}}</td>
                                             <td>{{$supplier->phone}}</td>
+                                            <td>{{$supplier->countOfProducts()}}</td>
                                             <td>{{$supplier->email}}</td>
                                             <td>{{$supplier->address}}</td>
-                                            <td class="text-center"><a href="{{route('suppliers.edit', $supplier->id)}}" ><i class="nav-icon fas fa-trash text-success" ></i></a></td>
+                                            <td class="btn-group">
+                                                <a href="{{route('suppliers.edit', $supplier->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>
+                                                <button id='{{$supplier->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
+                                            </td>
 
                                         </tr>
                                     @endforeach
-
-
 
                                     </tbody>
                                 </table>
@@ -111,3 +114,24 @@
     </div>
 
 @endsection
+@push('css')
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
+
+@endpush
+@push('js')
+
+    {{--  data that need to delete tht customer  --}}
+    <script>
+        // destroying url
+        const url = "{{ route('suppliers.destroy') }}";
+        const csrf = "{{ csrf_token() }}";
+    </script>
+
+    {{--    delete the Customer--}}
+    <script src="{{asset('js/message/destroy.js')}}"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+
+@endpush

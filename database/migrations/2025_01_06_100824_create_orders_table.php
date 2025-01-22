@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('payment_status')->nullable();
             $table->string('pay')->nullable();
             $table->string('due')->nullable();
-            $table->foreignIdFor(Customer::class)->constrained();
+            $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

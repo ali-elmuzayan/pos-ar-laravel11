@@ -15,6 +15,7 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
+use Flasher\Toastr\Prime\ToastrInterface;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,6 @@ class ProductController extends Controller
      */
     public function create()
     {
-
 
         $lastProductCode = Product::latest('id')->value('code');
 
@@ -69,8 +69,8 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'buying_price' => $request->buying_price,
             'selling_price' => $request->selling_price,
-            'image' => $image
         ]);
+        toastr()->success(  'تم انشاء المنتج' . $request->name . 'بنجاح');
         return redirect()->route('products.index');
     }
 
@@ -84,8 +84,9 @@ class ProductController extends Controller
 //        dd($barcode);
 
         // created at &&  updated at
-        $created_at = $this->getTime($product->updated_at, 'd-m-Y');
-        $updated_at = $this->getTime($product->created_at, 'd-m-Y');
+//        $created_at = $this->getTime($product->updated_at, 'd-m-Y');
+        $created_at = $product->created_at->diffForHumans();
+        $updated_at = $product->created_at->diffForHumans();
 
         // the profit of the product
         $profit = $product->selling_price - $product->buying_price;
@@ -132,6 +133,8 @@ class ProductController extends Controller
             'selling_price' => $request->selling_price,
             'image' => $image
         ]);
+
+        toastr()->success('تم تحديث المنتج ينجاح');
         return redirect()->route('products.index');
     }
 

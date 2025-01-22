@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->decimal('quantity');
             $table->decimal('unit_cost')->nullable();
-            $table->decimal('profit_per_unit')->nullable();
+            $table->decimal('total_profit')->nullable();
             $table->decimal('total_cost')->nullable();
-            $table->foreignIdFor(Order::class)->constrained();
-            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

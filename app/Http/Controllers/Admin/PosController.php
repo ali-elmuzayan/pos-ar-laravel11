@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PosController extends Controller
 {
@@ -78,15 +79,40 @@ class PosController extends Controller
 
     // to get the product
     public function getProdcutAjax(string $code){
-        $product = Product::where('code', $code)
-            ->orWhere('id', $code)
-            ->orWhere('name', $code)
-            ->first();
-        if ($product){
+//        $product = Product::where('code', $code)
+//            ->orWhere('id', $code)
+//            ->orWhere('name', $code)
+//            ->first();
+//        if ($product){
+//
+//        return response()->json($product);
+//        }else {
+//            return response()->json(['message' => 'Product not found']);
+//        }
+//        // Validate input
+//        if (empty($code)) {
+//            return response()->json(['error' => true, 'message' => 'يجب ادخال كود صحيح'], 400);
+//        }
 
-        return response()->json($product);
-        }else {
-            return response()->json(['message' => 'Product not found']);
+        try {
+            // Optimize the query
+            $product = Product::where('code', $code)
+                ->orWhere('id', $code)
+                ->orWhere('name', $code)
+                ->first();
+
+            // If product is found, return it
+            if ($product) {
+                return response()->json($product);
+            }
+
+            // If no product is found, return a 404 response
+            return response()->json(['error' => true, 'message' => 'المنتج غير موجود'], 404);
+
+        } catch (\Exception $e) {
+            // Log the error and return a generic error message
+            Log::error('Error fetching product: ' . $e->getMessage());
+            return response()->json(['error' => true, 'message' => 'حدث خطأ اثناء اضافة المنتج يرجى المحاولة مرة اخرى'], 500);
         }
     }
 

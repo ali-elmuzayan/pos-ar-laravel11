@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 
 
     /*  ============ Products ============  */
-    Route::resource('products', ProductController::class)->only(['index', 'show']);
+    Route::resource('products', ProductController::class)->only('index');
     Route::put('/products/{id}/add-quantity', [ProductController::class, 'addQuantity'])->name('products.add.quantity');
     /*  =======================================  */
 

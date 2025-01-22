@@ -21,9 +21,25 @@ class SupplierController extends Controller
 dd($request->all());
     }
 
+    public function edit(Supplier $supplier) {
+        dd($supplier->countOfProducts());
+    }
+
     public function update(SupplierRequest $request, Supplier $supplier) {
         dd($request->all());
 
         return redirect()->route('admin.pages.suppliers.index');
+    }
+
+    public function destroy(Request $request) {
+        $supplier = Supplier::findOrFail($request->id);
+        $name = $supplier->name;
+        if($supplier->countOfProducts() < 1) {
+            $supplier->delete();
+            return response()->json(['success' => true, 'message' =>  "تم حذف الموزع " .$name ." بنجاح"]);
+        }else {
+        return response()->json(['error' => true, 'message' => 'لا يمكن حذف الموزع في حالة وجود منتجات خاصة به']);
+        }
+
     }
 }

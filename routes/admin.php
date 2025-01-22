@@ -41,7 +41,7 @@ Route::delete('/suppliers', [SupplierController::class, 'destroy'])->name('suppl
 /*  =======================================  */
 
 /*  ============ Products ============  */
-Route::resource('products', ProductController::class)->only(['create', 'store', 'edit', 'update']);
+Route::resource('products', ProductController::class)->only('create', 'store', 'edit', 'update','show');
 Route::delete('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
 /*  =======================================  */
 

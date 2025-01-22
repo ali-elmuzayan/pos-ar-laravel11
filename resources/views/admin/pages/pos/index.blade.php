@@ -29,11 +29,11 @@
                                 <input type="text" class="form-control" id="txtbarcode_id" autocomplete="off" name="txtbarcode" autofocus placeholder="ادخل الباركود">
                             </div>
 
-                            <select style="width: 100%" class="form-control select2">
+                            <select  style="width: 100%" class="form-control select2" data-dropdown-css-class="select2-purple">
                                 <option  selected="selected" disabled>اختر منتج</option>
                                 @if(!empty($products))
                                 @foreach($products as $product)
-                                    <option value="{{$product->id}}" >{{$product->name}} ({{$product->code}})</option>
+                                    <option value="{{$product->id}}" >{{$product->name ?? ''}} ({{$product->code}})</option>
 
                                 @endforeach
                                 @else
@@ -45,16 +45,16 @@
                                 <table id="producttable" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>المنتج</th>
-                                        <th>المخزون</th>
-                                        <th>السعر</th>
-                                        <th>الكمية</th>
+                                        <th>اسم المنتج</th>
+                                        <th> الكمية المتاحة</th>
+                                        <th>السعر (جنيه)</th>
+                                        <th>الكمية المضافة</th>
                                         <th>المجموع</th>
                                         <th>حذف</th>
                                     </tr>
                                     </thead>
                                     <tbody class="details" id="itemtable">
-
+                                    <tr data-widget="expandable-table" aria-expanded="false"></tr>
                                     </tbody>
 
                                 </table>
@@ -79,7 +79,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">DISCOUNT(%)</span>
                                 </div>
-                                <input type="text" class="form-control"  name="txtdiscount" id="txtdiscount_p"  value="" >
+                                <input type="number" class="form-control"   name="txtdiscount" id="txtdiscount_p"  value="6" >
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -217,6 +217,8 @@
 
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
 
 
     {{--    pos special styles--}}
@@ -227,6 +229,9 @@
 
     <!-- Select2 -->
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
 
 {{--    json product --}}
@@ -245,4 +250,5 @@
             })
 
     </script>
+
 @endpush
