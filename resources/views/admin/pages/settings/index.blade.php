@@ -25,8 +25,8 @@
                                 <td>{{$setting->name}}</td>
                             </tr>
                             <tr>
-                                <th class="width30">حالة الشركة</th>
-                                <td>@if(!empty($setting->active))مفعل @else غير مفعل@endif</td>
+                                <th class="width30">وصف الشركة</th>
+                                <td>{{$setting->description ?? 'لا يوجد وصف للشركة'}}</td>
                             </tr>
                             <tr>
                                 <th class="width30">عنوان الشركة</th>

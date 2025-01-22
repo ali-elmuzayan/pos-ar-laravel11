@@ -56,7 +56,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-2" for="print_qty">كمية التي تريد طباعتها</label>
                                         <div class="col-sm-10">
-                                            <input autocomplete="OFF" type="number" placeholder="max amount 50 barcode " min="1" max="50" class="form-control" id="print_qty"  name="amount">
+                                            <input autocomplete="OFF" type="number" placeholder="بحد اقصى 50 باركود" min="1" max="50" class="form-control" id="print_qty"  name="amount" required>
                                         </div>
                                         @error('amount')<span class="text-danger">{{$message}}</span>@enderror
                                     </div>

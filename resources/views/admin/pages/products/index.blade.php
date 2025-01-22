@@ -59,12 +59,12 @@
                                          @isAdmin
                                          <a data-id="{{$info->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
                                          @endIsAdmin
-                                         <a href="{{route('barcode.product.show', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="PrintBarcode"></span></a>
-                                         <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
+                                         <a href="{{route('barcode.product.show', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="طباعة الباركود"></span></a>
+                                         <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="رؤية المنتج"></span></a>
                                          @isAdmin
-                                         <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
+                                         <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات المنتج"></span></a>
+                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
                                          @endIsAdmin
-{{--                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>--}}
 
 
                                      </div>
@@ -122,70 +122,28 @@
     <script src="{{asset("plugins")}}/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="{{asset("plugins")}}/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="{{asset("plugins")}}/datatables-buttons/js/buttons.colVis.min.js"></script>
-
-
-
-
-
     <script>
+        // for the datatable
         $(document).ready(function() {
             $('#table_product').DataTable();
         });
     </script>
+    {{--  some necessary data to destory the products  --}}
+    <script>
+        // destroying url
+        const url = "{{ route('products.destroy') }}";
+        const csrf = "{{ csrf_token() }}";
+    </script>
+
+    {{--    delete the product--}}
+    <script src="{{asset('js/message/destroy.js')}}"></script>
+
 
     <script>
         $(document).ready(function() {
         $('[data-toggle="tooltip"], .tooltip-container').tooltip();
         });
     </script>
-{{--    delete the product --}}
-{{--    <script>--}}
-{{--        $(document).ready(function() {--}}
-{{--            $('.btndelete').click(function() {--}}
-{{--                var tdh = $(this);--}}
-{{--                var id = $(this).attr("id");--}}
-
-
-{{--                Swal.fire({--}}
-{{--                    title: 'هل تريد الحذف؟',--}}
-{{--                    text: "لن يمكنك التراجع عن هذا الإجراء",--}}
-{{--                    icon: 'warning',--}}
-{{--                    showCancelButton: true,--}}
-{{--                    confirmButtonColor: '#3085d6',--}}
-{{--                    cancelButtonColor: '#d33',--}}
-{{--                    confirmButtonText: 'نعم! احذف',--}}
-{{--                    cancelButtonText: 'إلغاء'--}}
-{{--                }).then((result) => {--}}
-{{--                    if (result.value) {--}}
-{{--                        // Construct the URL dynamically with the ID--}}
-{{--                        const url = "{{ route('products.destroy', ':id') }}".replace(':id', id);--}}
-{{--                        console.log(url);--}}
-{{--                        $.ajax({--}}
-{{--                            url: url, // Use the dynamically constructed URL--}}
-{{--                            // url: '/test/1',--}}
-{{--                            type: 'post', // Use DELETE method--}}
-{{--                            data: {--}}
-{{--                                _token: "{{ csrf_token() }}", // Add CSRF token--}}
-{{--                                _method: 'DELETE' // Spoof the DELETE method--}}
-{{--                            },--}}
-{{--                            success: function(response) {--}}
-{{--                                if (response.success) {--}}
-{{--                                    tdh.parents('tr').fadeOut('fast');--}}
-{{--                                    Swal.fire('تم الحذف!', response.message, 'success');--}}
-{{--                                } else {--}}
-{{--                                    Swal.fire('خطأ!', response.message, 'error');--}}
-{{--                                }--}}
-{{--                            },--}}
-{{--                            error: function() {--}}
-{{--                                Swal.fire('خطأ!', 'حدث خطأ أثناء الحذف.', 'error');--}}
-{{--                            }--}}
-{{--                        });--}}
-
-{{--                    }--}}
-{{--                });--}}
-{{--            });--}}
-{{--        });--}}
-{{--    </script>--}}
 
 {{--    add quantity to the product --}}
     <script>

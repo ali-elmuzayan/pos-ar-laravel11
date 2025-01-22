@@ -37,7 +37,7 @@
                                             @method('put')
                                                 <div class="form-group">
                                                     <label for="password">كلمة المرور</label>
-                                                    <input type="password" class="form-control" id="password" placeholder="كلمة المرور"  name="password"  required>
+                                                    <input type="password" class="form-control" id="password" placeholder="كلمة المرور (بحد ادنى 6احرف)"  name="password"  required>
                                                     @error('password') <p class="text-danger">{{ $message }}</p> @enderror
                                                 </div>
                                             <div class="form-group">

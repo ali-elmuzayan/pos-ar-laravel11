@@ -47,7 +47,10 @@
                                  <td>{{$customer->getFormatedCreatedAt()}}</td>
                                 <td>
                                      <div class="btn-group">
-                                         <a href="{{route('customers.edit', $customer->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit customer"></span></a>
+                                         <a href="{{route('customers.edit', $customer->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>
+{{--                                         @if($customer->getOrderCount() < 1)--}}
+                                         <button id='{{$customer->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
+{{--                                             @endif--}}
                                      </div>
 
                                  </td>
@@ -83,6 +86,9 @@
     <link rel="stylesheet" href="{{asset("plugins")}}/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="{{asset("plugins")}}/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
+
 @endpush
 
 @push('js')
@@ -117,5 +123,19 @@
         });
     </script>
 
+    {{--  data that need to delete tht customer  --}}
+    <script>
+        // destroying url
+        const url = "{{ route('customers.destroy') }}";
+        const csrf = "{{ csrf_token() }}";
+    </script>
+
+    {{--    delete the Customer--}}
+    <script src="{{asset('js/message/destroy.js')}}"></script>
+
+
+
+    <!-- SweetAlert2 -->
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
 @endpush

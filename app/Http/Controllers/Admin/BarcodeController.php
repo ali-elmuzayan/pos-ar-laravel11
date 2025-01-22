@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BarcodeRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
@@ -20,12 +21,9 @@ class BarcodeController extends Controller
     /**
      * Print the amount ot barcodes
      */
-    public function print(Request $request)
+    public function print(BarcodeRequest $request)
     {
-        // Validate the request
-        $request->validate([
-            'amount' => 'required|integer|min:1|max:50',
-        ]);
+
         // Retrieve the product details
         $product = Product::where('code', $request->input('barcode'))->first();
 

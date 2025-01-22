@@ -37,17 +37,17 @@
                                             @method('put')
                                                 <div class="form-group">
                                                     <label for="name">اسم العميل</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="اسم العميل"  name="name" value="{{$customer->name ?? old('name')}}"  required>
+                                                    <input type="text" class="form-control" id="name" placeholder="اسم العميل"  name="name" value="{{old('name') ?? $customer->name}}"  required>
                                                     @error('name') <p class="text-danger">{{ $message }}</p> @enderror
                                                 </div>
                                             <div class="form-group">
                                                 <label for="phone">رقم الهاتف</label>
-                                                <input type="text" class="form-control" id="phone" placeholder="010101010"  name="phone" value="{{$customer->phone ?? old('name')}}" >
+                                                <input type="text" class="form-control" id="phone" placeholder="010101010"  name="phone" value="{{old('name') ?? $customer->phone}}" >
                                                 @error('phone') <p class="text-danger">{{ $message }}</p> @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="address">عنوان العميل</label>
-                                                <input type="text" class="form-control" id="address" placeholder="المحافظة - المركز - الشارع ( او منطقة مشهورة)"  name="address" value="{{$customer->address ?? old('address')}}" >
+                                                <input type="text" class="form-control" id="address" placeholder="المحافظة - المركز - الشارع ( او منطقة مشهورة)"  name="address" value="{{ old('address')  ?? $customer->address}}" >
                                                 @error('address') <p class="text-danger">{{ $message }}</p> @enderror
                                             </div>
 

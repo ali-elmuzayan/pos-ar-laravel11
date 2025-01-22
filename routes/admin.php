@@ -29,14 +29,20 @@ Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('s
 /*  ===============================================  */
 
 
-/*  ============ Customers & suppliers ============  */
+/*  ============ Customers  ============  */
 Route::resource('customers', CustomerController::class)->only('index', 'edit', 'update');
+Route::delete('/customers', [CustomerController::class, 'destroy'])->name('customers.destroy');
+/*  =====================================  */
+
+
+/*  ============  suppliers ============  */
 Route::resource('suppliers', SupplierController::class)->only('index', 'edit', 'update', 'create', 'store');
-/*  ============================================  */
+Route::delete('/suppliers', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+/*  =======================================  */
 
 /*  ============ Products ============  */
 Route::resource('products', ProductController::class)->only(['create', 'store', 'edit', 'update']);
-Route::delete('/products/{id}/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::delete('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
 /*  =======================================  */
 
 
