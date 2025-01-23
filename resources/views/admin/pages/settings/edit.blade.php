@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('title', '7Star system')
+@section('title', 'البيانات العامة')
 @section('main-color', 'info')
-@section('prev-link', route('dashboard'))
-@section('prev-link-title', 'الصفحة الرئيسية')
+@section('prev-link', route('settings.index'))
+@section('prev-link-title', 'البيانات العامة')
 @section('content-title', 'تعديل البيانات')
-@section('content-page-name', 'تعديل بيانات الضبط العام')
+@section('content-page-name', 'تعديل البيانات العامة')
 
 @section('content')
 

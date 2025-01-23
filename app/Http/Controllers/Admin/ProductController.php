@@ -15,7 +15,6 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
-use Flasher\Toastr\Prime\ToastrInterface;
 
 class ProductController extends Controller
 {
@@ -133,6 +132,7 @@ class ProductController extends Controller
             'selling_price' => $request->selling_price,
             'image' => $image
         ]);
+
 
         toastr()->success('تم تحديث المنتج ينجاح');
         return redirect()->route('products.index');

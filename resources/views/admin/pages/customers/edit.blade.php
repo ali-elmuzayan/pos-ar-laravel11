@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تعديل بيانات العميل')
+@section('title', ' بيانات العميل')
 @section('main-color', 'info')
 @section('prev-link', route('customers.index'))
 @section('prev-link-title', 'بيانات العملاء')

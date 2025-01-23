@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 
-@section('title', 'المنتجات')
-@section('prev-link', route('dashboard'))
-@section('prev-link-title', 'الصفحة الرئيسية')
-@section('content-title', 'المنتجات')
-@section('content-page-name', 'المنتجات')
+@section('title', 'المنتجات الخاصة بالفئة')
+@section('prev-link', route('categories.index'))
+@section('prev-link-title', 'بيانات الفئات')
+@section('content-title', 'بيانات المنتجات')
+@section('content-page-name', 'بيانات منتجات هذه الفئة')
 
 @section('content')
 
@@ -14,23 +14,18 @@
         <div class="col-12">
              <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="card-title">بيانات المنتجات</h5>
-                    @isAdmin
-                    <div class="float-left">
-                        <a href="{{route("products.create")}}" class="btn btn-outline-secondary">اضف منتج جديد</a>
-                    </div>
-                    @endIsAdmin
+                    <h5 class="card-title">بيانات المنتجات المتعلقة ب ال{{ $category->name }}</h5>
+
                 </div>
                  <div class="card-body">
 
-                     @if(!empty($data))
+                     @if(!empty($products))
                          <table class="table table-bordered table-hover w-100" id="table_product">
                              <thead>
                              <tr>
                                  <td>المنتج</td>
                                  <td>الباركود</td>
                                  <td>اسم المنتج</td>
-                                 <td>الفئة</td>
                                  <td>الوصف</td>
                                  <td>الكمية</td>
                                  @isAdmin<td>سعر الشراء</td>@endIsAdmin
@@ -40,30 +35,28 @@
                              </tr>
                              </thead>
                              <tbody>
-                             @foreach($data as $info)
+                             @foreach($products as $product)
                                  <tr>
-                                 <td>{{$info->id}}</td>
-                                 <td>{{$info->code}}</td>
-                                 <td>{{$info->name}}</td>
-                                 <td>{{$info->category->name}}</td>
+                                 <td>{{$product->id}}</td>
+                                 <td>{{$product->code}}</td>
+                                 <td>{{$product->name}}</td>
                                  <td><div>
-                                         {{ Str::limit($info->description, 20, '...') ?? 'لا يوجد وصف' }}
+                                         {{ Str::limit($product->description, 20, '...') ?? 'لا يوجد وصف' }}
                                      </div></td>
-                                 <td>{{$info->stock}}</td>
-                                 @isAdmin<td>{{$info->buying_price}}</td>@endIsAdmin
-                                 <td>{{$info->selling_price}}</td>
-                                 <td><img src="{{ $info->image ? asset( $info->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
+                                 <td>{{$product->stock}}</td>
+                                 @isAdmin<td>{{$product->buying_price}}</td>@endIsAdmin
+                                 <td>{{$product->selling_price}}</td>
+                                 <td><img src="{{ $product->image ? asset( $product->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
                                  <td>
                                      <div class="btn-group">
-{{--                                         <a id="{{$info->id}}" class="ml-2 text-secondary add-quantity" data-id="{{ $info->id }}" ><i class="nav-icon fas fa-plus-square"></i></a>--}}
+{{--                                         <a id="{{$product->id}}" class="ml-2 text-secondary add-quantity" data-id="{{ $product->id }}" ><i class="nav-icon fas fa-plus-square"></i></a>--}}
                                          @isAdmin
-                                         <a data-id="{{$info->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
+                                         <a data-id="{{$product->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
                                          @endIsAdmin
-                                         <a href="{{route('barcode.product.show', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="طباعة الباركود"></span></a>
-                                         <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="رؤية المنتج"></span></a>
+                                         <a href="{{route('barcode.product.show', $product->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="طباعة الباركود"></span></a>
+                                         <a href="{{route('products.show', $product->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="رؤية المنتج"></span></a>
                                          @isAdmin
-                                         <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات المنتج"></span></a>
-                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
+                                         <button id='{{$product->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
                                          @endIsAdmin
 
 
@@ -77,7 +70,7 @@
                          </table>
 
                          <br>
-{{--                         {{$data->links()}}--}}
+{{--                         {{$products->links()}}--}}
                      @else
                          <div class="alert alert-danger" style="opacity:75%;">
                              عفوا لا يوجد بيانات لعرضها

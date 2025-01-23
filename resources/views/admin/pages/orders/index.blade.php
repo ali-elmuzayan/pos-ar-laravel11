@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '7Star system')
+@section('title', 'بيانات الاوردر')
 @section('prev-link', route('dashboard'))
 @section('prev-link-title', 'الصفحة الرئيسية')
 @section('content-title', 'الطلبات')
@@ -29,8 +29,7 @@
                                  <td>السعر</td>
                                  <td>طريقة الدفع</td>
                                  <td>التاريخ</td>
-                                 <td>المكسب</td>
-                                 <td>سعر البيع</td>
+                                 @isAdmin <td>المكسب</td>@endIsAdmin
                                  <td>النشاط</td>
                              </tr>
                              </thead>
@@ -42,16 +41,14 @@
                                  <td>{{$info->total_products}}</td>
                                  <td>{{$info->total_price}}</td>
                                  <td>{{$info->pay}}</td>
-                                 <td>{{$info->created_at}}</td>
-                                 <td> {{$info->profit()}} </td>
+                                 <td>{{$info->created_at->diffForHumans()}}</td>
+                                 <td>{{$info->profit()}}</td>
                                  <td>
                                      <div class="btn-group">
                                          <a href="{{route('orders.bill', $info->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-money-bill" style="color:#ffffff" data-toggle="tooltip" title="طباعة الفاتورة"></span></a>
                                          <a href="{{route('products.show', $info->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View Product"></span></a>
                                          <a href="{{route('products.edit', $info->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Product"></span></a>
-                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>
-
-
+{{--                                         <button id='{{$info->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete Product"></span></button>--}}
                                      </div>
 
                                  </td>

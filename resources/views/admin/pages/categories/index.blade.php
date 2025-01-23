@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            @if(!empty($data))
+                            @if(!empty($categories))
                                 <table id="example2" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
@@ -56,16 +56,21 @@
                                     </thead>
                                     <tbody>
                                     {{--                            show all the data--}}
-                                    @foreach($data as $info)
+                                    @foreach($categories as $category)
                                         <tr>
-                                            <td>{{$info->id}}</td>
-                                            <td>{{$info->name}}</td>
-                                            <td>{{$info->productCount()}}</td>
+                                            <td>{{$category->id}}</td>
+                                            <td>{{$category->name}}</td>
+                                            <td>{{$category->productCount()}}</td>
                                             <td>
-                                                <a href="#" class="ml-2 text-info editCategory" data-id="{{ $info->id }}" data-name="{{ $info->name }}">
+                                                <a href="#" class="ml-2 text-info editCategory" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
                                                     <i class="nav-icon fas fa-edit"></i>
                                                 </a>
-                                              @if($info->productCount() <= 0)  <button  id="{{$info->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="Delete Product"  data-toggle="tooltip"></i></button>@endif
+                                                @if($category->productCount() >= 1)
+                                                <a href="{{route('categories.show', $category->id)}}" class="ml-2 text-success">
+                                                    <i class="nav-icon fas fa-eye"></i>
+                                                </a>
+                                                @endif
+                                              @if($category->productCount() <= 0)  <button  id="{{$category->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="Delete Product"  data-toggle="tooltip"></i></button>@endif
 
                                             </td>
 

@@ -52,7 +52,7 @@ Route::get('/reports/orders', [ReportController::class, 'orders'])->name('report
 
 
 /*  ============ Expenses  ============  */
-Route::resource('/expenses', ExpenseController::class)->only('index', 'store', 'update');
+Route::resource('/expenses', ExpenseController::class)->only('index', 'store', 'update', 'destroy');
 /*  ===================================  */
 
 /*  ============ Resources  ============  */

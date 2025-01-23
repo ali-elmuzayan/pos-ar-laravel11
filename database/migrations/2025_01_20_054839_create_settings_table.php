@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('phone');
             $table->string('backup_dir')->nullable();
+            $table->string('return_deadline')->nullable();
+            $table->string('exchange_deadline')->nullable();
+            $table->string('data_per_page')->nullable();
             $table->timestamps();
         });
     }

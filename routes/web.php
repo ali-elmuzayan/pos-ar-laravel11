@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
 
 
     /*  ============ Resources  ============  */
-    Route::resource('categories', CategoryController::class)->only(['index', 'create', 'update' ,'store', 'destroy']);
+    Route::resource('categories', CategoryController::class)->only(['index', 'show', 'update' ,'store', 'destroy']);
     /*  ====================================  */
 
 

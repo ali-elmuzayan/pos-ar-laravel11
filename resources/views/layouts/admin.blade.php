@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="icon" href="{{asset('uploads/no-logo.png')}}" type="image/icon type">
+    <link rel="icon" href="{{asset($setting->logo) ? asset($setting->logo) : asset('uploads/no-logo.png')}}" type="image/icon type">
 
   <title>@yield('title')</title>
   <!-- Font Awesome Icons -->

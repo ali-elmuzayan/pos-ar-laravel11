@@ -21,4 +21,13 @@ class Category extends Model
     {
         return $this->products()->count();
     }
+
+    /**
+     * get products related to the category that have more than
+     * 1 value in stock
+     */
+    public function validProductsInStock() {
+        return $this->products()->where('stock', '>=', 1)->get();
+    }
+
 }

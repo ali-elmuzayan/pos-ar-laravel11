@@ -6,36 +6,90 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ExpenseRequest;
 use App\Models\Expense;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
 
-    // show the expense page
+    /**
+     * show a list of expenses, create form, and edit form
+     */
     public function index() {
+        // show the total amount of expenses in the current month
         $total = (int) Expense::totalExpenseForCurrentMonth();
-        $data = Expense::ExpensesInCurrentMonth();
-        return view('admin.pages.expenses.index', compact('data', 'total'));
+
+        // return all the expenses of the month
+        $expenses = Expense::ExpensesInCurrentMonth();
+        return view('admin.pages.expenses.index', compact('expenses', 'total'));
     }
 
-    public function store(ExpenseRequest $request) {
 
-        Expense::create([
-            'details' => $request->details,
-            'amount' => $request->amount,
-            'date' => Carbon::now(),
+    /**
+     * store the expense in the storage
+     */
+    public function store(ExpenseRequest $request) {
+        // Start transaction
+        DB::beginTransaction();
+        try {
+            // create the expense
+            Expense::create([
+                'details' => $request->details,
+                'amount' => $request->amount,
+                'date' => Carbon::now(),
+            ]);
+            DB::commit();
+
+            // Notify the user && redirect the request
+            toastr()->success('تم انشاء النفقة بنجاح');
+            return redirect()->route('expenses.index');
+        } catch(\Exception $e) {
+            // rollback the transaction
+            DB::rollBack();
+
+            // Notify the user && redirect to the request
+            toastr()->error('حدث خطأ اثناء انشاء النفقة');
+            return redirect()->route('expenses.index');
+        }
+    }
+
+    /**
+     * Update the specified expense in storage
+     */
+    public function update(ExpenseRequest $request,Expense $expense) {
+        // start the transaction
+        DB::beginTransaction();
+
+        try {
+            // update the data
+            $expense->update([
+                'details' => $request->details,
+                'amount' => $request->amount,
             ]);
 
-        return redirect()->route('expenses.index');
+            // commit the changes
+            DB::commit();
+
+            // Notify the user and redirect to the expenses index
+            toastr()->success('تم تحديث بيانات النفقة بنجاح');
+            return redirect()->route('expenses.index');
+        }
+        catch (\Exception $e) {
+            // rollback the transaction
+            DB::rollBack();
+
+            // Notify the use to the error and redirect to the list of expenses
+            toastr()->error('حدث مشكلة اثناء التحديث');
+            return redirect()->back()->withInput();
+        }
     }
 
-    public function update(ExpenseRequest $request,Expense $expense) {
+    /**
+     * Remove the specified category from storage.
+     */
+    public function destroy(Expense $expense)
+    {
+            $expense->delete();
+            return response()->json(['success' => true, 'message' => 'تم حذف النفقة رقم'. $expense->id .' بنجاح', 'id' => $expense]);
 
-        $expense->update([
-            'details' => $request->details,
-            'amount' => $request->amount,
-        ]);
-
-        return redirect()->route('expenses.index');
     }
 }

@@ -1,9 +1,9 @@
 @extends('layouts.admin')
-@section('title', '7Star system')
+@section('title', 'البيانات الشخصية')
 @section('main-color', 'info')
 @section('prev-link', route('dashboard'))
 @section('prev-link-title', 'الصفحة الرئيسية')
-@section('content-title', 'تعديل البيانات')
+@section('content-title', 'البيانات الشخصية')
 @section('content-page-name', 'تعديل البيانات الشخصية')
 
 @section('content')

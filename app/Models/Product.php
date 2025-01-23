@@ -23,4 +23,8 @@ class Product extends Model
     public function totalProfit() {
         return 0;
     }
+
+    public function hasStock() {
+        return $this->stock ? true: false;
+    }
 }

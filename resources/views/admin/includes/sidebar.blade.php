@@ -86,39 +86,48 @@
 @isAdmin
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link">
-                        <i class="nav-icon fas fa-calculator"></i>
+                        <i class="nav-icon fas fa-percentage"></i>
                         <p>
-                            الضرائب والقيمة المضافة
+                            الخصومات
 
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('users.index')}}" class="nav-link">
-                        <i class="nav-icon far fa-plus-square"></i>
-                        <p>
-                            اضافة مستخدم
-
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('customers.index')}}" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                            العملاء
-
+                            بيانات الافراد
+                            {{--                            <span class="right badge badge-danger">New</span>--}}
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('suppliers.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            الموزعون
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('users.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    المستخدمين
 
-                        </p>
-                    </a>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('customers.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    العملاء
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('suppliers.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>الموزعون</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -143,10 +152,6 @@
                         </li>
                     </ul>
                 </li>
-
-
-
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -172,22 +177,13 @@
                         <li class="nav-item">
                             <a href="{{route('profile.edit.password')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-lock"></i>
-                                <p>تغيير الباسورد</p>
+                                <p>تغيير كلمة المرور</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
 @endIsAdmin
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="post" class="d-inline">
-                        @csrf
-                        <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">
-                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                            تسجيل الخروج
-                        </button>
-                    </form>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

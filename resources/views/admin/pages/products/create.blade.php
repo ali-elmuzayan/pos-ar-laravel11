@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '7Star system')
+@section('title', 'منتج جديد')
 @section('prev-link', route('products.index'))
 @section('prev-link-title', 'المنتجات')
 @section('content-title', 'اضافة منتج')

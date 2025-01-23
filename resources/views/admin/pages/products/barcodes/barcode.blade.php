@@ -2,7 +2,7 @@
 
 @section('title', 'طباعة الباركود')
 @section('main-color', 'info')
-@section('prev-link', route('products.index'))
+@section('prev-link', url()->previous())
 @section('prev-link-title', 'المنتجات')
 @section('content-title', 'طباعة الباركود')
 @section('content-page-name', 'طباعة الباركود')

@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'عرض المنتجات')
+@section('title', 'عرض المنتج')
 @section('main-color', 'info')
-@section('prev-link', route('products.index'))
+@section('prev-link', url()->previous())
 @section('prev-link-title', 'المنتجات')
 @section('content-title', 'عرض المنتج')
 @section('content-page-name', 'عرض المنتج')

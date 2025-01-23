@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تعديل البيانات العامة')
+@section('title', 'البيانات العامة')
 @section('main-color', 'info')
 @section('prev-link', route('dashboard'))
 @section('prev-link-title', 'الصفحة الرئيسية')
