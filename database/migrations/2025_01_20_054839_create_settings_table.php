@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('return_deadline')->nullable();
             $table->string('exchange_deadline')->nullable();
             $table->string('data_per_page')->nullable();
+            $table->string('currency')->nullable();
             $table->timestamps();
         });
     }

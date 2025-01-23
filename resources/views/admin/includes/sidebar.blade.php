@@ -85,7 +85,7 @@
                 </li>
 @isAdmin
                 <li class="nav-item">
-                    <a href="{{route('dashboard')}}" class="nav-link">
+                    <a href="{{route('discounts.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-percentage"></i>
                         <p>
                             الخصومات

@@ -66,127 +66,98 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">SUBTOTAL(Rs) </span>
+                                    <span class="input-group-text">الاجمالي (قبل الخصم)</span>
                                 </div>
                                 <input type="text" class="form-control" name="txtsubtotal"  id="txtsubtotal_id" readonly >
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
+                                    <span class="input-group-text">{{$setting->currency ?? 'EGP'}}</span>
                                 </div>
                             </div>
 
 
+{{--                            <div class="input-group">--}}
+{{--                                <div class="input-group-prepend">--}}
+{{--                                    <span class="input-group-text">الخصم(%)</span>--}}
+{{--                                </div>--}}
+{{--                                <input type="number" class="form-control"   name="txtdiscount" id="txtdiscount_p"  value="6" >--}}
+{{--                                <div class="input-group-append">--}}
+{{--                                    <span class="input-group-text">%</span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">DISCOUNT(%)</span>
+                                    <span class="input-group-text">الخصم(%)</span>
                                 </div>
-                                <input type="number" class="form-control"   name="txtdiscount" id="txtdiscount_p"  value="6" >
+                                <select class="form-control" name="txtdiscount" id="txtdiscount_p">
+                                    <option value="" disabled selected>اختر الخصم</option>
+                                    @foreach($discounts as $discount)
+                                        <option value="{{$discount->percent}}"
+                                            >{{$discount->percent}}</option>
+                                    @endforeach
+                                </select>
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
-
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">DISCOUNT(Rs)</span>
+                                    <span class="input-group-text">الخصم</span>
                                 </div>
                                 <input type="text" class="form-control" id="txtdiscount_n" readonly >
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
+                                    <span class="input-group-text">{{$setting->currency ??'EGP'}}</span>
                                 </div>
                             </div>
 
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">SGST(%)</span>
-                                </div>
-                                <input type="text" class="form-control"  name="txtsgst" id="txtsgst_id_p" value="" readonly >
-                                <div class="input-group-append">
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </div>
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">CGST(%)</span>
-                                </div>
-                                <input type="text" class="form-control" name="txtcgst" id="txtcgst_id_p" value="" readonly  >
-                                <div class="input-group-append">
-                                    <span class="input-group-text">%</span>
-                                </div>
-                            </div>
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">SGST(Rs)</span>
-                                </div>
-                                <input type="text" class="form-control" id="txtsgst_id_n" readonly >
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
-                                </div>
-                            </div>
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">CGST(Rs)</span>
-                                </div>
-                                <input type="text" class="form-control" id="txtcgst_id_n" readonly >
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
-                                </div>
-                            </div>
                             <hr >
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">TOTAL(Rs)</span>
+                                    <span class="input-group-text">الاجمالي</span>
                                 </div>
                                 <input type="text" class="form-control form-control-lg total" name="txttotal" id="txttotal" readonly >
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
+                                    <span class="input-group-text">{{$setting->currency}}</span>
                                 </div>
                             </div>
 
                             <hr >
+<div class="row ml-3">
+    <div class="icheck-success ">
+        <input type="radio" name="rb" value="Cash" checked id="radioSuccess1" >
+        <label for="radioSuccess1">
+            كاش
+        </label>
+    </div>
+    <div class="icheck-primary ml-4">
+        <input type="radio" name="rb" value="Card" id="radioSuccess2">
+        <label for="radioSuccess2" >
+            بطاقة
+        </label>
+    </div>
+</div>
 
-                            <div class="icheck-success d-inline">
-                                <input type="radio" name="rb" value="Cash" checked id="radioSuccess1">
-                                <label for="radioSuccess1">
-                                    CASH
-                                </label>
-                            </div>
-                            <div class="icheck-primary d-inline">
-                                <input type="radio" name="rb" value="Card" id="radioSuccess2">
-                                <label for="radioSuccess2">
-                                    CARD
-                                </label>
-                            </div>
-                            <div class="icheck-danger d-inline">
-                                <input type="radio" name="rb" value="Check" id="radioSuccess3">
-                                <label for="radioSuccess3">
-                                    CHECK
-                                </label>
-                            </div>
                             <hr >
 
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">DUE(Rs)</span>
+                                    <span class="input-group-text">المتبقي</span>
                                 </div>
                                 <input type="text" class="form-control" name="txtdue" id="txtdue" readonly >
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
+                                    <span class="input-group-text">{{$setting->currency ?? 'EGP'}}</span>
                                 </div>
                             </div>
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">PAID(Rs)</span>
+                                    <span class="input-group-text">المبلغ المدفوع</span>
                                 </div>
                                 <input type="text" class="form-control"  name="txtpaid" id="txtpaid">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Rs</span>
+                                    <span class="input-group-text">{{$setting->currency ?? 'EGP'}}</span>
                                 </div>
                             </div>
                             <hr>
@@ -216,7 +187,7 @@
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
     <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">--}}
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
 
@@ -239,6 +210,7 @@
         var productRoute = "{{ route('pos.product', ['code' => ':code']) }}";
     </script>
     <script src="{{asset('js/pos.js')}}"></script>
+    <script src="{{asset('js/paid.js')}}"></script>
 
     <script>
         // initialize select2

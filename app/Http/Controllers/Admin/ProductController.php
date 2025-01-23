@@ -40,7 +40,7 @@ class ProductController extends Controller
 
         $lastProductCode = Product::latest('id')->value('code');
 
-        $barcode = 'PR-0' . $this->generateCode($lastProductCode);
+        $barcode = 'P-' . $this->generateCode($lastProductCode);
         $suppliers = Supplier::all();
 
         $categories = Category::all();

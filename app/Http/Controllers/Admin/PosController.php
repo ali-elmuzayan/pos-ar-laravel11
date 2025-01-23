@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Discount;
 use App\Models\Product;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -31,9 +32,9 @@ class PosController extends Controller
     {
 
         $products = Product::where('stock', '>', 0)->select('name', 'id','code')->get();
-
+        $discounts = Discount::all();
         $row = [];
-        return view('admin.pages.pos.index', compact('products', 'row'));
+        return view('admin.pages.pos.index', compact('products', 'row', 'discounts'));
     }
 
     /**

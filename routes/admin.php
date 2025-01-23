@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SettingController;
@@ -57,5 +58,7 @@ Route::resource('/expenses', ExpenseController::class)->only('index', 'store', '
 
 /*  ============ Resources  ============  */
 Route::resource('users', UserController::class)->only(['index', 'store']);
+Route::resource('discounts', DiscountController::class)->only(['index', 'store', 'update', 'destroy']);
+
 /*  ===================================  */
 

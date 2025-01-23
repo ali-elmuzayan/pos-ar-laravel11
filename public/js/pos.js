@@ -190,3 +190,4 @@ function calculate() {
     due = total - paidAmount;
     $('#txtdue').val(due.toFixed(2));
 }
+
