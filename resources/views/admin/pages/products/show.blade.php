@@ -31,7 +31,7 @@
                                      <li class="list-group-item"><b>الباركود</b> <span class="badge badge-light float-right">{!! $barcode !!}<br>{{$product->code}}</span></li>
                                      <li class="list-group-item"><b>اسم المنتج</b><span class="badge badge-light float-right">{{$product->name}}</span></li>
                                      <li class="list-group-item"><b>الفئة التابع لها</b> <span class="badge badge-light float-right">{{$product->category->name}}</span></li>
-                                     <li class="list-group-item"><b>الموزع</b> <span class="badge badge-light float-right">{{$product->supplier->name}}</span></li>
+                                     <li class="list-group-item"><b>الموزع</b> <span class="badge badge-light float-right">{{$product->supplier->name ?? 'لا يوجد موزع'}}</span></li>
                                      <li class="list-group-item"><b>الوصف</b><span id="show-description" class=" float-right">{{$product->description ?? 'لا يوجد وصف لهذا لامنتج'}}</span></li>
                                      <li class="list-group-item"><b>الكمية المتاحة</b> <span  class="badge @if($product->stock > 5)badge-success @else badge-danger @endif float-right">{{$product->stock}}</span></li>
                                      @isAdmin

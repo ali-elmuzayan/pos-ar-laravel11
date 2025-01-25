@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
             $table->Integer('percent');
-            $table->tinyInteger('status')->default(1);
             $table->date('end_date')->nullable();
         });
     }

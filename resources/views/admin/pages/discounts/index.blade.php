@@ -26,7 +26,7 @@
                         <div class="col-md-4">
                             <div class="card">
                                 {{--     Create && Edit From (tranform to edit by js)    --}}
-                                <form id="expenseForm" action="{{ route('discounts.store') }}" method="post">
+                                <form id="discountForm" action="{{ route('discounts.store') }}" method="post">
                                     @csrf
                                     <input type="hidden" id="discountId" name="id">
                                     <div class="card-header">
@@ -34,18 +34,20 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="name">الخصم</label>
-                                            <input type="number" class="form-control" placeholder="ادخل الخصم" name="amount" id="expenseAmount" value="{{ old('amount') }}" required>
+                                            <label for="percent">الخصم</label>
+                                            <input type="number" class="form-control" placeholder="ادخل الخصم" name="percent" id="discountPercent" value="{{ old('percent') }}" required>
                                             @error('percent') <p class="text-danger">{{ $message }}</p> @enderror
                                         </div>
                                         <div class="form-group">
                                             <!-- <label>Date:</label> -->
                                             <div class="input-group date" id="date_1" data-target-input="nearest">
-                                                <input type="text" class="form-control date_1" data-target="#date_1" name="date_1"/>
+                                                <input type="text" class="form-control date_1"  data-target="#date_1" id="discountDate"  name="end_date"/>
                                                 <div class="input-group-append" data-target="#date_1" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
                                             </div>
+                                            @error('end_date') <p class="text-danger">{{ $message }}</p> @enderror
+
                                         </div>
                                     </div>
                                     <div class="card-footer text-center">
@@ -71,17 +73,17 @@
                                     <tbody>
                                     @foreach($discounts as $discount)
                                         <tr>
-                                            <td>{{$discount->id}}</td>
+                                            <td>{{$counter++}}</td>
                                             <td>{{$discount->percent}}</td>
-                                            <td>@if($discount->stauts)
+                                            <td>@if($discount->valid())
                                                     <span class="text-green">يعمل</span>
                                                 @else
                                                     <span class="text-red">انتهى</span>
                                             @endif
                                             </td>
-                                            <td>{{$discount->date ?? 'لا يوجد تاريخ'}}</td>
+                                            <td>{{$discount->end_date ?? 'لا يوجد تاريخ'}}</td>
                                             <td>
-                                                <a href="#" class="ml-2 text-info edit-expense" data-id="{{ $discount->id }}" data-details="{{ $discount->details }}" data-amount="{{ $discount->amount }}">
+                                                <a href="#" class="ml-2 text-info edit-discount" data-id="{{ $discount->id }}" data-percent="{{ $discount->percent }}" data-end-date="{{ $discount->end_date }}">
                                                     <i class="nav-icon fas fa-edit"></i>
                                                 </a>
                                            <button  id="{{$discount->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="Delete Product"  data-toggle="tooltip"></i></button>
@@ -109,7 +111,13 @@
 @endsection
 
 @push('css')
-<!-- SweetAlert2 -->
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker.css')}}">
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+    <!-- SweetAlert2 -->
 <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
 
 @endpush
@@ -176,7 +184,19 @@
 {{--    for updating the request --}}
     <!-- JavaScript to Handle Edit Click -->
     <script>
-    expenseEditUrl = "{{ route('discounts.update', ['discount' => ':id']) }}"
+    discountEditUrl = "{{ route('discounts.update', ['discount' => ':id']) }}"
     </script>
     <script src="{{asset('js/discount.js')}}"></script>
+
+
+    <!-- InputMask -->
+    <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+
+    <!-- date-range-picker -->
+    <script src="{{asset('plugins//daterangepicker/daterangepicker.js')}}"></script>
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+
 @endpush

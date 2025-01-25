@@ -70,7 +70,7 @@
                                                     <i class="nav-icon fas fa-eye"></i>
                                                 </a>
                                                 @endif
-                                              @if($category->productCount() <= 0)  <button  id="{{$category->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="Delete Product"  data-toggle="tooltip"></i></button>@endif
+                                              @if($category->productCount() <= 0)  <button  id="{{$category->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="حذف المنتج"  data-toggle="tooltip"></i></button>@endif
 
                                             </td>
 

@@ -31,18 +31,10 @@ class PosController extends Controller
     public function index()
     {
 
-        $products = Product::where('stock', '>', 0)->select('name', 'id','code')->get();
-        $discounts = Discount::all();
+        $products = Product::where('stock', '>', 0)->select('name', 'id', 'code')->get();
+        $discounts = Discount::getValidDiscounts();
         $row = [];
         return view('admin.pages.pos.index', compact('products', 'row', 'discounts'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        DB::transaction(function () {});
     }
 
     /**

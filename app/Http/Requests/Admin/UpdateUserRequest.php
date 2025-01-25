@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,11 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = $this->route('user');
         return [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
-            'email' => ['required', 'string',  'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'username' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'email' => ['required', 'string',  'email', 'max:255',  Rule::unique(User::class)->ignore($user->id)],
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:4096'],
             'role' => ['required', 'in:admin,user'],
         ];
@@ -45,10 +45,6 @@ class UserRequest extends FormRequest
             'username.unique' => 'اسم المستخدم موجود يجب استخدام اسم اخر',
             'email.required' => 'الايميل مطلوب',
             'email.unique' => 'الايميل موجود يجب استخدام ايميل اخر',
-            'password.required' => 'كلمة المرور مطلوبة',
-            'password.confirmed' => 'كلمة المرور غير مطابقة',
-            'password.min' => 'يجب ان يكون عدد الحروف اكبر من 6 احرف',
-            'password.max' => 'يجب ان يكون عدد الحروف اقل من 30 احرف',
             'role.required' => 'دور المستخدم مطلوبة',
             'role.in' => 'يجب ان يكون دور المستخدم اما مستخدم او ادمن',
             'image.image' => 'يجب ان يكون الملف من نوع صور ',

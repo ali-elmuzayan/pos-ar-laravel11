@@ -100,7 +100,11 @@
                                             <td>{{$info->name}}</td>
                                             <td>{{$info->username}}</td>
                                             <td>{{$info->email}}</td>
-                                            <td class="text-center"><a href="#" ><i class="nav-icon fas fa-trash text-danger" ></i></a></td>
+                                            <td class="text-center">
+                                                <a href="{{route('users.edit', $info->id)}}" class="ml-2" ><i class="nav-icon fas fa-edit text-primary" ></i></a>
+                                                <button  id="{{$info->id}}" style="border:0; background-color:inherit; " class=" btndelete ml-2 text-danger" ><i class="nav-icon fas fa-trash" title="حذف المنتج"  data-toggle="tooltip"></i></button>
+
+                                            </td>
 
                                         </tr>
                                     @endforeach
@@ -124,3 +128,24 @@
     </div>
 
 @endsection
+@push('css')
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}">
+
+@endpush
+@push('js')
+    {{--  some necessary data to destory the products  --}}
+    <script>
+        // destroying url
+        const url = "{{ route('users.destroy') }}";
+        const csrf = "{{ csrf_token() }}";
+    </script>
+
+    {{--    delete the product--}}
+    <script src="{{asset('js/message/destroy.js')}}"></script>
+
+
+    <!-- SweetAlert2 -->
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+
+@endpush

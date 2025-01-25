@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DiscountRequest;
 use App\Models\Discount;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DiscountController extends Controller
 {
@@ -14,8 +16,9 @@ class DiscountController extends Controller
      */
     public function index()
     {
+        $counter = 1;
         $discounts = Discount::all();
-        return view('admin.pages.discounts.index', compact('discounts'));
+        return view('admin.pages.discounts.index', compact('discounts', 'counter'));
     }
 
     /**
@@ -23,7 +26,17 @@ class DiscountController extends Controller
      */
     public function store(DiscountRequest $request)
     {
-        dd($request->all());
+        // Convert the date to MySQL format (YYYY-MM-DD)
+        $endDate = Carbon::createFromFormat('m/d/Y g:i A', $request->end_date)->toDateString();
+
+        // Insert into the database
+        Discount::create([
+            'percent' => $request->percent,
+            'end_date' => $endDate,
+        ]);
+        toastr()->success('تم انشاء خصم جديد بنجاح');
+        return redirect()->route('discounts.index');
+
     }
 
     /**
@@ -31,7 +44,30 @@ class DiscountController extends Controller
      */
     public function update(DiscountRequest $request, Discount $discount)
     {
-        dd($request->all());
+        DB::beginTransaction();
+        try {
+            // create the end_date format
+            $endDate = Carbon::createFromFormat('m/d/Y g:i A', $request->end_date)->toDateString();
+
+            // update the discount data and commit
+            $discount->update([
+                'percent' => $request->percent,
+                'end_date' => $endDate,
+            ]);
+            DB::commit();
+
+            // Notify the user and redirect to the discounts
+            toastr()->success('تم تعديل الخصم بنجاح');
+            return redirect()->route('discounts.index');
+        }catch (\Exception $exception){
+            DB::rollBack();
+
+            // Notify the user with error and redirect to the discounts
+            toastr()->error('حدث خطأ اثناء التحديث');
+            return redirect()->route('discounts.index');
+        }
+
+
     }
 
     /**
