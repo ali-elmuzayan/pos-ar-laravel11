@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'الصفحة الرئيسية')
+@section('main-color', 'info')
 @section('content-title', 'الصفحة الرئيسية')
 @section('content-page-name', 'الصفحة الرئيسية')
 
@@ -14,9 +15,9 @@
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>{{$totalOrders}}</h3>
+                    <div class="small-box bg-new-info">
+                        <div class="inner  text-center">
+                            <h3>{{$currentMonthOrders}}</h3>
 
                             <p>عدد الطلبات هذا الشهر</p>
                         </div>
@@ -29,8 +30,8 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
+                    <div class="small-box bg-new-info">
+                        <div class="inner  text-center">
                         {{--                            <h3><?php echo number_format($grand_total,2); ?></h3>--}}
                             <h3>{{$newCustomers}}</h3>
                             <p>عدد الزبائن الجدد</p>
@@ -44,9 +45,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3>{{$totalProducts}}</h3>
+                    <div class="small-box bg-new-info">
+                        <div class="inner text-center" >
+                            <h3 >{{$totalProducts}}</h3>
 
                             <p>عدد المنتجات التي تم بيعها</p>
                         </div>
@@ -59,9 +60,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>{{$totalProfit}}</h3>
+                    <div class="small-box bg-new-info">
+                        <div class="inner  text-center">
+                            <h3 >{{$profitAmount}}</h3>
 
                             <p>صافي الارباح</p>
                         </div>
@@ -75,23 +76,32 @@
             </div>
             <!-- /.row -->
 
+                <!-- Charts -->
+            <div class="card mt-3">
 
-
-
-
-
-
-
-
-
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="m-0">Earning By Date</h5>
-                </div>
+                <h2 class="ml-5 font-weight-light mt-3 mb-2">الاحصائيات الشهرية والسنوية ({{ date('Y') }})</h2>
                 <div class="card-body">
-                        <canvas id="myChart" style="height: 250px"></canvas>
+                    <div class=" mt-2 row justify-content-between align-items-center">
+                        <div class="col-md-6  ">
+                            <canvas id="ordersChart" class="w-100"></canvas>
+                        </div>
+                        <div class=" col-md-6 text-center">
+                            <h5 class="font-weight-light mb-3">الطلبات و المرتجعات الحالية</h5>
+                            <canvas id="customerChart" class="w-100 h-100"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-2 row justify-content-between align-items-center mb-4">
+                        <div class="col-md-6   mt-5 text-center">
+                            <h5 class="font-weight-light mb-3">اجمالي الارباح والنفقات الشهرية</h5>
+                            <canvas id="expensesProfitChart" class="w-100 h-100"></canvas>
+                        </div>
+                        <div class="col-md-6  mt-5">
+                            <canvas id="profitChart" class="w-100"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
         </div>
 
@@ -99,44 +109,144 @@
 
 <!-- /.row -->
 @endsection
-
 @push('js')
     <!-- ChartJS -->
-    <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#table_recentorder').DataTable({
+        $(document).ready(function () {
+            // Data for the charts
+            const months = @json($months);
+            const totalOrders = @json($totalOrders);
+            const totalProfit = @json($totalProfit);
 
-                "order":[[0,"desc"]]
+            // Total Orders Chart
+            const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+            new Chart(ordersCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'إجمالي الطلبات', // Arabic label
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        data: totalOrders,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'إجمالي الطلبات' // Arabic title
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'الشهر' // Arabic title
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Total Profit Chart
+            const profitCtx = document.getElementById('profitChart').getContext('2d');
+            new Chart(profitCtx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'إجمالي الأرباح', // Arabic label
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: totalProfit,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'إجمالي الأرباح' // Arabic title
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'الشهر' // Arabic title
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Customer Orders and Returns Pie Chart
+            const customerCtx = document.getElementById('customerChart').getContext('2d');
+            new Chart(customerCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['الطلبات', 'المرتجعات'], // Arabic labels
+                    datasets: [{
+                        label: 'الطلبات والمرتجعات', // Arabic label
+                        data: [@json($currentMonthOrders), @json($currentMonthReturns)], // Data for orders and returns
+                        backgroundColor: [
+                            'rgb(54, 162, 235)', // Blue for orders
+                            'rgb(255, 99, 132)'  // Red for returns
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'الطلبات والمرتجعات لهذا الشهر' // Arabic title
+                        }
+                    }
+                }
+            });
+            // Expenses and Profit Doughnut Chart
+            const expensesProfitCtx = document.getElementById('expensesProfitChart').getContext('2d');
+            new Chart(expensesProfitCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['المصروفات', 'الأرباح'], // Arabic labels
+                    datasets: [{
+                        label: 'المصروفات والأرباح', // Arabic label
+                        data: [@json($currentMonthExpenses), @json($currentMonthProfit)], // Data for expenses and profit
+                        backgroundColor: [
+                            'rgb(63, 167, 178)', // Green for profit
+                            'rgb(75, 84, 92)'// Red for expenses
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'المصروفات والأرباح لهذا الشهر' // Arabic title
+                        }
+                    }
+                }
             });
         });
     </script>
 @endpush
-{{--
-       <script>
-                    const ctx = document.getElementById('myChart');
 
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: <?php echo json_encode($date);?>,
-                            datasets: [{
-                                label: 'Total Earning',
-                                backgroundColor:'rgb(255,99,132)',
-                                borderColor:'rgb(255,99,132)',
-                                data: <?php echo json_encode($ttl);?>,
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
 
-                                }
-                            }
-                        }
-                    });
-                </script>
---}}
+

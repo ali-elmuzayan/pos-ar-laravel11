@@ -53,4 +53,12 @@
     margin-right: 5px !important;
 }
 
+.bg-new-info {
+    background-color: #495f68;
+    color: #fff;
+}
 
+.bg-new-info2 {
+    background-color: #409ea9;
+    color: #fff;
+}
