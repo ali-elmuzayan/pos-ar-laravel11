@@ -36,45 +36,6 @@
                 </li>
                 @endIsAdmin
                 <li class="nav-item">
-                    <a href="{{route('categories.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            الفئات
-
-                        </p>
-                    </a>
-                </li>
-
-                @isAdmin
-                <li class="nav-item">
-                    <a href="{{route('expenses.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-university"></i>
-                        <p>
-                            النفقات
-
-                        </p>
-                    </a>
-                </li>
-@endIsAdmin
-                <li class="nav-item">
-                    <a href="{{route('products.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-archive"></i>
-                        <p>
-                           المنتجات
-
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('orders.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-list"></i>
-                        <p>
-                            الطلبات
-
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{route('pos.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
@@ -83,15 +44,87 @@
                         </p>
                     </a>
                 </li>
-@isAdmin
                 <li class="nav-item">
-                    <a href="{{route('discounts.index')}}" class="nav-link">
-                        <i class="nav-icon fas fa-percentage"></i>
+                    <a href="{{route('categories.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
                         <p>
-                            الخصومات
+                            الفئات
 
                         </p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                           ادارة المبيعات
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('orders.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    الطلبات
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('returns.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-retweet"></i>
+                                <p>
+                                    المرتجعات
+
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
+
+@isAdmin
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p>
+                            بيانات المتجر
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('discounts.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-percentage"></i>
+                                <p>
+                                    الخصومات
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('products.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-archive"></i>
+                                <p>
+                                    المنتجات
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('expenses.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-university"></i>
+                                <p>
+                                    النفقات
+
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -148,6 +181,12 @@
                             <a href="{{route('expenses.index')}}" class="nav-link">
                                 <i class="far fa-chart-bar nav-icon"></i>
                                 <p>تقارير النفقات</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('expenses.index')}}" class="nav-link">
+                                <i class="far fa-chart-bar nav-icon"></i>
+                                <p>تقارير عامة</p>
                             </a>
                         </li>
                     </ul>

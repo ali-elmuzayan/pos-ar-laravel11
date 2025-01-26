@@ -17,7 +17,7 @@ class PosController extends Controller
 
     /**
      * Constructor to inject OrderService.
-     *
+     *p
      * @param OrderService $orderService
      */
     public function __construct(OrderService $orderService)
@@ -42,7 +42,7 @@ class PosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -72,21 +72,6 @@ class PosController extends Controller
 
     // to get the product
     public function getProdcutAjax(string $code){
-//        $product = Product::where('code', $code)
-//            ->orWhere('id', $code)
-//            ->orWhere('name', $code)
-//            ->first();
-//        if ($product){
-//
-//        return response()->json($product);
-//        }else {
-//            return response()->json(['message' => 'Product not found']);
-//        }
-//        // Validate input
-//        if (empty($code)) {
-//            return response()->json(['error' => true, 'message' => 'يجب ادخال كود صحيح'], 400);
-//        }
-
         try {
             // Optimize the query
             $product = Product::where('code', $code)

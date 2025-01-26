@@ -26,6 +26,8 @@ class SettingRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'address' => ['required', 'string'],
             'phone' => ['required', 'string'],
+            'return_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
+            'exchange_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:4048'],
         ];
     }
@@ -40,6 +42,14 @@ class SettingRequest extends FormRequest
             'logo.image' => 'يجب ان يكون الملف من نوع صور ',
             'logo.mimes' => 'يجب ان يكون الملف jpg, png, jpeg',
             'logo.max' => 'يجب ان يكون حجم الصورة اصغر من 4096',
+            'return_period.required' => 'يجب ان تضيف قيمة او رقم صحيح',
+            'return_period.numeric' => 'يجب ان تضيف قيمة او رقم صحيح',
+            'return_period.max' => 'يجب ان تكون القيمة اقل من 30 يوم',
+            'return_period.min' => 'يجب ان تكون القيمة اكبرر من 1',
+            'exchange_period.required' => 'يجب ان تضيف قيمة او رقم صحيح',
+            'exchange_period.numeric' => 'يجب ان تضيف قيمة او رقم صحيح',
+            'exchange_period.max' => 'يجب ان تكون القيمة اقل من 30 يوم',
+            'exchange_period.min' => 'يجب ان تكون القيمة اكبرر من1 يوم',
 
         ];
     }

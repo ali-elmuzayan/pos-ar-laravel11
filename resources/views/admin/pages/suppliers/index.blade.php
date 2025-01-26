@@ -27,39 +27,39 @@
 
                             <div class="card ">
 
-                                <form action="{{route('suppliers.store')}}" method="post">
+                                <form id="supplierForm" action="{{route('suppliers.store')}}" method="post">
 
                                     @csrf
                                     <div class="card-header ">
-                                        <h5 class="card-title ">اضاف موزع جديد</h5>
+                                        <h5 class="card-title " id="FormTitle">اضاف موزع جديد</h5>
                                     </div>
                                     <div class="card-body">
 
                                         <div class="form-group">
                                             <label for="name">اسم الموزع</label>
-                                            <input type="text" id="name" class="form-control" placeholder="ادخل اسم الموزع" name="name" value="{{old('name')}}"  required>
+                                            <input type="text" id="supplierName" class="form-control" placeholder="ادخل اسم الموزع" name="name" value="{{old('name')}}"  required>
                                             @error('name') <p class="text-danger">{{$message}}</p> @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">رقم الهاتف</label>
-                                            <input type="text" class="form-control" placeholder="رقم الهاتف" name="phone" value="{{old('phone')}}" required>
+                                            <input type="text" class="form-control" placeholder="رقم الهاتف" name="phone" id="supplierPhone" value="{{old('phone')}}" required>
                                             @error('phone') <p class="text-danger">{{$message}}</p> @enderror
 
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">البريد الاكتروني</label>
-                                            <input type="email" class="form-control"  placeholder="البريد الاكتروني" name="email" value="{{old('email')}}" required>
+                                            <input type="email" class="form-control"  placeholder="البريد الاكتروني" id="supplierEmail" name="email" value="{{old('email')}}" >
                                             @error('email') <p class="text-danger">{{$message}}</p> @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="address">العنوان</label>
-                                            <input type="text" class="form-control"  placeholder="عنوان الموزع" name="address" value="{{old('address')}}" required>
+                                            <input type="text" class="form-control"  placeholder="عنوان الموزع" name="address" id="supplierAddress" value="{{old('address')}}" >
                                             @error('address') <p class="text-danger">{{$message}}</p> @enderror
                                         </div>
 
                                     </div>
                                     <div class="card-footer text-center ">
-                                        <button class="btn btn-outline-info">اضف موزع جديد</button>
+                                        <button class="btn btn-outline-info" id="formButton">اضف موزع جديد</button>
                                     </div>
                                 </form>
 
@@ -73,7 +73,7 @@
                                         <th>#</th>
                                         <th>اسم الموزع</th>
                                         <th>رقم الهاتف </th>
-                                        <th>عدد المنتجات الخاصة بالموزع</th>
+                                        <th>عدد منتجات الموزع</th>
                                         <th>الايميل</th>
                                         <th>العنوان </th>
                                         <th>النشاط </th>
@@ -87,11 +87,15 @@
                                             <td>{{$supplier->name}}</td>
                                             <td>{{$supplier->phone}}</td>
                                             <td>{{$supplier->countOfProducts()}}</td>
-                                            <td>{{$supplier->email}}</td>
-                                            <td>{{$supplier->address}}</td>
+                                            <td>{{$supplier->email ?? 'لا يوجد ايميل'}}</td>
+                                            <td>{{$supplier->address ?? 'لا يوجد عنوان'}}</td>
                                             <td class="btn-group">
-                                                <a href="{{route('suppliers.edit', $supplier->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>
-                                                <button id='{{$supplier->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
+{{--                                                <a href="{{route('suppliers.edit', $supplier->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>--}}
+                                                <a href="#" class="ml-2 text-info edit-supplier" data-id="{{ $supplier->id }}" data-name="{{ $supplier->name }}" data-phone="{{ $supplier->phone }}" data-email="{{ $supplier->email }}" data-image="{{ $supplier->image }}" data-address="{{ $supplier->address }}">
+                                                    <i class="nav-icon fas fa-edit"></i>
+                                                </a>
+                                                <button id='{{$supplier->id}}' style="border:0; background-color:inherit; "  class="text-danger ml-2 btndelete"><span class="nav-icon fa fa-trash text-danger"  style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
+
                                             </td>
 
                                         </tr>
@@ -133,5 +137,13 @@
 
     <!-- SweetAlert2 -->
     <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+
+
+    {{--    for updating the request --}}
+    <!-- JavaScript to Handle Edit Click -->
+    <script>
+        supplierEditUrl = "{{ route('suppliers.update', ['supplier' => ':id']) }}"
+    </script>
+    <script src="{{asset('js/edit-form/supplier.js')}}"></script>
 
 @endpush

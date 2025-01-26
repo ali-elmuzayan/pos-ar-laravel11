@@ -52,4 +52,48 @@ class SettingController extends Controller
         return redirect()->route('settings.index');
     }
 
+
+    public function getLatestBackup()
+    {
+        // Define the backup disk and directory
+        $backupDisk = 'backups'; // The disk name defined in your backup configuration
+        $backupDirectory = 'Laravel'; // The directory where backups are stored (empty if root)
+
+        // Get all backup files
+        $backupFiles = Storage::disk($backupDisk)->files($backupDirectory);
+
+        // Sort files by last modified date (newest first)
+        usort($backupFiles, function ($a, $b) use ($backupDisk) {
+            return Storage::disk($backupDisk)->lastModified($b) <=> Storage::disk($backupDisk)->lastModified($a);
+        });
+
+        // Get the latest backup file
+        $latestBackupFile = $backupFiles[0] ?? null;
+
+        if (!$latestBackupFile) {
+            toastr()->error('لا يوجد ملفات باك اب');
+            return redirect()->back();
+        }
+
+        // Return the file path or download the file
+        return Storage::disk($backupDisk)->download($latestBackupFile);
+    }
+
+    public function resetSetting() {
+        $setting = Setting::first();
+        $setting->update([
+            'name' => 'اسم الشركة',
+            'logo' => 'uploads/no-logo.png',
+            'description' =>'شركة متخصصة في بيع المنتجات النسائية',
+            'address' => 'سمالوط غرب - شارع اسواق الاتحاد - امام تاون تيم',
+            'phone' => '01010232458',
+            'backup_dir' => '/backups/',
+            'exchange_period' => 14,
+            'return_period' => 7,
+            'data_per_page' => 15,
+            'currency' => 'EGP',
+        ]);
+        toastr()->success('تم اعادة ضبط البيانات بنجاح');
+        return redirect()->route('settings.index');
+    }
 }

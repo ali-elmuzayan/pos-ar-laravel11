@@ -27,12 +27,14 @@ class DiscountController extends Controller
     public function store(DiscountRequest $request)
     {
         // Convert the date to MySQL format (YYYY-MM-DD)
-        $endDate = Carbon::createFromFormat('m/d/Y g:i A', $request->end_date)->toDateString();
+//        if(!empty($request->end_date)){
+//        $endDate = Carbon::createFromFormat('m/d/Y g:i A', $request->end_date)->toDateString();
+//        }
 
-        // Insert into the database
+       // Insert into the database
         Discount::create([
             'percent' => $request->percent,
-            'end_date' => $endDate,
+            'end_date' => $request->end_date,
         ]);
         toastr()->success('تم انشاء خصم جديد بنجاح');
         return redirect()->route('discounts.index');
@@ -46,13 +48,11 @@ class DiscountController extends Controller
     {
         DB::beginTransaction();
         try {
-            // create the end_date format
-            $endDate = Carbon::createFromFormat('m/d/Y g:i A', $request->end_date)->toDateString();
 
             // update the discount data and commit
             $discount->update([
                 'percent' => $request->percent,
-                'end_date' => $endDate,
+                'end_date' => $request->end_date,
             ]);
             DB::commit();
 

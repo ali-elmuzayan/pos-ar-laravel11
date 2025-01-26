@@ -186,7 +186,7 @@
     <script>
     discountEditUrl = "{{ route('discounts.update', ['discount' => ':id']) }}"
     </script>
-    <script src="{{asset('js/discount.js')}}"></script>
+    <script src="{{asset('js/edit-form/discount.js')}}"></script>
 
 
     <!-- InputMask -->
@@ -198,5 +198,15 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 
+{{--    format the date --}}
+    <script>
+        $('#date_1').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
+        // $('#date_2').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
+    </script>
 
 @endpush

@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
+use mPDF;
+use TCPDF;
 
 class OrderController extends Controller
 {
@@ -22,18 +26,48 @@ class OrderController extends Controller
         return view('admin.pages.orders.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function generateBill(Order $order)
     {
+        // Load order with details
         $order = Order::with('orderDetails')->findOrFail($order->id);
 
-        $pdf = Pdf::loadView('admin.pages.orders.bill', compact('order'))->setPaper('a4', 'landscape');
-        return $pdf->stream('order_bill.pdf');
+        // Initialize TCPDF
+        $pdf = new TCPDF('P', 'mm', 'A6', true, 'UTF-8', false);
 
+        // Remove default header and footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
 
+        // Set document metadata
+        $pdf->SetCreator('7star');
+        $pdf->SetTitle('فاتورة شراء');
+
+        // Set margins
+//        $pdf->SetMargins(, 2, 2);
+        $pdf->SetMargins(5, 5, 5); // Adjust these values as needed (left, top, right)
+
+        // Set font for Arabic support
+        $pdf->SetFont('amiri', '', 12); // Use DejaVu Sans for Arabic text
+//        $pdf->SetFont('dejavusans', '', 10); // Use DejaVu Sans for Arabic text
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Generate the HTML for the bill
+        $html = view('admin.pages.orders.bill2', compact('order'))->render();
+
+        // Write HTML to the PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Add JavaScript for auto-printing
+        $js = 'print();';
+        $pdf->IncludeJS($js);
+
+        // Output the PDF (stream to browser)
+        $pdf->Output('order_bill.pdf', 'I'); // 'I' streams it to the browser
     }
+
 
     /**
      * Store a newly created resource in storage.

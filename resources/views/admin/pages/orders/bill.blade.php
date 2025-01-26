@@ -1,33 +1,43 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl" style="direction: rtl">
 <head>
     <title>فاتورة شراء</title>
     <meta charset="utf-8">
 
     <style>
+        * {
+            margin:0;
+            padding:0;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DejaVu Sans', sans-serif;
             font-size: 12px;
             margin: 0;
             padding: 0;
+            text-align: right;
+            direction: rtl;
         }
         .bill {
-            width: 80mm; /* Adjust as needed */
+            width: 80mm;
             margin: 0 auto;
             padding: 10px;
         }
         .header, .footer {
             text-align: center;
         }
+        .header {
+            margin-top:-20px;
+        }
         .items-table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
             margin-top: 10px;
         }
         .items-table th, .items-table td {
             border: 1px solid #000;
             padding: 5px;
-            text-align: left;
+            text-align: right;
         }
     </style>
 </head>
@@ -39,17 +49,17 @@
     </div>
 
     <div class="order-details">
-        <p><strong>Order ID:</strong> {{ $order->invoice_no }}</p>
-        <p><strong>Date:</strong> {{ $order->created_at->format('d-m-Y H:i:s') }}</p>
+        <p><strong>رقم الفاتورة:</strong> {{ $order->invoice_no }}</p>
+        <p><strong>التاريخ:</strong> {{ $order->created_at->format('d-m-Y H:i:s') }}</p>
     </div>
 
     <table class="items-table">
         <thead>
         <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Total</th>
+            <th>المنتج</th>
+            <th>الكمية</th>
+            <th>السعر</th>
+            <th>الإجمالي</th>
         </tr>
         </thead>
         <tbody>
@@ -66,9 +76,12 @@
 
     <div class="footer">
         <p><strong>المجموع:</strong> {{ number_format($order->total_amount, 2) }}</p>
+        <p><strong>العنوان:</strong>{{$setting->address}} </p>
         <p>تشرفنا بتعاملكم معنا!</p>
     </div>
 </div>
+
+
 </body>
 </html>
 

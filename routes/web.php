@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReturnController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
 
     /*  ============ pos && ajax of pos ============  */
-    Route::resource('pos', PosController::class)->only(['index']);
+    Route::resource('pos', PosController::class)->only('index', 'store');
     Route::get('/pos/product/{code}', [PosController::class, 'getProdcutAjax'])->name('pos.product');
     /*  ================================================  */
 
@@ -30,6 +31,13 @@ Route::middleware('auth')->group(function () {
     /*  ============ pos && ajax of pos ============  */
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}/bill', [OrderController::class, 'generateBill'])->name('orders.bill');
+    /*  ================================================  */
+
+
+
+    /*  ============ returns ============  */
+    Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
+    Route::get('/returns/{return}', [ReturnController::class, 'show'])->name('returns.show');
     /*  ================================================  */
 
 

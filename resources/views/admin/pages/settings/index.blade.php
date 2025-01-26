@@ -37,6 +37,14 @@
                                 <td>{{$setting->phone}}</td>
                             </tr>
                             <tr>
+                                <th class="width30">اقصى مدة لعملية الاسترجاع</th>
+                                <td>{{$setting->return_period ?? 7}}</td>
+                            </tr>
+                            <tr>
+                                <th class="width30">اقصى مدة لعملية التبديل</th>
+                                <td>{{$setting->exchange_period ?? 7}}</td>
+                            </tr>
+                            <tr>
                                 <th class="width30">لوجو الشركة</th>
                                 <td>
                                     <div class="image">
@@ -44,7 +52,17 @@
                                     </div>
                                 </td>
                             </tr>
-
+                            <tr>
+                                <th class="width30">عمليات</th>
+                                <td>
+                                    <a href="{{ route('settings.backup') }}" class="btn btn-info">
+                                        ملف قاعدةالبيانات
+                                    </a>
+                                    <a href="{{ route('settings.reset-setting') }}" class="btn btn-warning">
+                                        اعادة الضبط
+                                    </a>
+                                </td>
+                            </tr>
                         </table>
                     @else
                         <div class="alert alert-danger" style="opacity:75%;">

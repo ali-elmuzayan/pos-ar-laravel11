@@ -2,6 +2,7 @@
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,8 +17,10 @@ return new class extends Migration
     {
         Schema::create('returns', function (Blueprint $table) {
             $table->id();
-            $table->string('total_products');
-            $table->string('total_price');
+            $table->string('total_quantity');
+            $table->string('refund_amount');
+            $table->float('return_date');
+            $table->foreignIdFor(OrderDetails::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();

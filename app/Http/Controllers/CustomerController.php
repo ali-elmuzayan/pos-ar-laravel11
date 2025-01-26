@@ -40,4 +40,21 @@ return redirect()->route('customers.index')->with('success', 'تم تعديل ب
         }
 
     }
+
+    public function checkCustomer(Request $request)
+    {
+        $phone = $request->input('phone');
+        $customer = Customer::where('phone', $phone)->first();
+
+        if ($customer) {
+            return response()->json([
+                'exists' => true,
+                'name' => $customer->name
+            ]);
+        } else {
+            return response()->json([
+                'exists' => false
+            ]);
+        }
+    }
 }

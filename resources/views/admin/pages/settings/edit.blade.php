@@ -44,6 +44,18 @@
                                        placeholder="ادخل هاتف الشركة" oninvalid="setCustomValidity('من فضلك ادخل بعض البيانات')" onchange="try{setCustomValidity('')}catch(e){}">
                                 @error('phone') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="return_period"> اقصى مدة لعملة الاسترجاع </label>
+                                <input type="number" name="return_period" min="1" max="30" id="return_period" class="form-control" value="{{old('return_period') ?? $setting->return_period}}" required
+                                       placeholder="7">
+                                @error('return_period') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exchange_period"> اقصى مدة لعملة الاستبدال </label>
+                                <input type="number" name="exchange_period" min="1" max="30" id="exchange_period" class="form-control" value="{{old('exchange_period') ?? $setting->exchange_period}}" required
+                                       placeholder="14"  >
+                                @error('exchange_period') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
 
                             <div class="form-group">
                                 <label for="description">وصف </label>

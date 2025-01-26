@@ -20,6 +20,8 @@
 
 
                 <div class="card-body">
+                        <form action="{{route('pos.store')}}" method="post">
+                            @csrf
                     <div class="row">
                         <div class="col-md-8">
                             <div class="input-group mb-3">
@@ -74,17 +76,6 @@
                                 </div>
                             </div>
 
-
-{{--                            <div class="input-group">--}}
-{{--                                <div class="input-group-prepend">--}}
-{{--                                    <span class="input-group-text">الخصم(%)</span>--}}
-{{--                                </div>--}}
-{{--                                <input type="number" class="form-control"   name="txtdiscount" id="txtdiscount_p"  value="6" >--}}
-{{--                                <div class="input-group-append">--}}
-{{--                                    <span class="input-group-text">%</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">الخصم(%)</span>
@@ -108,6 +99,15 @@
                                 <div class="input-group-append">
                                     <span class="input-group-text">{{$setting->currency ??'EGP'}}</span>
                                 </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="customer_phone" autocomplete="off" name="customer_phone" placeholder="ادخل رقم الهاتف">
+                            </div>
+                            <div id="customer_name_container">
+                                <!-- Customer name or new input will appear here -->
                             </div>
 
                             <hr >
@@ -167,13 +167,14 @@
 
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-info" name="btnsaveorder">Save order</button></div>
+                                    <button type="submit" class="btn btn-primary" name="btnsaveorder">انشئ فاتورة</button></div>
                             </div>
 
 
                         </div>
 
                     </div>
+                        </form>
                 </div>
             </div>
         </div>
@@ -222,5 +223,45 @@
             })
 
     </script>
+
+
+
+{{--     to check the customer --}}
+    <script>
+        $(document).ready(function() {
+            $('#customer_phone').on('input', function() {
+                var phone = $(this).val();
+
+                if (phone.length >= 10) { // Assuming phone numbers are at least 10 digits
+                    $.ajax({
+                        url: "{{ route('customer.check') }}",
+                        type: "GET",
+                        data: { phone: phone },
+                        success: function(response) {
+                            if (response.exists) {
+                                $('#customer_name_container').html('<div class="input-group mb-3">' +
+                                    '<div class="input-group-prepend">' +
+                                    '<span class="input-group-text"><i class="fa fa-user"></i></span>' +
+                                    '</div>' +
+                                    '<input type="text" class="form-control" id="customer_name" name="customer_name" value="' + response.name + '" readonly>' +
+                                    '</div>');
+                            } else {
+                                $('#customer_name_container').html('<div class="input-group mb-3">' +
+                                    '<div class="input-group-prepend">' +
+                                    '<span class="input-group-text"><i class="fa fa-user"></i></span>' +
+                                    '</div>' +
+                                    '<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="ادخل اسم العميل">' +
+                                    '</div>');
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
 
 @endpush

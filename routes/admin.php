@@ -51,6 +51,7 @@ Route::delete('/suppliers', [SupplierController::class, 'destroy'])->name('suppl
 /*  ============ Customers  ============  */
 Route::resource('customers', CustomerController::class)->only('index', 'edit', 'update');
 Route::delete('/customers', [CustomerController::class, 'destroy'])->name('customers.destroy');
+Route::get('/customer/check', [CustomerController::class, 'checkCustomer'])->name('customer.check');
 /*  =====================================  */
 
 
@@ -63,6 +64,8 @@ Route::get('/reports/orders', [ReportController::class, 'orders'])->name('report
 Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
 Route::get('/settings/{setting}/edit', [SettingController::class, 'edit'])->name('settings.edit');
 Route::put('/settings/{setting}', [SettingController::class, 'update'])->name('settings.update');
+Route::get('/settings/latest-backup', [SettingController::class, 'getLatestBackup'])->name('settings.backup');
+Route::get('/settings/reset-setting', [SettingController::class, 'resetSetting'])->name('settings.reset-setting');
 /*  ===============================================  */
 
 

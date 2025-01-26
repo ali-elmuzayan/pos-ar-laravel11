@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         // call the settingSeeder
         $this->call([
-            userSeeder::class,
+//            userSeeder::class,
             settingsSeeder::class,
 //            SupplierSeeder::class,
         ]);
