@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('total_quantity');
             $table->string('refund_amount');
-            $table->float('return_date');
+            $table->date('return_date')->nullable();
             $table->foreignIdFor(OrderDetails::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();

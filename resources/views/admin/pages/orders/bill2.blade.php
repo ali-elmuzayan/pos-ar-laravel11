@@ -43,10 +43,6 @@
         .header p {
             font-size: 14px;
         }
-        .order-details {
-            text-align: center;
-            margin-bottom: 10px;
-        }
         .order-details p {
             margin: 5px 0;
         }
@@ -65,11 +61,10 @@
             margin: 5px 0;
         }
         .header h1 {
-            font-size: 20px;
+            font-size: 27px;
             font-weight: bolder;
-        }
-        .header, .order-details, .row, .items-table {
-            border: 1px solid red; /* Add this temporarily */
+            border-bottom: 2px #000 solid;
+            padding-bottom: 20px;
         }
 
     </style>
@@ -80,6 +75,7 @@
     <div class="header">
         <h1 >7star</h1>
         <p> فاتورة شراء</p>
+        <table></table>
         <p><span style="direction: ltr">{{$order->invoice_no}}</span>رقم الطلب: <br>
             <span style="direction: ltr">{{$order->created_at->format('d-m-Y H:i:s')}}</span>تاريخ الطلب: </p>
         </div>

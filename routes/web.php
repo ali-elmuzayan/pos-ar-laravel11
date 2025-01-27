@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
 
     /*  ============ returns ============  */
     Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
-    Route::get('/returns/{return}', [ReturnController::class, 'show'])->name('returns.show');
+    Route::delete('/returns', [ReturnController::class, 'destroy'])->name('returns.destroy');
     /*  ================================================  */
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Services\OrderService;
@@ -42,32 +43,32 @@ class PosController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+   // Directly retrieve only the needed data from the request
+        $orderDetails = $this->orderService->getOrderDetails($request->only('pid_arr', 'quantity_arr'));
+        if(!$orderDetails) {
+            return redirect()->route('pos.index');
+        }
+        $order = $this->orderService->getOrderRequest($request->all());
+
+        // start the transaction
+        DB::beginTransaction();
+        try {
+            // the process of creating the order
+            $order = $this->orderService->processOrder($order, $orderDetails);
+
+            DB::commit();
+            toastr()->success('تم انشاء الاوردر بنجاح');
+            redirect()->route('orders.bill', ['order' => $order->id]);
+        }catch (\Exception $exception){
+            DB::rollBack();
+
+            // notify the user
+            toastr()->error($exception->getMessage());
+            return redirect()->back();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-
-    }
 
 
     // to get the product
@@ -93,6 +94,7 @@ class PosController extends Controller
             return response()->json(['error' => true, 'message' => 'حدث خطأ اثناء اضافة المنتج يرجى المحاولة مرة اخرى'], 500);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

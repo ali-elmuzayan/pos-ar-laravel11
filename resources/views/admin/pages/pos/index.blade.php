@@ -20,7 +20,7 @@
 
 
                 <div class="card-body">
-                        <form action="{{route('pos.store')}}" method="post">
+                        <form action="{{route('pos.store')}}" id="pos-form" method="post">
                             @csrf
                     <div class="row">
                         <div class="col-md-8">
@@ -70,7 +70,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">الاجمالي (قبل الخصم)</span>
                                 </div>
-                                <input type="text" class="form-control" name="txtsubtotal"  id="txtsubtotal_id" readonly >
+                                <input type="text" class="form-control" name="txtsubtotal"  id="txtsubtotal_id" tabindex="1" readonly >
                                 <div class="input-group-append">
                                     <span class="input-group-text">{{$setting->currency ?? 'EGP'}}</span>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                 </div>
-                                <input type="text" class="form-control" id="customer_phone" autocomplete="off" name="customer_phone" placeholder="ادخل رقم الهاتف">
+                                <input type="text" class="form-control" id="customer_phone" tabindex="2" autocomplete="off" name="customer_phone" placeholder="ادخل رقم الهاتف">
                             </div>
                             <div id="customer_name_container">
                                 <!-- Customer name or new input will appear here -->
@@ -155,7 +155,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">المبلغ المدفوع</span>
                                 </div>
-                                <input type="text" class="form-control"  name="txtpaid" id="txtpaid">
+                                <input type="text" class="form-control"  name="txtpaid" tabindex="4" id="txtpaid">
                                 <div class="input-group-append">
                                     <span class="input-group-text">{{$setting->currency ?? 'EGP'}}</span>
                                 </div>
@@ -167,7 +167,7 @@
 
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary" name="btnsaveorder">انشئ فاتورة</button></div>
+                                    <button type="submit" tabindex="5" class="btn btn-primary" name="btnsaveorder" id="submit-button">انشئ فاتورة</button></div>
                             </div>
 
 
@@ -210,8 +210,9 @@
     <script>
         var productRoute = "{{ route('pos.product', ['code' => ':code']) }}";
     </script>
-    <script src="{{asset('js/pos.js')}}"></script>
-    <script src="{{asset('js/paid.js')}}"></script>
+    <script src="{{asset('js/pos/pos.js')}}"></script>
+    <script src="{{asset('js/pos/paid.js')}}"></script>
+    <script src="{{asset('js/pos/action.js')}}"></script>
 
     <script>
         // initialize select2
@@ -262,6 +263,8 @@
             });
         });
     </script>
+
+
 
 
 @endpush

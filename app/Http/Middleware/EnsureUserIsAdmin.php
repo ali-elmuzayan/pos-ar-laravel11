@@ -22,6 +22,6 @@ class EnsureUserIsAdmin
         }
 
         // If not an admin, redirect or abort with a 403 Forbidden response
-        return redirect()->route('pos.index')->with('error', 'You do not have permission to access this page.');
+        return redirect()->route('pos.index');
     }
 }

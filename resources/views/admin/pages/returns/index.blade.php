@@ -18,7 +18,7 @@
                 </div>
                  <div class="card-body">
 
-                     @if(!empty($customers))
+                     @if(!empty($returns))
                          <div>
 
                          </div>
@@ -26,34 +26,34 @@
                              <thead>
                              <tr>
                                  <td>#</td>
-                                 <td>اسم العميل</td>
-                                 <td>رقم الهاتف</td>
-                                 <td>العنوان</td>
-                                 <td>عدد الاوردرات</td>
-                                 <td>المبلغ المدفوع</td>
-                                 <td>اول عملية شراء</td>
+                                 <td>المنتج</td>
+                                 <td>رقم الاوردر</td>
+                                 <td>العميل</td>
+                                 <td>الكمية</td>
+                                 <td>المبلغ المستحق</td>
+                                 <td>بواسطة المستخدم</td>
+                                 @isAdmin
                                  <td>النشاط</td>
+                                 @endIsAdmin
                              </tr>
                              </thead>
                              <tbody>
-                             @foreach($customers as $customer)
+                             @foreach($returns as $return)
                                  <tr>
-                                 <td>{{$customer->id}}</td>
-                                 <td>{{$customer->name ?? 'بدون اسم'}}</td>
-                                 <td>{{$customer->phone}}</td>
-                                 <td>{{$customer->address ?? 'لا يوجد عنوان'}}</td>
-                                 <td>{{$customer->getOrderCount()}}</td>
-                                 <td>{{$customer->getTotalAmountPaid()}}</td>
-                                 <td>{{$customer->getFormatedCreatedAt()}}</td>
+                                 <td>{{$return->id}}</td>
+                                 <td>{{$return->orderDetails->product->name}}</td>
+                                 <td>{{$return->order->invoice_no}}</td>
+                                 <td>{{$return->order->customer->name ?? $return->order->customer->phone}}</td>
+                                 <td>{{$return->total_quantity}}</td>
+                                 <td>{{$return->refund_amount}}</td>
+                                 <td>{{$return->user->name}}</td>
+                                     @isAdmin
                                 <td>
                                      <div class="btn-group">
-                                         <a href="{{route('customers.edit', $customer->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>
-{{--                                         @if($customer->getOrderCount() < 1)--}}
-                                         <button id='{{$customer->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
-{{--                                             @endif--}}
+                                         <button id='{{$return->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المرتجع"></span></button>
                                      </div>
-
                                  </td>
+                                     @endIsAdmin
                                  </tr>
                              @endforeach
                              </tbody>
@@ -126,7 +126,7 @@
     {{--  data that need to delete tht customer  --}}
     <script>
         // destroying url
-        const url = "{{ route('customers.destroy') }}";
+        const url = "{{ route('returns.destroy') }}";
         const csrf = "{{ csrf_token() }}";
     </script>
 

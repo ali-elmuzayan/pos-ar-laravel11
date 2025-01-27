@@ -14,14 +14,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
             $table->tinyInteger('order_status')->default(0);
             $table->string('invoice_no');
             $table->string('total_products');
-            $table->decimal('total_price');
             $table->string('sub_total')->nullable();
-            $table->string('vat')->nullable();
-            $table->string('payment_status')->nullable();
+            $table->decimal('total_price');
+            $table->string('discounts')->nullable();
             $table->string('pay')->nullable();
             $table->string('due')->nullable();
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();

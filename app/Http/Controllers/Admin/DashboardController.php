@@ -18,8 +18,13 @@ class DashboardController extends Controller
     public function index()
     {
         $currentMonthOrders = Order::getOrdersByMonth(now()->month);
-        $totalProducts = Product::count();
-        $profitAmount = Order::totalProfitForAllOrders();
+
+        // amount of products sold in current mont and profit of the month
+        $currentMonthSalesSummary = Product::getCurrentDaySalesSummary();
+        $totalProducts = $currentMonthSalesSummary['total_quantity'];
+        $profitAmount = $currentMonthSalesSummary['total_profit'];
+
+        // get the amount of the customer
         $newCustomers = Customer::getNewCustomersThisMonthCount();
 
         // Get the current year and month

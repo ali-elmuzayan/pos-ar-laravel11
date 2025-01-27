@@ -39,7 +39,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="{{route('orders.index')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left"> الزبائن الجدد </i></a>
+                        <a href="{{route('customers.index')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left"> الزبائن الجدد </i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -54,7 +54,7 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="{{route('orders.index')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left">  جميع المنتجات </i></a>
+                        <a href="{{route('products.index')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left">  جميع المنتجات </i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -64,7 +64,7 @@
                         <div class="inner  text-center">
                             <h3 >{{$profitAmount}}</h3>
 
-                            <p>صافي الارباح</p>
+                            <p>الارباح هذا الشهر</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
