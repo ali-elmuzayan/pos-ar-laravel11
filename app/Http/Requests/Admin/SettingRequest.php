@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +25,7 @@ class SettingRequest extends FormRequest
             'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'address' => ['required', 'string'],
-            'phone' => ['required', 'string'],
+            'phone' => ['required', 'string', 'max:20', 'min:1'],
             'return_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
             'exchange_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:4048'],
@@ -38,6 +38,8 @@ class SettingRequest extends FormRequest
             'name.required' => 'يجب ان تضيف اسما للشركة',
             'address.required' => 'يجب ان تضيف عنوانا للشركة',
             'phone.required' => 'يجب ان تضيف رقما للشركة',
+            'phone.max' => 'يجب ان يكون رقم الشركة اقل من 20 رقم',
+            'phone.min' => 'يجب ان يكون رقم الشركة اكبر من 1 رقم',
             'name.string' => 'يجب ان يحتوي الاسم على احرف',
             'logo.image' => 'يجب ان يكون الملف من نوع صور ',
             'logo.mimes' => 'يجب ان يكون الملف jpg, png, jpeg',

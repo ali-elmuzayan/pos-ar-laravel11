@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChangePasswordRequest;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\Admin\ProfileUpdateRequest;
 use App\Http\Traits\handleImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -43,6 +43,7 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
+        toastr()->success('تم تحديث كلمة المرور بنجاح');
         return redirect()->route('profile.edit.password');
     }
 
@@ -84,13 +85,16 @@ class ProfileController extends Controller
             // commit the transaction
             DB::commit();
 
-            return redirect()->route('profile.edit')->with('success', 'profile updated successfully');
+            toastr()->success('تم تحديث البيانات الشخصة بنجاح');
+            return redirect()->route('profile.edit');
 
         }catch (\Exception $e) {
             // Rollback the transaction on error
             DB::rollBack();
-            return  redirect()->route('profile.edit')
-                    ->with('error', 'An error occurred while updating your profile ');
+            Log::error($e->getMessage());
+
+            toastr()->error('حدث خطأ اثناء تحديث البيانات الشخصية');
+            return  redirect()->route('profile.edit');
         }
     }
 

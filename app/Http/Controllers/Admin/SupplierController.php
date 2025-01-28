@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SupplierRequest;
 use App\Http\Requests\Admin\updateSupplierRequest;
-use App\Http\Requests\SupplierRequest;
 use App\Http\Traits\handleImage;
 use App\Models\Supplier;
 use App\Providers\AppServiceProvider;

@@ -49,8 +49,8 @@ class DashboardController extends Controller
 
         // Fetch expenses and profit for the current month
         $currentMonthExpenses = DB::table('expenses') // Assuming you have an 'expenses' table
-        ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
+        ->whereYear('date', $currentYear)
+            ->whereMonth('date', $currentMonth)
             ->sum('amount'); // Sum of expenses for the month
 
         // Fetch Profit of the month
