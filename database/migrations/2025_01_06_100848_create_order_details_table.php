@@ -15,13 +15,23 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->decimal('quantity');
-            $table->decimal('unit_cost')->nullable();
-            $table->decimal('total_profit')->nullable();
-            $table->decimal('total_cost')->nullable();
+            $table->decimal('quantity', 10, 2);
+            $table->decimal('unit_cost', 10, 2)->nullable();
+            $table->decimal('total_profit', 10, 2)->nullable();
+            $table->decimal('total_cost', 12, 2)->nullable();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+
+            // Composite index for order_id and product_id
+            $table->index(['order_id', 'product_id']);
+            $table->index('quantity');
+            $table->index('total_profit');
+            $table->index('total_cost');
+
+            // Optional: Unique constraint for order_id and product_id
+            $table->unique(['order_id', 'product_id']);
         });
     }
 

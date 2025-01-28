@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->Integer('percent');
             $table->date('end_date')->nullable();
+
+            // Indexes
+            $table->index('end_date'); // Index for end_date
         });
     }
 

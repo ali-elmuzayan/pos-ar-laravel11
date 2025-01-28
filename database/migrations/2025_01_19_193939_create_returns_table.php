@@ -17,13 +17,16 @@ return new class extends Migration
     {
         Schema::create('returns', function (Blueprint $table) {
             $table->id();
-            $table->string('total_quantity');
-            $table->string('refund_amount');
-            $table->date('return_date')->nullable();
+            $table->decimal('total_quantity');
+            $table->decimal('refund_amount', 10, 2);
             $table->foreignIdFor(OrderDetails::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+
+            // Indexes
+            $table->index('created_at'); // Index for created_at
+            $table->index(['order_id', 'user_id']); // Composite index for order_id and user_id
         });
     }
 

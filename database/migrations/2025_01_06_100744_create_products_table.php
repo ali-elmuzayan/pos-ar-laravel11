@@ -15,18 +15,22 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->text('description')->nullable();
-            $table->decimal('buying_price');
-            $table->decimal('selling_price');
+            $table->string('name', 100);
+            $table->string('code', 30)->unique();
+            $table->string('description', 255)->nullable();
+
+            $table->decimal('buying_price', 10, 2);
+            $table->decimal('selling_price', 10, 2);
             $table->integer('stock');
             $table->string('image')->nullable();
-            $table->string('buying_date')->nullable();
-
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Supplier::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
+
+            // Added for common query patterns:
+            $table->index('name');
+            $table->index('stock');
+            $table->index('created_at');
         });
     }
 

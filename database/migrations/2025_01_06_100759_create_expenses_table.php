@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->text('details');
-            $table->decimal('amount');
+            $table->string('details', 255);
+            $table->decimal('amount', 10,2);
             $table->date('date');
-            $table->timestamps();
+
+            // Add indexes
+            $table->index('date');
+            $table->index(['date', 'amount']);
         });
     }
 

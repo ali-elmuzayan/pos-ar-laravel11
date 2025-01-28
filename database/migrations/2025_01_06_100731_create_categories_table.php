@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->timestamps();
+
+            //Add index for common query patterns
+            $table->index('name');
+            $table->index('created_at');
         });
     }
 

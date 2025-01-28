@@ -11,6 +11,7 @@ class Inventory extends Model
 
     protected $table = 'inventory';
     protected $guarded = [];
+    public $timestamps = false;
 
     public function product() {
         return $this->belongsTo(Product::class);

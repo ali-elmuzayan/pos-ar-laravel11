@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('phone')->unique();
+            $table->string('name', 100)->nullable();
+            $table->string('phone', 20)->unique();
             $table->string('address')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+
+            //Add index for common query patterns
+            $table->index('name');
+            $table->index('phone');
+            $table->index('created_at');
         });
     }
 

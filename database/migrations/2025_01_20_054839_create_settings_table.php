@@ -17,13 +17,16 @@ return new class extends Migration
             $table->string('logo');
             $table->text('description')->nullable();
             $table->string('address')->nullable();
-            $table->string('phone');
+            $table->string('phone', 20);
             $table->string('backup_dir')->nullable();
-            $table->string('return_period')->nullable();
-            $table->string('exchange_period')->nullable();
-            $table->string('data_per_page')->nullable();
+            $table->integer('return_period')->nullable();
+            $table->integer('exchange_period')->nullable();
+            $table->string('data_per_page')->default(15);
             $table->string('currency')->nullable();
             $table->timestamps();
+
+            // Indexes
+            $table->index('phone'); // Index for phone
         });
     }
 

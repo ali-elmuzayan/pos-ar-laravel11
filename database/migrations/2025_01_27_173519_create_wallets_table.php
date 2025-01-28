@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('phone', 20)->unique();
-            $table->string('description')->nullable();
-            $table->text('address')->nullable();
-            $table->string('image')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->decimal('balance', 10, 2)->default(0);
+            $table->timestamps();
 
-            // Add index for common query patterns
+            // Add indexes for common query patterns
             $table->index('name');
-            $table->index('description');
             $table->index('created_at');
         });
     }
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('wallets');
     }
 };

@@ -22,8 +22,8 @@ class SupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'unique:suppliers,phone'],
+            'name' => ['required', 'string', 'max:100'],
+            'phone' => ['required', 'string', 'unique:suppliers,phone', 'max:20'],
             'email' => ['nullable', 'email'],
             'address' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
@@ -34,7 +34,8 @@ class SupplierRequest extends FormRequest
         return [
             'name.required' => 'اسم الموزع مطلوب',
             'name.string' => 'اسم الموزع غير صحيح',
-            'name.max' => 'يجب ان يكون اسم الموزع اقل من 255 حرف',
+            'name.max' => 'يجب ان يكون اسم الموزع اقل من 100 حرف',
+            'phone.max' => 'يجب ان يكون رقم الموزع اقل من 20 رقم',
             'phone.unique' => 'رقم الهاتف موجود يجب استخدام رقم اخر',
             'phone.string' => 'يجب اضافى رقم الهاتف',
             'email.email' => 'الايميل يجب ان يكون من نوع ايميل',

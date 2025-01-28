@@ -9,6 +9,8 @@ class Expense extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $table = 'expenses';
+    public $timestamps = false;
 
     /**
      * Get expenses for the current month.

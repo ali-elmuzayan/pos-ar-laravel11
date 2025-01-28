@@ -11,6 +11,7 @@ class Customer extends Model
     use HasFactory;
     protected $table = 'customers';
     protected $guarded = [];
+    public $timestamps = false;
 
 
     // get the total amount of customers

@@ -23,8 +23,8 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string'],
-            'phone' => ['required', 'string',  Rule::unique('customers', 'phone')->ignore($this->customer),],
+            'name' => ['nullable', 'string', 'max:100'],
+            'phone' => ['required', 'string', 'max:20',  Rule::unique('customers', 'phone')->ignore($this->customer),],
             'address' => ['nullable', 'string'],
         ];
     }
@@ -32,7 +32,9 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name.string' => 'يجب ان يكون اسم العميل من نوع نص',
+            'name.max' => 'يجب ان يكون اسم العميل اقل من 100 حرف',
             'phone.required' => 'يجب ادخال الرقم المحمول',
+            'phone.max' => 'يجب ادخال رقم محمول اقل من 20 رقم',
             'phone.string' => 'يجب ان يكون الرقم المحمول من نوع نص',
             'phone.unique' => 'هذا الرقم مسجل باسم عميل اخر',
             'address.string' => 'يجب ان يكون العنوان من نوع نص',

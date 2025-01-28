@@ -10,6 +10,7 @@ class Supplier extends Model
 {
     use HasFactory;
     protected $table = 'suppliers';
+    public $timestamps= false;
     protected $guarded = [];
 
     public function products() :HasMany {
