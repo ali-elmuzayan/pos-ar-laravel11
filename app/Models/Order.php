@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,12 +22,6 @@ class Order extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
-    }
-
-    // return the amount of products in that order
-    public function products(): int
-    {
-        return $this->orderDetails()->count();
     }
 
     // calculate the profit of th order
@@ -108,4 +103,36 @@ class Order extends Model
         return array_reverse($result);
     }
 
+    /**
+     * check if is it able to returns
+     */
+    public function isValidToReturn():bool
+    {
+        $setting = Setting::first();
+
+        return $this->created_at  >= Carbon::now()->subDays($setting->return_period);
+    }
+
+    /**
+     * return all valid Orders to return
+     */
+    public static function  getAllValidOrder()
+    {
+        $setting = Setting::first();
+// Fetch orders created within the return period
+        return self::where('created_at', '>=', now()->subDays($setting->return_period ?? 7) )->get();
+    }
+
+    /*
+     * return the profit of today
+     */
+    public static function currentProfitOfToday() {
+        $today = now()->startOfDay(); // Start of the current day
+
+        return self::where('created_at', '>=', $today)
+            ->sum('total_price');
+    }
+
 }
+
+

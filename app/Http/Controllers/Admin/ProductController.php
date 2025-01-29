@@ -26,8 +26,7 @@ class ProductController extends Controller
     public function index()
     {
         $counter = 1;
-        $data = Product::latest()->paginate(50);
-//        $data = Product::latest()->paginate(50);
+        $data = Product::all();
 
         return view('admin.pages.products.index', compact('data', 'counter'));
     }
@@ -147,7 +146,8 @@ class ProductController extends Controller
         // check if order exist or not
         // check if it has any order or has been sold before
         // if not redirect to products.index then destroy it
-        dd($request->all());
+    return response()->json(['error' => true, 'message' => 'لا يمكن حذف المنتج', 'id' => $id]);
+
 
         $product = Product::findOrFail($request->id);
         if (!empty($product->image)){
@@ -200,7 +200,8 @@ class ProductController extends Controller
         // Return a success response
         return response()->json([
             'success' => true,
-            'message' =>   ' تمت اضافة الكمية بنجاح الكمية الحالية ' . $product->stock,
+            'message' =>   ' تمت اضافة الكمية بنجاح',
+            'quantity'=> $product->stock,
         ]);
     }
 }

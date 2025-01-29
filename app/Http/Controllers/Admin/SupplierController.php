@@ -34,7 +34,7 @@ class SupplierController extends Controller
             Supplier::create([
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'email' => $request->email ?? null,
+                'description' => $request->description ?? null,
                 'address' => $request->address ?? null,
                 'image' => $imagePath,
             ]);

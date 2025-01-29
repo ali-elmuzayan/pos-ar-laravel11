@@ -27,5 +27,13 @@ class BladeServiceProvider extends ServiceProvider
         Blade::directive('endIsAdmin', function () {
             return "<?php endif; ?>";
         });
+
+        Blade::directive('isUser', function () {
+            return "<?php if(auth()->check()  && auth()->user()->role === 'user') : ?>";
+        });
+
+        Blade::directive('endIsUser', function () {
+            return "<?php endif; ?>";
+        });
     }
 }

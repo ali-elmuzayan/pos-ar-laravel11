@@ -24,4 +24,5 @@ class OrderDetails extends Model
         return ($this->selling_price - $this->buying_price) * $this->quantity;
     }
 
+
 }

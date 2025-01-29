@@ -7,16 +7,23 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\Product;
+use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
     use handleBarcode;
+
+    /**
+     * create the order data and handle customer information
+     */
     public function createOrder(array $data): Order
     {
         // Ensure the customer exists or create a new one
-        if (isset($data['customer_phone'])){
-        $customer = $this->getCustomer($data['customer_phone'], $data['customer_name']);
+
+        if (isset($data['phone'])){
+        $customer = $this->getCustomer($data['phone'], $data['customer_name']);
         }else {
             $customer = null;
         }
@@ -35,10 +42,10 @@ class OrderService
             'total_products' => $data['total_products'],
             'sub_total' => $data['subTotal'],
             'total_price' => $data['total_price'],
-            'discount' => $data['discount'] ?? null,
+            'discount' => $data['discount'] ?? 0,
             'pay' => $data['pay'] ?? $data['total_price'],
             'due' => !empty($data['pay']) ? $data['due'] : 0 ,
-            'customer_id' => !empty($customer->id) ? $customer->id : null,
+            'customer_id' => !empty($customer) ? $customer->id : null,
         ]);
 
         Log::info('Order created successfully', ['order_id' => $order->id]);
@@ -46,13 +53,16 @@ class OrderService
         return $order;
     }
 
+    /**
+     *  create the order details and handle the amount in the product
+     */
     public function createOrderDetails(Order $order, array $orderDetails): void
     {
         $discount = $order['discount'] ?? 0;
         foreach ($orderDetails as $detail) {
             $product = Product::find($detail['id']);
 
-            $unitCost = ($product->selling_price - ($product->selling_price * $discount));
+            $unitCost = ($product->selling_price - ($product->selling_price * ($discount / 100)));
             $totalProfit = (($unitCost) - ($product->buying_price) )* $detail['quantity']; ;
             $totalCost = ($unitCost) * ($detail['quantity']);
             OrderDetails::create([
@@ -63,22 +73,35 @@ class OrderService
                 'order_id' => $order->id,
                 'product_id' => $detail['id'],
             ]);
+
+            $product->update(['stock' => $product->stock - $detail['quantity']]);
         }
 
         Log::info('Order details created successfully', ['order_id' => $order->id]);
     }
 
+    /**
+     * get the customer data and create it if he is not exist in
+     * storage
+     */
     public function getCustomer($phone, $name = null) {
         $customer = Customer::where('phone', '=', $phone)->first();
+
         if(empty($customer)){
             $customer = Customer::create([
                 'phone' => $phone,
                 'name' => !empty($name) ? $name : null,
             ]);
         }
+
         return $customer;
     }
 
+
+    /**
+     * process the order process by create the order and customer if not
+     * exist then create order details after that you can deposit the money
+     */
     public function processOrder(array $orderData, array $orderDetailsData): Order
     {
         // Create the order
@@ -87,9 +110,15 @@ class OrderService
         // Create the order details
         $this->createOrderDetails($order, $orderDetailsData);
 
+        // add the transaction
+        $this->createTransaction($order);
+
         return $order;
     }
 
+    /**
+     * get the data of the order details and handle it
+     */
     public function getOrderDetails(array $orderDetails) {
         if (isset($orderDetails['pid_arr']) && isset($orderDetails['quantity_arr']) && count($orderDetails['pid_arr']) === count($orderDetails['quantity_arr'])) {
 
@@ -110,7 +139,9 @@ class OrderService
         }
     }
 
-    // get the order data =
+    /**
+     * get the data of the order from the request
+     */
     public function getOrderRequest(array $request) {
         $total_product = 0;
         foreach($request['quantity_arr'] as $qty)
@@ -120,12 +151,27 @@ class OrderService
            'subTotal' => $request['txtsubtotal'],
            'discount' => $request['txtdiscount'] ?? 0,
            'phone' => $request['customer_phone'] ?? null,
+           'customer_name' => $request['customer_name'] ?? null,
             'total_products' => $total_product,
            'total_price' => $request['txttotal'] ,
            'type_pay' => $request['rb'] ?? 'cash',
            'due' => $request['txtdue'] ?? 0,
            'paid' => $request['txtpaid'] ?? 0,
        ];
+    }
+
+    /**
+     * create the transaction and deposit to the wallet
+     */
+    public function createTransaction(Order $order) {
+       $walletTransaction = WalletTransaction::create([
+            'amount' => $order['total_price'],
+            'type' => 'deposit',
+            'wallet_id' => 1,
+        ]);
+       $wallet = Wallet::where('id', $walletTransaction->wallet_id)->first();
+       $wallet->balance = $wallet->balance + $walletTransaction->amount;
+       $wallet->save();
     }
 
 }

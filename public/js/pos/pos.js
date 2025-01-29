@@ -1,87 +1,137 @@
 var product=[];
 
-$(function() {
-    $('#txtbarcode_id').on('change', function() {
-
-        var barcode = $('#txtbarcode_id').val();
-        var url = productRoute.replace(':code', barcode);
-
-        $.ajax({
-            url:url,
-            method: "get",
-            dataType: "json",
-            data: {id:barcode},
-            success:function(data){
-                // check if the value exist in the array
-
-                if(jQuery.inArray(data['id'], product) !== -1) {
-
-                    // add one to the quantity in case it is the same product
-                    var actualQty = parseInt($('#qty_id'+data["id"]).val())+1;
-                    $('#qty_id'+data["id"]).val(actualQty);
-
-                    var sellingPrice=parseInt(actualQty)*data["selling_price"];
-
-                    $('#saleprice_id'+data["id"]).html(sellingPrice);
-                    $('#saleprice_idd'+data["id"]).val(sellingPrice);
-                    calculate(0,0)
-                }else {
-                    addRow(data['id'], data['name'], data['selling_price'],data['stock'], data['barcode']);
-                    product.push(data['id']);
-                    calculate(0,0)
-                }
-
-                $('#txtbarcode_id').val("");
-
-            },
-            error:function(response) {
-                // on error result
-
-                swal.fire('حدث خطأ!', 'يرجى ادخال منتج صحيح', 'warning');
-
-            }
-        })
-    })
-})
 // $(function() {
-//
-//
 //     $('#txtbarcode_id').on('change', function() {
+//
 //         var barcode = $('#txtbarcode_id').val();
 //         var url = productRoute.replace(':code', barcode);
 //
 //         $.ajax({
-//             url: url,
+//             url:url,
 //             method: "get",
 //             dataType: "json",
-//             data: { id: barcode },
-//             success: function(data) {
-//                 // Check if the value exists in the array
-//                 if (jQuery.inArray(data['id'], product) !== -1) {
-//                     // Add one to the quantity in case it is the same product
-//                     var actualQty = parseInt($('#qty_id' + data["id"]).val()) + 1;
-//                     $('#qty_id' + data["id"]).val(actualQty);
+//             data: {id:barcode},
+//             success:function(data){
+//                 // check if the value exist in the array
 //
-//                     var sellingPrice = parseInt(actualQty) * data["selling_price"];
+//                 if(jQuery.inArray(data['id'], product) !== -1) {
 //
-//                     $('#saleprice_id' + data["id"]).html(sellingPrice);
-//                     $('#saleprice_idd' + data["id"]).val(sellingPrice);
+//                     // add one to the quantity in case it is the same product
+//                     var actualQty = parseInt($('#qty_id'+data["id"]).val())+1;
+//                     $('#qty_id'+data["id"]).val(actualQty);
 //
-//                 } else {
-//                     addRow(data['id'], data['name'], data['selling_price'], data['stock'], data['barcode']);
+//                     var sellingPrice=parseInt(actualQty)*data["selling_price"];
+//
+//                     $('#saleprice_id'+data["id"]).html(sellingPrice);
+//                     $('#saleprice_idd'+data["id"]).val(sellingPrice);
+//                     calculate(0,0)
+//                 }else {
+//                     addRow(data['id'], data['name'], data['selling_price'],data['stock'], data['barcode']);
 //                     product.push(data['id']);
+//                     calculate(0,0)
 //                 }
 //
 //                 $('#txtbarcode_id').val("");
-//                 calculate(); // Call calculate() after updating the quantity
+//
 //             },
-//             error: function(response) {
-//                 // On error result
+//             error:function(response) {
+//                 // on error result
+//
 //                 swal.fire('حدث خطأ!', 'يرجى ادخال منتج صحيح', 'warning');
+//
 //             }
-//         });
-//     });
-// });
+//         })
+//     })
+// })
+$(function() {
+    $('#txtbarcode_id').on('change', function() {
+        var barcode = $('#txtbarcode_id').val();
+        var url = productRoute.replace(':code', barcode);
+
+        $.ajax({
+            url: url,
+            method: "get",
+            dataType: "json",
+            data: { id: barcode },
+            success: function(data) {
+                console.log(data); // Debug: Check the response data
+
+                // Check if the product has stock
+                if (data['stock'] <= 0) {
+                    swal.fire('Out of Stock!', 'This product is out of stock.', 'warning');
+                    return; // Exit the function if there's no stock
+                }
+
+                // Check if the product already exists in the array
+                if (jQuery.inArray(data['id'], product) !== -1) {
+                    // Check if adding one more exceeds the stock
+                    var actualQty = parseInt($('#qty_id' + data["id"]).val()) + 1;
+                    if (actualQty > data['stock']) {
+                        swal.fire('Stock Limit Exceeded!', 'You cannot add more than the available stock.', 'warning');
+                        return; // Exit the function if stock limit is exceeded
+                    }
+
+                    // Update the quantity and price
+                    $('#qty_id' + data["id"]).val(actualQty);
+                    var sellingPrice = parseInt(actualQty) * data["selling_price"];
+                    $('#saleprice_id' + data["id"]).html(sellingPrice);
+                    $('#saleprice_idd' + data["id"]).val(sellingPrice);
+                    calculate(0, 0);
+                } else {
+                    // Add a new row for the product
+                    addRow(data['id'], data['name'], data['selling_price'], data['stock'], data['barcode']);
+                    product.push(data['id']);
+                    calculate(0, 0);
+                }
+
+                $('#txtbarcode_id').val("");
+                calculate(); // Call calculate() after updating the quantity
+            },
+            error: function(response) {
+                // On error result
+                swal.fire('Error!', 'Please enter a valid product.', 'warning');
+            }
+        });
+    });
+
+    // $('#txtbarcode_id').on('change', function() {
+    //     var barcode = $('#txtbarcode_id').val();
+    //     var url = productRoute.replace(':code', barcode);
+    //
+    //     $.ajax({
+    //         url: url,
+    //         method: "get",
+    //         dataType: "json",
+    //         data: { id: barcode },
+    //         success: function(data) {
+    //             // Check if the value exists in the array
+    //             if (jQuery.inArray(data['id'], product) !== -1) {
+    //                 // Add one to the quantity in case it is the same product
+    //                 var actualQty = parseInt($('#qty_id' + data["id"]).val()) + 1;
+    //                 $('#qty_id' + data["id"]).val(actualQty);
+    //
+    //                 var sellingPrice = parseInt(actualQty) * data["selling_price"];
+    //
+    //                 $('#saleprice_id' + data["id"]).html(sellingPrice);
+    //                 $('#saleprice_idd' + data["id"]).val(sellingPrice);
+    //                 calculate(0,0)
+    //
+    //             } else {
+    //                 addRow(data['id'], data['name'], data['selling_price'], data['stock'], data['barcode']);
+    //                 product.push(data['id']);
+    //                 calculate(0,0)
+    //             }
+    //
+    //             $('#txtbarcode_id').val("");
+    //             calculate(); // Call calculate() after updating the quantity
+    //         },
+    //         error: function(response) {
+    //             // On error result
+    //             swal.fire('حدث خطأ!', 'يرجى ادخال منتج صحيح', 'warning');
+    //         }
+    //     });
+    // });
+});
 
 
 //selected

@@ -25,7 +25,8 @@ class CustomerController extends Controller
     // update the form of the customer
     public function update(CustomerRequest $request, Customer $customer) {
 $customer->update($request->validated());
-return redirect()->route('customers.index')->with('success', 'تم تعديل بيانات العميل');
+toastr()->success('تم تعديل بيانات المستخدم بنجاح');
+return redirect()->route('customers.index');
     }
 
 

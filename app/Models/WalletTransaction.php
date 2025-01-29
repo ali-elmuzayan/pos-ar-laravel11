@@ -11,4 +11,9 @@ class WalletTransaction extends Model
     // disable automatic timestamps
     public $timestamps = false;
     protected $guarded = [];
+
+    public function wallet() {
+        return $this->belongsTo(Wallet::class);
+    }
+
 }

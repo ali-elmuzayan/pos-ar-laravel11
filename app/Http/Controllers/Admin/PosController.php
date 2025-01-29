@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
+use App\Http\Traits\HandleBill;
 use App\Models\Discount;
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class PosController extends Controller
 {
+    use HandleBill;
 
     protected $orderService;
 
@@ -51,15 +53,18 @@ class PosController extends Controller
         }
         $order = $this->orderService->getOrderRequest($request->all());
 
+
         // start the transaction
         DB::beginTransaction();
         try {
+
             // the process of creating the order
             $order = $this->orderService->processOrder($order, $orderDetails);
 
+            // commit changes
             DB::commit();
             toastr()->success('تم انشاء الاوردر بنجاح');
-            redirect()->route('orders.bill', ['order' => $order->id]);
+           return redirect()->route('pos.bill', ['order' => $order->id]);
         }catch (\Exception $exception){
             DB::rollBack();
 
@@ -95,12 +100,18 @@ class PosController extends Controller
         }
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * generate the bills
      */
-    public function destroy(string $id)
+    public function generateBill(Order $order)
     {
-        //
+
+        // Load order with details
+        $order = Order::with('orderDetails')->findOrFail($order->id);
+        // create bill
+        $this->createBill($order);
+dd($order->customer->name);
+        toastr()->success('تم طباعة المنتج بنجاح');
+        return redirect()->route('pos.index');
     }
 }

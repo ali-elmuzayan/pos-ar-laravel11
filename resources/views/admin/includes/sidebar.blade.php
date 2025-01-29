@@ -44,6 +44,7 @@
                         </p>
                     </a>
                 </li>
+                @isUser
                 <li class="nav-item">
                     <a href="{{route('categories.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
@@ -53,6 +54,7 @@
                         </p>
                     </a>
                 </li>
+                @endIsUser
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-cart"></i>
@@ -90,6 +92,35 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            المعاملات المالية
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('wallets.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-credit-card"></i>
+                                <p>
+                                    المحفظة
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('expenses.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-handshake"></i>
+                                <p>
+                                    النفقات
+
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p>
                             بيانات المتجر
@@ -97,6 +128,15 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('categories.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    الفئات
+
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{route('discounts.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-percentage"></i>
@@ -115,15 +155,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('expenses.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-university"></i>
-                                <p>
-                                    النفقات
 
-                                </p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

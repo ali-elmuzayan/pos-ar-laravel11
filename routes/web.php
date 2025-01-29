@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
     /*  ============ pos && ajax of pos ============  */
     Route::resource('pos', PosController::class)->only('index', 'store');
     Route::get('/pos/product/{code}', [PosController::class, 'getProdcutAjax'])->name('pos.product');
+    Route::get('/pos/{order}/bill', [PosController::class, 'generateBill'])->name('pos.bill');
+
     /*  ================================================  */
 
 

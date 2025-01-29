@@ -34,5 +34,10 @@ class Returns extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public static function totalReturnAmount() {
+        $today = now()->day;
+
+        return self::where('created_at', '>=', $today)->sum('refund_amount');
+    }
 
 }

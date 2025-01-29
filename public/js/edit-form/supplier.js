@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const supplierId = this.getAttribute('data-id');
             const supplierName = this.getAttribute('data-name');
             const supplierPhone = this.getAttribute('data-phone');
-            const supplierEmail = this.getAttribute('data-email');
+            const supplierDescription = this.getAttribute('data-description');
             const supplierAddress = this.getAttribute('data-address');
 
             // Update the form
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const formButton = document.getElementById('formButton');
             const supplierNameInput = document.getElementById('supplierName');
             const supplierPhoneInput = document.getElementById('supplierPhone');
-            const supplierEmailInput = document.getElementById('supplierEmail');
+            const supplierDescriptionInput = document.getElementById('supplierDescription');
             const supplierAddressInput = document.getElementById('supplierAddress');
 
             // Change form action to update route
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set supplier data in the form
             supplierNameInput.value = supplierName;
             supplierPhoneInput.value = supplierPhone;
-            supplierEmailInput.value = supplierEmail;
+            supplierDescriptionInput.value = supplierDescription;
             supplierAddressInput.value = supplierAddress;
 
             // Add a hidden input for the PUT method

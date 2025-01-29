@@ -53,12 +53,126 @@
     margin-right: 5px !important;
 }
 
-.bg-new-info {
-    background-color: #495f68;
+.bg-card {
+    background: linear-gradient(135deg, #495f68, #4b545c); /* Gradient background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    color:#fff;
+}
+/*.bg-new-info {*/
+/*    background-color: #495f68;*/
+/*    color: #fff;*/
+/*}*/
+
+
+/*.bg-new-info2 {*/
+/*    background-color: #409ea9;*/
+/*    color: #fff;*/
+/*}*/
+
+
+.list-group-item-new_info {
+    background-color: #2e3b43;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    border: solid 1px #495f68;
+
+    font-size: 20px;
+}
+
+/*.wallet-card {*/
+/*    margin: 10px auto !important;*/
+/*    padding: 5px;*/
+/*    color: #fff;*/
+/*    border: solid 1px #2e3b43 !important;*/
+/*    border-radius: 10px;*/
+/*    !*background: #0b2e13 !important;*!*/
+/*}*/
+
+.wallet-card {
+    margin: 20px auto;
+    padding: 25px 50px;
+    color: #fff;
+    border: 1px solid #2e3b43;
+    border-radius: 15px;
+    /*background: linear-gradient(135deg, #1e3c72, #2a5298); !* Gradient background *!*/
+    background: linear-gradient(135deg, #495f68, #4b545c); /* Gradient background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 80%; /* Adjust width as needed */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.wallet-card .balance {
+    cursor: pointer;
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 15px;
     color: #fff;
 }
 
-.bg-new-info2 {
-    background-color: #409ea9;
+.wallet-card .name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.wallet-card .buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px; /* Space between buttons */
+}
+
+.wallet-card .buttons .button{
+    flex: 1; /* Equal width for all buttons */
+    padding: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
     color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.wallet-card .buttons button.deposit,
+.wallet-card .buttons form {
+    flex: 1; /* Both elements will take equal space */
+}
+
+.wallet-card .buttons form {
+    display: flex; /* Ensure the form behaves as a flex container */
+}
+
+.wallet-card .buttons form .withdraw {
+    width: 100%; /* Make the deposit button fill the form's width */
+}
+
+.wallet-card .buttons .withdraw:hover {
+    background: #cc0000; /* Darker red on hover */
+}
+
+
+
+.wallet-card .buttons .deposit:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+/*.wallet-card .buttons button.create-expense {*/
+/*    background: #2196F3; !* Blue for create expense *!*/
+/*}*/
+
+.wallet-card .buttons button.create-expense:hover {
+    background: #1976D2; /* Darker blue on hover */
+}
+
+.btndelete:hover {
+    background: #cc0000; /* Darker red on hover */
+}
+
+
+.selected-wallet {
+    background-color: #dff0d8;
+    border: 2px solid #5cb85c;
+    border-radius: 4px;
 }

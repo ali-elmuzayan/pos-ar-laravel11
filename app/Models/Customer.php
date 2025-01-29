@@ -56,12 +56,5 @@ class Customer extends Model
     }
 
 
-    /**
-     * Get the formatted Created_at date (day-month-year)
-     */
-    public function getFormatedCreatedAt():string
-    {
-        return $this->created_at->format('d-m-Y');
-    }
 
 }

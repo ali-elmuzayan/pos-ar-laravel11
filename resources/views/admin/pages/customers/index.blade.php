@@ -44,7 +44,7 @@
                                  <td>{{$customer->address ?? 'لا يوجد عنوان'}}</td>
                                  <td>{{$customer->getOrderCount()}}</td>
                                  <td>{{$customer->getTotalAmountPaid()}}</td>
-                                 <td>{{$customer->getFormatedCreatedAt()}}</td>
+                                 <td>{{$customer->created_at}}</td>
                                 <td>
                                      <div class="btn-group">
                                          <a href="{{route('customers.edit', $customer->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>

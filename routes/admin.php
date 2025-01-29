@@ -4,12 +4,14 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WalletController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,8 +29,14 @@ Route::resource('products', ProductController::class)->only('create', 'store', '
 Route::delete('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
 /*  =======================================  */
 
-/*  ============ Expenses  ============  */
+
+/*  ============ Expenses & wallet ============  */
 Route::resource('/expenses', ExpenseController::class)->only('index', 'store', 'update', 'destroy');
+Route::resource('/wallets', WalletController::class)->only('index');
+Route::put('/wallets/{wallet}/withdraw', [WalletController::class, 'withdraw'])->name('wallets.withdraw');
+Route::put('/wallets/{wallet}/withdraw-to-main', [WalletController::class, 'withdrawToMain'])->name('wallets.withdraw-to-main');
+Route::put('/wallets/{wallet}/deposit', [WalletController::class, 'deposit'])->name('wallets.deposit');
+Route::get('/wallets/{id}/transactions', [WalletController::class, 'getTransactions'])->name('wallets.transactions');
 /*  ===================================  */
 
 
@@ -69,5 +77,7 @@ Route::get('/settings/reset-setting', [SettingController::class, 'resetSetting']
 /*  ===============================================  */
 
 
-
+/*  ============ show orders ============  */
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+/*  ======================================  */
 

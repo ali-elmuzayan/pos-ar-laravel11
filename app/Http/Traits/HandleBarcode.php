@@ -19,11 +19,11 @@ trait HandleBarcode
                 $last4Digits++;
                 return  $date . $last4Digits  ;
             } else {
-                return  $date . '001';
+                return  $date . '0001';
             }
         }
 
         // if the last item code is empty that mean it is the first code
-        return  $date . '1';
+        return  $date . '0001';
     }
 }

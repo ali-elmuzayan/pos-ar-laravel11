@@ -33,11 +33,12 @@ class BarcodeController extends Controller
         for ($i = 0; $i < $request->input('amount'); $i++) {
             // Generate barcode image using DNS1D
             // C39, C39+, C39E, C39E+, C93, C128
-            $barcodeImage =   DNS1D::getBarcodeSVG($product->code, 'C128', 1);
+            $barcodeImage =   DNS1D::getBarcodeSVG($product->code, 'C39', 0.5,40);
             ; // 'C128' is the barcode type
 
             $barcodes[] = [
                 'barcode_image' => $barcodeImage, // Store the barcode image
+                'name' => $product->name,
                 'price' => $product->selling_price, // Product price
             ];
         }

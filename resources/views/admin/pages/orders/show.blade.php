@@ -1,10 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', '7Star system')
-@section('prev-link', route('products.index'))
-@section('prev-link-title', 'بيانات المنتجات')
-@section('content-title', 'عرض المنتج')
-@section('content-page-name', 'عرض المنتج')
+@section('title', 'عرض تفاصيل الطلب')
+@section('main-color', 'success')
+@section('prev-link', url()->previous())
+@section('prev-link-title', 'الطلبات')
+@section('content-title', 'عرض الطلب')
+@section('content-page-name', 'عرض الطلب')
 
 @section('content')
 
@@ -12,52 +13,82 @@
 
     <div class="row">
         <div class="col-12">
-             <div class="card card-primary card-outline">
+            <div class="card card-success card-outline">
                 <div class="card-header">
-                    <h5 class="card-title">عرض المنتج</h5>
+                    <h5 class="card-title">عرض الطلب</h5>
 
                 </div>
-                 <div class="card-body">
+                <div class="card-body">
 
-                     @if(!empty($product))
-                         <div class="row">
-                             <div class="col-md-6">
+                    @if(!empty($order))
+                        <div class="row">
+                            <div class="col-md-6">
 
-                                 <ul class="list-group">
+                                <ul class="list-group">
 
-                                     <center><p class="list-group-item list-group-item-info"><b>تفاصيل المنتج</b></p></center>
+                                    <center><p class="list-group-item list-group-item-success"><b>بيانات الطلب</b></p></center>
 
-                                     <li class="list-group-item"><b>الباركود</b> <span class="badge badge-light float-right">{!! $barcode !!}<br>{{$product->code}}</span></li>
-                                     <li class="list-group-item"><b>اسم المنتج</b><span class="badge badge-light float-right">{{$product->name}}</span></li>
-                                     <li class="list-group-item"><b>الفئة التابع لها</b> <span class="badge badge-light float-right">{{$product->category->name}}</span></li>
-                                     <li class="list-group-item"><b>الموزع</b> <span class="badge badge-light float-right">{{$product->supplier->name}}</span></li>
-                                     <li class="list-group-item"><b>الوصف</b><span id="show-description" class=" float-right">{{$product->description ?? 'لا يوجد وصف لهذا لامنتج'}}</span></li>
-                                     <li class="list-group-item"><b>الكمية المتاحة</b> <span  class="badge @if($product->stock > 5)badge-success @else badge-danger @endif float-right">{{$product->stock}}</span></li>
-                                     <li class="list-group-item"><b>سعر الشراء</b><span class="badge  badge-secondary float-right">{{$product->buying_price}}</span></li>
-                                     <li class="list-group-item"><b>سعر البيع</b> <span class="badge badge-secondary float-right">{{$product->selling_price}}</span></li>
-                                     <li class="list-group-item"><b>المكسب</b> <span class="badge @if($profit > 20)badge-success @else badge-danger @endif float-right">{{$profit}}</span></li>
-                                     <li class="list-group-item"><b>تم انشاءه في</b> <span class="badge badge-dark float-right">{{$created_at}}</span></li>
-                                     <li class="list-group-item"><b>اخر تعديل في</b> <span class="badge badge-dark float-right">{{$updated_at}}</span></li>
-                                 </ul>
-                             </div>
+                                    <li class="list-group-item"><b>الباركود</b> <span class="badge badge-light float-right">{!! $barcode !!}<br>{{$order->invoice_no}}</span></li>
+                                    <li class="list-group-item"><b>عدد المنتجات المنتج</b><span class="badge badge-light float-right">{{$order->total_products}}</span></li>
+                                    <li class="list-group-item"><b>رقم العميل </b> <span class="badge badge-light float-right">{{$order->customer->phone ?? 'بدون عميل'}}</span></li>
+                                   @if(!empty($order->customer->phone)) <li class="list-group-item"><b>اسم العميل</b> <span class="badge badge-light float-right">{{$order->customer->name ?? 'بدون اسم'}}</span></li>@endif
+                                    <li class="list-group-item"><b>حالة الطلب</b> <span class="badge badge-light float-right">{{$order->order_status ? 'تم الاسترجاع او الاستبدال' : 'لم يتم التعديل'}}</span></li>
+                                    <li class="list-group-item"><b> المبلغ المدفوع</b> <span  class="badge float-right">{{$order->pay}}</span></li>
+                                    <li class="list-group-item"><b>المبلغ المتبقي</b><span id="show-description" class=" float-right">{{$order->due}}</span></li>
+                                    <li class="list-group-item"><b> السعر قبل الخصم</b> <span class="badge  float-right">{{$order->sub_total}}</span></li>
+                                    <li class="list-group-item"><b>المبلغ المخصوم (الخصم)</b> <span class="badge  float-right">{{$order->sub_total - $order->total_price}} ({{(int) ($order->discount)}}%)</span></li>
+                                    <li class="list-group-item"><b>المكسب الكلي</b> <span class="badge  float-right">{{$order->total_price}}</span></li>
+                                    <li class="list-group-item"><b>تم انشاءه في</b> <span class="badge badge-dark float-right">{{$order->created_at->diffForHumans()}}</span></li>
+                                    <li class="list-group-item"><b>اخر تعديل في</b> <span class="badge badge-dark float-right">{{$order->updated_at->diffForHumans()}}</span></li>
+{{--                                 --}}
+                                </ul>
+                            </div>
 
-                             <div class="col-md-6">
-                                 <ul class="list-group">
-                                     <center><p class="list-group-item list-group-item-info"><b>صورة المنتج</b></p></center>
-                                     <img src="{{$product->image ? asset($product->image) : url('uploads/no_image.jpg') }}" class="img-thumbnail"/>
-                                 </ul>
-                             </div>
-                         </div>
-                     @else
-                         <div class="alert alert-danger" style="opacity:75%;">
-                             عفوا لا يوجد بيانات لعرضها
-                         </div>
-                     @endif
+                            <div class="col-md-6">
+                                <ul class="list-group">
+                                    <center><p class="list-group-item list-group-item-dark"><b>تفاصيل الطلب</b></p></center>
+                                        <table class="table table-bordered table-hover w-100 ">
+                                            <thead>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>اسم المنتج</td>
+                                                <td>الكمية</td>
+                                                <td>المكسب الكلي</td>
+                                                <td>سعر القطعة</td>
+                                                <td>صافي الربح</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @php $counter = 1; @endphp
+                                            @foreach($order->orderDetails as $orderDetail)
+                                                <tr>
+                                                    <td>{{$counter++}}</td>
+                                                    <td>{{$orderDetail->product->name}}</td>
+                                                    <td>{{$orderDetail->quantity}}</td>
+                                                    <td>{{$orderDetail->total_cost}}</td>
+                                                    <td>{{$orderDetail->unit_cost}}</td>
+                                                    <td>{{$orderDetail->total_profit}}</td>
+
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+
+                                        </table>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-danger" style="opacity:75%;">
+                            عفوا لا يوجد بيانات لعرضها
+                        </div>
+                    @endif
 
 
 
 
-                 </div>
+                </div>
 
 
             </div>

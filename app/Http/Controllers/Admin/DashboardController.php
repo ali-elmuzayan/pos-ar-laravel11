@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\Product;
+use App\Models\Returns;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +24,7 @@ class DashboardController extends Controller
         // amount of products sold in current mont and profit of the month
         $currentMonthSalesSummary = Product::getCurrentDaySalesSummary();
         $totalProducts = $currentMonthSalesSummary['total_quantity'];
-        $profitAmount = $currentMonthSalesSummary['total_profit'];
+        $profitAmount = (Order::currentProfitOfToday()) - (Returns::totalReturnAmount()) ;
 
         // get the amount of the customer
         $newCustomers = Customer::getNewCustomersThisMonthCount();

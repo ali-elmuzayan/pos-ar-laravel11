@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-new-info">
+                    <div class="small-box bg-card">
                         <div class="inner  text-center">
                             <h3>{{$currentMonthOrders}}</h3>
 
@@ -28,9 +28,9 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-lg-3 col-6 ">
                     <!-- small box -->
-                    <div class="small-box bg-new-info">
+                    <div class="small-box bg-card">
                         <div class="inner  text-center">
                         {{--                            <h3><?php echo number_format($grand_total,2); ?></h3>--}}
                             <h3>{{$newCustomers}}</h3>
@@ -45,11 +45,11 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-new-info">
+                    <div class="small-box bg-card">
                         <div class="inner text-center" >
                             <h3 >{{$totalProducts}}</h3>
 
-                            <p>عدد المنتجات التي تم بيعها</p>
+                            <p>عدد المنتجات التي تم بيعها اليوم</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -60,11 +60,11 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-new-info">
+                    <div class="small-box bg-card">
                         <div class="inner  text-center">
                             <h3 >{{$profitAmount}}</h3>
 
-                            <p>الارباح هذا الشهر</p>
+                            <p>الارباح اليوم</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>

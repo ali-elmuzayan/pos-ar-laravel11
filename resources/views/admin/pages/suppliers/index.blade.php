@@ -47,9 +47,10 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">البريد الاكتروني</label>
-                                            <input type="email" class="form-control"  placeholder="البريد الاكتروني" id="supplierEmail" name="email" value="{{old('email')}}" >
-                                            @error('email') <p class="text-danger">{{$message}}</p> @enderror
+                                            <label for="exampleInputEmail1">الوصف</label>
+                                            <textarea class="form-control"  id="supplierDescription" name="description"  placeholder="الوصف">{{old('description')}}</textarea>
+{{--                                            <input type="text"   placeholder="البريد الاكتروني" id="supplierDescription" name="description" value="{{old('description')}}" >--}}
+                                            @error('description') <p class="text-danger">{{$message}}</p> @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="address">العنوان</label>
@@ -71,10 +72,10 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>اسم الموزع</th>
+                                        <th>اسم الموزع </th>
                                         <th>رقم الهاتف </th>
-                                        <th>عدد منتجات الموزع</th>
-                                        <th>الايميل</th>
+                                        <th>عدد منتجات الموزع </th>
+                                        <th>الوصف </th>
                                         <th>العنوان </th>
                                         <th>النشاط </th>
                                     </tr>
@@ -87,11 +88,11 @@
                                             <td>{{$supplier->name}}</td>
                                             <td>{{$supplier->phone}}</td>
                                             <td>{{$supplier->countOfProducts()}}</td>
-                                            <td>{{$supplier->email ?? 'لا يوجد ايميل'}}</td>
+                                            <td>{{$supplier->description ?? 'لا يوجد وصف'}}</td>
                                             <td>{{$supplier->address ?? 'لا يوجد عنوان'}}</td>
                                             <td class="btn-group">
 {{--                                                <a href="{{route('suppliers.edit', $supplier->id)}}" class="btn btn-success btn-xs pr-btn" role="button"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="تعديل بيانات العميل"></span></a>--}}
-                                                <a href="#" class="ml-2 text-info edit-supplier" data-id="{{ $supplier->id }}" data-name="{{ $supplier->name }}" data-phone="{{ $supplier->phone }}" data-email="{{ $supplier->email }}" data-image="{{ $supplier->image }}" data-address="{{ $supplier->address }}">
+                                                <a href="#" class="ml-2 text-info edit-supplier" data-id="{{ $supplier->id }}" data-name="{{ $supplier->name }}" data-phone="{{ $supplier->phone }}" data-descrition="{{ $supplier->description }}" data-image="{{ $supplier->image }}" data-address="{{ $supplier->address }}">
                                                     <i class="nav-icon fas fa-edit"></i>
                                                 </a>
                                                 <button id='{{$supplier->id}}' style="border:0; background-color:inherit; "  class="text-danger ml-2 btndelete"><span class="nav-icon fa fa-trash text-danger"  style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>

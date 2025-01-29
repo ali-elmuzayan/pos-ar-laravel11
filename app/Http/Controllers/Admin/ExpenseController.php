@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ExpenseRequest;
 use App\Models\Expense;
+use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -31,17 +33,39 @@ class ExpenseController extends Controller
         // Start transaction
         DB::beginTransaction();
         try {
-            // create the expense
+
+            // check if the main account has balance
+            $mainWallet = Wallet::where('id','=', '2')->first();
+                $amount = $request->amount;
+
+            if($mainWallet->hasBalance($amount)){
+                $description = $request->details;
+
+                $mainWallet->withdraw($amount);
+                WalletTransaction::create([
+                    'wallet_id' => $mainWallet->id,
+                    'amount' => $amount,
+                    'type' => 'withdraw',
+                    'description' => $description,
+                ]);
             Expense::create([
-                'details' => $request->details,
-                'amount' => $request->amount,
+                'details' => $description,
+                'amount' => $amount,
                 'date' => Carbon::now(),
             ]);
-            DB::commit();
 
-            // Notify the user && redirect the request
-            toastr()->success('تم انشاء النفقة بنجاح');
+                // create the expense
+
+                DB::commit();
+
+                // Notify the user && redirect the request
+                toastr()->success('تم انشاء النفقة بنجاح');
+                return redirect()->route('expenses.index');
+            }
+            DB::rollBack();
+            toastr()->error('لا يوجد رصيد في الحساب الرئيسي');
             return redirect()->route('expenses.index');
+
         } catch(\Exception $e) {
             // rollback the transaction
             DB::rollBack();

@@ -24,7 +24,7 @@ class SupplierRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:100'],
             'phone' => ['required', 'string', 'unique:suppliers,phone', 'max:20'],
-            'email' => ['nullable', 'email'],
+            'description' => ['nullable', 'string'],
             'address' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:4096'],
         ];
@@ -38,7 +38,7 @@ class SupplierRequest extends FormRequest
             'phone.max' => 'يجب ان يكون رقم الموزع اقل من 20 رقم',
             'phone.unique' => 'رقم الهاتف موجود يجب استخدام رقم اخر',
             'phone.string' => 'يجب اضافى رقم الهاتف',
-            'email.email' => 'الايميل يجب ان يكون من نوع ايميل',
+            'description.string' => 'الوصف يجب ان يكون من نوع نص',
             'address.string' => 'العنوان يجب ان يكون نص ',
             'image.image' => 'يجب ان يكون الملف من نوع صور ',
             'image.mimes' => 'يجب ان يكون الملف jpg, png, jpeg',

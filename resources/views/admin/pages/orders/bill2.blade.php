@@ -116,6 +116,6 @@
         <p style=""> {{ $setting->address }}</p>
         <p>تشرفنا بتعاملكم معنا!</p>
     </div>
-</div>
+
 </body>
 </html>

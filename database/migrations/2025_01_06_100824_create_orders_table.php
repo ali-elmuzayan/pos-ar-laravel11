@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('total_products');
             $table->decimal('sub_total', 10, 2)->default(0);
             $table->decimal('total_price', 12,2);
-            $table->decimal('discounts',8,2)->default(0);
+            $table->decimal('discount',8,2)->default(0);
             $table->decimal('pay', 12,2)->default(0);
             $table->decimal('due', 10, 2)->default(0);
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
