@@ -20,9 +20,6 @@ class Product extends Model
         return $this->belongsTo(supplier::class);
     }
 
-    public function totalProfit() {
-        return 0;
-    }
 
     public function hasStock() {
         return $this->stock ? true: false;
@@ -32,20 +29,26 @@ class Product extends Model
         return $this->hasMany(OrderDetails::class);
     }
 
-//    public static function getCurrentMonthSalesSummary() {
-//        $currentYear = now()->year;
-//        $currentMonth = now()->month;
-//
-//        $result = OrderDetails::whereYear('created_at', $currentYear)
-//            ->whereMonth('created_at', $currentMonth)
-//            ->selectRaw('SUM(quantity) as total_quantity, SUM(total_profit) as total_profit')
-//            ->first();
-//
-//        return [
-//            'total_quantity' => $result->total_quantity,
-//            'total_profit' => $result->total_profit
-//        ];
-//    }
+    public function totalProfit() {
+        // Sum teh refund_amount from the returns relationship
+        $returns_amount = $this->orderDetails->flatMap(function ($orderDetail) {
+            return $orderDetail->returns->pluck('refund_amount');
+        })->sum();
+
+        $total_cost = $this->orderDetails()->sum('total_cost');
+
+        return $total_cost -  $returns_amount;
+    }
+
+    public function totalAmountOfSoldProduct() {
+        $returns_amount = $this->orderDetails->flatMap(function ($orderDetail) {
+            return $orderDetail->returns->pluck('total_quantity');
+        })->sum();
+
+        $total_amount = $this->orderDetails()->sum('quantity');
+
+        return $total_amount - $returns_amount;
+    }
 
     public static function getCurrentMonthSalesSummary() {
         $currentYear = now()->year;

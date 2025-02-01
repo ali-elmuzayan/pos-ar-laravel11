@@ -9,6 +9,7 @@ use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class OrderService
@@ -43,6 +44,7 @@ class OrderService
             'sub_total' => $data['subTotal'],
             'total_price' => $data['total_price'],
             'discount' => $data['discount'] ?? 0,
+            'cash_discount' => $data['cash_discount'] ?? 0,
             'pay' => $data['pay'] ?? $data['total_price'],
             'due' => !empty($data['pay']) ? $data['due'] : 0 ,
             'customer_id' => !empty($customer) ? $customer->id : null,
@@ -58,15 +60,23 @@ class OrderService
      */
     public function createOrderDetails(Order $order, array $orderDetails): void
     {
+        $cash_discount_of_each_product =  $order->cash_discount / $order->total_products ;
+
         $discount = $order['discount'] ?? 0;
         foreach ($orderDetails as $detail) {
             $product = Product::find($detail['id']);
 
-            $unitCost = ($product->selling_price - ($product->selling_price * ($discount / 100)));
+            if($product->stock < $detail['quantity']){
+                throw new \Exception('المنتج غير موجود كمية كافية في المخزن');
+            }
+
+            $unitCost = ($product->selling_price - ($product->selling_price * ($discount / 100))) - $cash_discount_of_each_product;
+
             $totalProfit = (($unitCost) - ($product->buying_price) )* $detail['quantity']; ;
             $totalCost = ($unitCost) * ($detail['quantity']);
             OrderDetails::create([
                 'quantity' => $detail['quantity'],
+                'unit_cost_without_discount' => $product->selling_price,
                 'unit_cost' => $unitCost,
                 'total_profit' => $totalProfit ,
                 'total_cost' =>  $totalCost,
@@ -116,6 +126,8 @@ class OrderService
         return $order;
     }
 
+
+
     /**
      * get the data of the order details and handle it
      */
@@ -139,6 +151,8 @@ class OrderService
         }
     }
 
+
+
     /**
      * get the data of the order from the request
      */
@@ -150,6 +164,7 @@ class OrderService
         return [
            'subTotal' => $request['txtsubtotal'],
            'discount' => $request['txtdiscount'] ?? 0,
+            'cash_discount' => $request['cash_discount'] ?? 0,
            'phone' => $request['customer_phone'] ?? null,
            'customer_name' => $request['customer_name'] ?? null,
             'total_products' => $total_product,

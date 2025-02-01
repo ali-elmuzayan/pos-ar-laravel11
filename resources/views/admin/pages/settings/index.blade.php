@@ -37,12 +37,12 @@
                                 <td>{{$setting->phone}}</td>
                             </tr>
                             <tr>
-                                <th class="width30">اقصى مدة لعملية الاسترجاع</th>
-                                <td>{{$setting->return_period ?? 7}}</td>
+                                <th class="width30">كملة مرور لتفريغ الخزنة</th>
+                                <td>{{$setting->wallet_password ?? 'بدون كلمة مرور'}}</td>
                             </tr>
                             <tr>
-                                <th class="width30">اقصى مدة لعملية التبديل</th>
-                                <td>{{$setting->exchange_period ?? 7}}</td>
+                                <th class="width30">اقصى مدة لعملية الاسترجاع</th>
+                                <td>{{$setting->return_period ?? 7}}</td>
                             </tr>
                             <tr>
                                 <th class="width30">لوجو الشركة</th>

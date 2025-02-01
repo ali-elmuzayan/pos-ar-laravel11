@@ -176,3 +176,12 @@
     border: 2px solid #5cb85c;
     border-radius: 4px;
 }
+
+
+.w-180 {
+    width:180px !important
+}
+
+.product-input {
+    vertical-align:middle; font-size:17px
+}

@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Expense;
 use App\Models\Order;
-use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\Returns;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -19,63 +18,39 @@ class DashboardController extends Controller
 
     public function index()
     {
+        // get the count of today's orders
+        $currentOrders = Order::getCurrentOrdersCount();
+
+        // get the count of the current month orders
         $currentMonthOrders = Order::getOrdersByMonth(now()->month);
 
-        // amount of products sold in current mont and profit of the month
-        $currentMonthSalesSummary = Product::getCurrentDaySalesSummary();
-        $totalProducts = $currentMonthSalesSummary['total_quantity'];
-        $profitAmount = (Order::currentProfitOfToday()) - (Returns::totalReturnAmount()) ;
+        // amount of products sold in current month and profit of the month
+        $totalProducts = Product::getCurrentDaySalesSummary()['total_quantity'];
 
+        // profit of today
+
+        $profitAmount = (Order::currentProfitOfToday()) - (Returns::totalReturnAmount()) ;
         // get the amount of the customer
         $newCustomers = Customer::getNewCustomersThisMonthCount();
 
         // Get the current year and month
-        $currentYear = date('Y');
         $currentMonth = date('m');
 
         // Fetch total orders per month for the current year
-        $ordersData = DB::table('orders')
-            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total_orders')
-            ->whereYear('created_at', $currentYear) // Filter by current year
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+        $ordersData = Order::totalCountOfOrderForEachMonthOfTheYear();
 
-        // Fetch total profit per month for the current year
-        $profitData = DB::table('orders')
-            ->selectRaw('MONTH(created_at) as month, SUM(total_price) as total_profit')
-            ->whereYear('created_at', $currentYear) // Filter by current year
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
 
         // Fetch expenses and profit for the current month
-        $currentMonthExpenses = DB::table('expenses') // Assuming you have an 'expenses' table
-        ->whereYear('date', $currentYear)
-            ->whereMonth('date', $currentMonth)
-            ->sum('amount'); // Sum of expenses for the month
-
+        $currentMonthExpenses = Expense::totalExpenseForCurrentMonth();
         // Fetch Profit of the month
-        $currentMonthProfit = DB::table('orders')
-            ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->sum('total_price'); // Sum of profit for the month
-
+        $currentMonthProfit = Order::totalProfitForMonthAndYear(now()->year, now()->month);
 
         // Fetch total profit per month for the current year
-        $profitData = DB::table('orders')
-            ->selectRaw('MONTH(created_at) as month, SUM(total_price) as total_profit')
-            ->whereYear('created_at', $currentYear) // Filter by current year
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+        $profitData = Order::totalProfitOfEachMonthInCurrentYear();
 
+        $currentMonthReturns = Returns::currentMonthReturns();
 
-        $currentMonthReturns = DB::table('returns') // Assuming you have a 'returns' table
-        ->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->count();
-
+        // data for the charts
         $arabicMonths = [
             'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
             'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
@@ -98,6 +73,7 @@ class DashboardController extends Controller
                     'months',
                     'totalOrders',
                     'totalProfit',
+                    'currentOrders',
                     'currentMonthOrders',
                     'newCustomers',
                     'totalProducts',

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('exchange_period')->nullable();
             $table->string('data_per_page')->default(15);
             $table->string('currency')->nullable();
+            $table->string('wallet_password')->nullable();
             $table->timestamps();
 
             // Indexes

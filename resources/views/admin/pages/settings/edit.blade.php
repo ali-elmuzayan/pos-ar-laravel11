@@ -45,17 +45,18 @@
                                 @error('phone') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                             <div class="form-group">
+                                <label for="walletPassword"> كلمة مرور لتفريغ الخزنة</label>
+                                <input type="text" name="wallet_password"  id="wallet_password" class="form-control" value="{{old('wallet_password') ?? $setting->wallet_password}}"
+                                       placeholder="1234"  >
+                                @error('wallet_password') <span class="text-danger">{{$message}}</span> @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="return_period"> اقصى مدة لعملة الاسترجاع </label>
                                 <input type="number" name="return_period" min="1" max="30" id="return_period" class="form-control" value="{{old('return_period') ?? $setting->return_period}}" required
                                        placeholder="7">
                                 @error('return_period') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="exchange_period"> اقصى مدة لعملة الاستبدال </label>
-                                <input type="number" name="exchange_period" min="1" max="30" id="exchange_period" class="form-control" value="{{old('exchange_period') ?? $setting->exchange_period}}" required
-                                       placeholder="14"  >
-                                @error('exchange_period') <span class="text-danger">{{$message}}</span> @enderror
-                            </div>
+
 
                             <div class="form-group">
                                 <label for="description">وصف </label>

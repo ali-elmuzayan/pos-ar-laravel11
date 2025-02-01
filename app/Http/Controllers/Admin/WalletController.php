@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
@@ -152,5 +154,55 @@ class WalletController extends Controller
                 ];
             }),
         ]);
+    }
+
+
+    /**
+     * emptying the wallet to the main wallet from the user by checking
+     * the password
+     */
+    public function emptying(request $request) {
+        $wallet = Wallet::first();
+        $setting = Setting::first();
+
+        // first check if the password correct
+        if ($request->password === $setting->wallet_password) {
+            // then check if the wallet have enough money to emptying
+            if ($wallet->balance <= 0) {
+                return response()->json(['error' => true, 'message' => 'لا يوجد اموال كافية لتفريغها']);
+            }
+
+            $mainWallet = Wallet::find(2);
+            DB::beginTransaction();
+            try{
+                // سحب من الكاشير الى الحساب الرئيسي
+                $walletBalance = $wallet->balance;
+                $wallet->withdraw($wallet->balance);
+                WalletTransaction::create([
+                    'wallet_id' => $wallet->id,
+                    'amount' => $walletBalance,
+                    'type' => 'withdraw',
+                    'description' => ' تفريغ المال من الكاشير بواسطة' . Auth::user()->name,
+                ]);
+
+                $mainWallet->deposit($walletBalance);
+                WalletTransaction::create([
+                    'wallet_id' => $mainWallet->id,
+                    'amount' => $walletBalance,
+                    'type' => 'deposit',
+                    'description' => 'ايداع الاموال الموجودة في  الكاشير الى الخزنة الرئيسية',
+                ]);
+
+                // commit
+                DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'تم تفريغ الخزنة بنجاح', 'balance' => $wallet->balance]);
+            }catch(\Exception $ex) {
+                DB::rollback();
+        return response()->json(['error' => true, 'message' => 'حدث خطأ اثناء التحويل الى الحساب الرئيسي']);
+            }
+        }
+
+        return response()->json(['error' => true, 'message' => 'الرقم السري غير صحيح']);
     }
 }

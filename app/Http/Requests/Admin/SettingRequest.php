@@ -27,7 +27,7 @@ class SettingRequest extends FormRequest
             'address' => ['required', 'string'],
             'phone' => ['required', 'string', 'max:20', 'min:1'],
             'return_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
-            'exchange_period' => ['nullable', 'numeric', 'max:30', 'min:1'],
+            'wallet_password' => ['nullable', 'string'],
             'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:4048'],
         ];
     }
@@ -41,6 +41,7 @@ class SettingRequest extends FormRequest
             'phone.max' => 'يجب ان يكون رقم الشركة اقل من 20 رقم',
             'phone.min' => 'يجب ان يكون رقم الشركة اكبر من 1 رقم',
             'name.string' => 'يجب ان يحتوي الاسم على احرف',
+            'wallet_password.string' => 'يجب ان تحتوي كلمة المرور على احرف او ارقام',
             'logo.image' => 'يجب ان يكون الملف من نوع صور ',
             'logo.mimes' => 'يجب ان يكون الملف jpg, png, jpeg',
             'logo.max' => 'يجب ان يكون حجم الصورة اصغر من 4096',

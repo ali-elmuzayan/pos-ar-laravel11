@@ -68,7 +68,7 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">الاجمالي (قبل الخصم)</span>
+                                    <span class="input-group-text" style="width:160px">الاجمالي (قبل الخصم)</span>
                                 </div>
                                 <input type="text" class="form-control" name="txtsubtotal"  id="txtsubtotal_id" tabindex="1" readonly >
                                 <div class="input-group-append">
@@ -78,10 +78,10 @@
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">الخصم(%)</span>
+                                    <span class="input-group-text" style="width:160px">الخصم(%)</span>
                                 </div>
                                 <select class="form-control" name="txtdiscount" id="txtdiscount_p">
-                                    <option value="" disabled selected>اختر الخصم</option>
+                                    <option value="0" selected>اختر الخصم</option>
                                     @foreach($discounts as $discount)
                                         <option value="{{$discount->percent}}"
                                             >{{$discount->percent}}</option>
@@ -93,7 +93,16 @@
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">الخصم</span>
+                                    <span class="input-group-text" style="width:160px">خصم اضافي</span>
+                                </div>
+                                <input type="number" class="form-control" id="cash_discount"  name="cash_discount">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">{{$setting->currency ??'EGP'}}</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width:160px">الخصم</span>
                                 </div>
                                 <input type="text" class="form-control" id="txtdiscount_n" readonly >
                                 <div class="input-group-append">
@@ -102,7 +111,7 @@
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                    <span class="input-group-text" style="width:160px"><i class="fa fa-phone"></i></span>
                                 </div>
                                 <input type="text" class="form-control" id="customer_phone" tabindex="2" autocomplete="off" name="customer_phone" placeholder="ادخل رقم الهاتف">
                             </div>
@@ -114,7 +123,7 @@
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">الاجمالي</span>
+                                    <span class="input-group-text" style="width:160px">الاجمالي</span>
                                 </div>
                                 <input type="text" class="form-control form-control-lg total" name="txttotal" id="txttotal" readonly >
                                 <div class="input-group-append">
@@ -143,7 +152,7 @@
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">المتبقي</span>
+                                    <span class="input-group-text" style="width:160px">المتبقي</span>
                                 </div>
                                 <input type="text" class="form-control" name="txtdue" id="txtdue" readonly >
                                 <div class="input-group-append">
@@ -153,7 +162,7 @@
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">المبلغ المدفوع</span>
+                                    <span class="input-group-text" style="width:160px">المبلغ المدفوع</span>
                                 </div>
                                 <input type="text" class="form-control"  name="txtpaid" tabindex="4" id="txtpaid">
                                 <div class="input-group-append">
@@ -209,10 +218,15 @@
 {{--    json product --}}
     <script>
         var productRoute = "{{ route('pos.product', ['code' => ':code']) }}";
+        const customerURL = "{{ route('customer.check') }}";
     </script>
     <script src="{{asset('js/pos/pos.js')}}"></script>
     <script src="{{asset('js/pos/paid.js')}}"></script>
     <script src="{{asset('js/pos/action.js')}}"></script>
+    <script src="{{asset('js/pos/calculating.js')}}"></script>
+
+{{--    check if the customer exist in the back end or not --}}
+    <script src="{{asset('js/pos/customer.js')}}"></script>
 
     <script>
         // initialize select2
@@ -224,47 +238,4 @@
             })
 
     </script>
-
-
-
-{{--     to check the customer --}}
-    <script>
-        $(document).ready(function() {
-            $('#customer_phone').on('input', function() {
-                var phone = $(this).val();
-
-                if (phone.length >= 10) { // Assuming phone numbers are at least 10 digits
-                    $.ajax({
-                        url: "{{ route('customer.check') }}",
-                        type: "GET",
-                        data: { phone: phone },
-                        success: function(response) {
-                            if (response.exists) {
-                                $('#customer_name_container').html('<div class="input-group mb-3">' +
-                                    '<div class="input-group-prepend">' +
-                                    '<span class="input-group-text"><i class="fa fa-user"></i></span>' +
-                                    '</div>' +
-                                    '<input type="text" class="form-control" id="customer_name" name="customer_name" value="' + response.name + '" readonly>' +
-                                    '</div>');
-                            } else {
-                                $('#customer_name_container').html('<div class="input-group mb-3">' +
-                                    '<div class="input-group-prepend">' +
-                                    '<span class="input-group-text"><i class="fa fa-user"></i></span>' +
-                                    '</div>' +
-                                    '<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="ادخل اسم العميل">' +
-                                    '</div>');
-                            }
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-
-
-
 @endpush

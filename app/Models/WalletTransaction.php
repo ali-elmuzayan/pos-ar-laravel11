@@ -16,4 +16,10 @@ class WalletTransaction extends Model
         return $this->belongsTo(Wallet::class);
     }
 
+
+    // which will return the type in arabic
+    public function type() {
+        return ($this->type === 'deposit') ? 'ايداع' : 'سحب';
+    }
+
 }

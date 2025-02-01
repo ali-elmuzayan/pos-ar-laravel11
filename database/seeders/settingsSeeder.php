@@ -22,7 +22,7 @@ class settingsSeeder extends Seeder
                 'address' => 'سمالوط غرب - شارع اسواق الاتحاد - امام تاون تيم',
                 'phone' => '01010232458',
                 'backup_dir' => '/backups/',
-                'exchange_period' => 14,
+                'wallet_password' => 1234,
                 'return_period' => 7,
                 'data_per_page' => 15,
                 'currency' => 'EGP',

@@ -59,12 +59,12 @@ Route::delete('/suppliers', [SupplierController::class, 'destroy'])->name('suppl
 /*  ============ Customers  ============  */
 Route::resource('customers', CustomerController::class)->only('index', 'edit', 'update');
 Route::delete('/customers', [CustomerController::class, 'destroy'])->name('customers.destroy');
-Route::get('/customer/check', [CustomerController::class, 'checkCustomer'])->name('customer.check');
 /*  =====================================  */
 
 
 /*  ============ Reports  ============  */
-Route::get('/reports/orders', [ReportController::class, 'orders'])->name('reports.orders');
+Route::get('/reports/orders', [ReportController::class, 'ordersReports'])->name('reports.orders');
+Route::get('/reports/money', [ReportController::class, 'moneyReports'])->name('reports.money');
 /*  ===================================  */
 
 

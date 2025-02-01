@@ -8,6 +8,7 @@ use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
+use App\Services\ReturnService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,16 +17,19 @@ class PosController extends Controller
 {
     use HandleBill;
 
-    protected $orderService;
+    protected OrderService $orderService;
+    protected ReturnService  $returnService;
 
     /**
      * Constructor to inject OrderService.
      *p
      * @param OrderService $orderService
+     * @param ReturnService $returnService
      */
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, ReturnService $returnService)
     {
         $this->orderService = $orderService;
+        $this->returnService = $returnService;
     }
 
     /**
@@ -41,7 +45,7 @@ class PosController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * store the process of creating an order
      */
     public function store(Request $request)
     {
@@ -54,6 +58,7 @@ class PosController extends Controller
         $order = $this->orderService->getOrderRequest($request->all());
 
 
+
         // start the transaction
         DB::beginTransaction();
         try {
@@ -63,8 +68,17 @@ class PosController extends Controller
 
             // commit changes
             DB::commit();
+
+            // print the bill
+            $pdfContent = $this->createBill($order);
+            // return a response with JavaScript
             toastr()->success('تم انشاء الاوردر بنجاح');
-           return redirect()->route('pos.bill', ['order' => $order->id]);
+
+            return response()->view('admin.pages.pos.redirect', [
+                'pdfContent' => base64_encode($pdfContent),
+                'redirectUrl' => route('pos.index'),
+                ]);
+
         }catch (\Exception $exception){
             DB::rollBack();
 
@@ -73,6 +87,65 @@ class PosController extends Controller
             return redirect()->back();
         }
     }
+
+
+    /**
+     * return the product if it needed
+     */
+    public function edit(Order $order) {
+
+        $order = Order::with('orderDetails')->find($order->id);
+        //check if the order valid to return or not
+        if($order->isValidToReturn()){
+            return view('admin.pages.pos.edit', compact('order'));
+        }
+        else {
+            toastr()->error('لا يمكن استرجاع هذا الطلب');
+            return redirect()->route('orders.index');
+        }
+
+    }
+
+    /**
+     *  add returns and change the data of the orderDetails
+     */
+    public  function update(Order $order, Request $request) {
+
+
+        // get the data and validate it
+        $returnDetails = $this->returnService->getReturnsDataFromRequest($request, $order);
+        if(!$returnDetails) {
+            return redirect()->route('pos.return', $order);
+        }
+
+        // start the transaction
+        DB::beginTransaction();
+        try {
+            $result = $this->returnService->returnProcess($returnDetails, $order);
+
+            // if something wrong happen
+            if(!$result) {
+                DB::rollBack();
+                toastr()->error('هناك خطأ في تفاصيل الاوردر يرجى التحقق من الاوردر');
+                return redirect()->back();
+            }
+            // commit the changes
+            DB::commit();
+
+            // Notify the user and redirect
+            toastr()->success('تم اضافة المنتجات التي تم استرجاعها الى المخزن');
+            toastr()->success('تم انشاء المرتجع');
+            return redirect()->route('orders.index');
+        } catch (\Exception $exception){
+            DB::rollBack();
+
+            // Notify the user
+            toastr()->error('حدث مشكلة اثناء عملية الاسترجاع يرجى التاكد من صحة الطلب او مراجعة المهندس');
+            return redirect()->back();
+        }
+
+    }
+
 
 
 
@@ -106,11 +179,11 @@ class PosController extends Controller
     public function generateBill(Order $order)
     {
 
+
         // Load order with details
         $order = Order::with('orderDetails')->findOrFail($order->id);
         // create bill
         $this->createBill($order);
-dd($order->customer->name);
         toastr()->success('تم طباعة المنتج بنجاح');
         return redirect()->route('pos.index');
     }

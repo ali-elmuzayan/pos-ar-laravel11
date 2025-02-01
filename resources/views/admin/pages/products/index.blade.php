@@ -24,18 +24,19 @@
                  <div class="card-body">
 
                      @if(!empty($data))
-                         <table class="table table-bordered table-hover w-100" id="table_product">
+                         <table class="table w-100 table-bordered table-hover w-100" id="table_product">
                              <thead>
                              <tr>
-                                 <td>المنتج</td>
+                                 <td>#</td>
                                  <td>الباركود</td>
                                  <td>اسم المنتج</td>
                                  <td>الفئة</td>
                                  <td>الوصف</td>
                                  <td  >الكمية</td>
-                                 @isAdmin<td>سعر الشراء</td>@endIsAdmin
+                                 <td>سعر الشراء</td>
                                  <td>سعر البيع</td>
-                                 <td>صورة</td>
+                                 <td>المكسب الكلي</td>
+                                 <td>الكمية المباعة</td>
                                  <td>النشاط</td>
                              </tr>
                              </thead>
@@ -50,9 +51,10 @@
                                          {{ Str::limit($info->description, 20, '...') ?? 'لا يوجد وصف' }}
                                      </div></td>
                                  <td data-product-id="{{$info->id}}"  class="quantity">{{$info->stock}}</td>
-                                 @isAdmin<td>{{$info->buying_price}}</td>@endIsAdmin
+                                 <td>{{$info->buying_price}}</td>
                                  <td>{{$info->selling_price}}</td>
-                                 <td><img src="{{ $info->image ? asset( $info->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
+                                 <td>{{$info->totalProfit()}}</td>
+                                 <td>{{$info->totalAmountOfSoldProduct()}}</td>
                                  <td>
                                      <div class="btn-group">
 {{--                                         <a id="{{$info->id}}" class="ml-2 text-secondary add-quantity" data-id="{{ $info->id }}" ><i class="nav-icon fas fa-plus-square"></i></a>--}}
@@ -126,7 +128,9 @@
     <script>
         // for the datatable
         $(document).ready(function() {
-            $('#table_product').DataTable();
+            $('#table_product').DataTable({
+                'order': [[0, "desc"]]
+            });
         });
     </script>
     {{--  some necessary data to destory the products  --}}

@@ -20,8 +20,10 @@ return new class extends Migration
             $table->decimal('sub_total', 10, 2)->default(0);
             $table->decimal('total_price', 12,2);
             $table->decimal('discount',8,2)->default(0);
+            $table->decimal('cash_discount',8,2)->default(0);
             $table->decimal('pay', 12,2)->default(0);
             $table->decimal('due', 10, 2)->default(0);
+            $table->enum('payment_method', ['cash', 'card'])->default('cash');
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
 

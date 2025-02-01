@@ -54,12 +54,31 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('orders.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            الطلبات
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('returns.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-retweet"></i>
+                        <p>
+                            المرتجعات
+
+                        </p>
+                    </a>
+                </li>
                 @endIsUser
+@isAdmin
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
-                           ادارة المبيعات
+                            ادارة المبيعات
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -78,41 +97,6 @@
                                 <i class="nav-icon fas fa-retweet"></i>
                                 <p>
                                     المرتجعات
-
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-
-
-@isAdmin
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-university"></i>
-                        <p>
-                            المعاملات المالية
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('wallets.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-credit-card"></i>
-                                <p>
-                                    المحفظة
-
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('expenses.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-handshake"></i>
-                                <p>
-                                    النفقات
 
                                 </p>
                             </a>
@@ -156,6 +140,35 @@
                             </a>
                         </li>
 
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            المعاملات المالية
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('wallets.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-credit-card"></i>
+                                <p>
+                                    المحفظة
+
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('expenses.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-handshake"></i>
+                                <p>
+                                    النفقات
+
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

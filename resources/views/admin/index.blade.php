@@ -17,9 +17,9 @@
                     <!-- small box -->
                     <div class="small-box bg-card">
                         <div class="inner  text-center">
-                            <h3>{{$currentMonthOrders}}</h3>
+                            <h3>{{$currentOrders}}</h3>
 
-                            <p>عدد الطلبات هذا الشهر</p>
+                            <p>عدد الطلبات الجديدة (اليوم)</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -69,7 +69,7 @@
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="{{route('reports.orders')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left"> رؤية التقارير </i></a>
+                        <a href="{{route('reports.money')}}" class="small-box-footer"><i class="fas fa-arrow-circle-left"> رؤية التقارير </i></a>
                     </div>
                 </div>
                 <!-- ./col -->

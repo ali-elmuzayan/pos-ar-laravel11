@@ -15,5 +15,12 @@ class ReportController extends Controller
         return view('admin.pages.reports.orders', compact('data'));
     }
 
+    public function moneyReports()
+    {
+        $data = Product::all();
+        return view ('admin.pages.reports.money', compact('data'));
+    }
+
+
 
 }

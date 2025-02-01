@@ -28,8 +28,14 @@
                                  <td>اسم المنتج</td>
                                  <td>الوصف</td>
                                  <td>الكمية</td>
-                                 @isAdmin<td>سعر الشراء</td>@endIsAdmin
+                                 @isAdmin
+                                 <td>سعر الشراء</td>
+                                 @endIsAdmin
                                  <td>سعر البيع</td>
+                                 @isAdmin
+                                 <td>المكسب الكلي</td>
+                                 <td>الكمية المباعة</td>
+                                 @endIsAdmin
                                  <td>صورة</td>
                                  <td>النشاط</td>
                              </tr>
@@ -43,9 +49,14 @@
                                  <td><div>
                                          {{ Str::limit($product->description, 20, '...') ?? 'لا يوجد وصف' }}
                                      </div></td>
-                                 <td>{{$product->stock}}</td>
+                                 <td data-product-id="{{$product->id}}"  class="quantity">{{$product->stock}}</td>
                                  @isAdmin<td>{{$product->buying_price}}</td>@endIsAdmin
                                  <td>{{$product->selling_price}}</td>
+
+                                     @isAdmin
+                                     <td>{{$product->totalProfit()}}</td>
+                                     <td>{{$product->totalAmountOfSoldProduct()}}</td>
+                                     @endIsAdmin
                                  <td><img src="{{ $product->image ? asset( $product->image) : url('uploads/no_image.jpg')}}" alt="" width="30" height="30"></td>
                                  <td>
                                      <div class="btn-group">
@@ -54,8 +65,8 @@
                                          <a data-id="{{$product->id}}" class="btn btn-secondary btn-xs add-quantity pr-btn" role="button" ><span class="fa fa-plus-square" style="color:#ffffff" ></span></a>
                                          @endIsAdmin
                                          <a href="{{route('barcode.product.show', $product->id)}}" class="btn btn-dark btn-xs pr-btn" role="button"><span class="fa fa-barcode" style="color:#ffffff" data-toggle="tooltip" title="طباعة الباركود"></span></a>
-                                         <a href="{{route('products.show', $product->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="رؤية المنتج"></span></a>
                                          @isAdmin
+                                         <a href="{{route('products.show', $product->id)}}" class="btn btn-warning btn-xs pr-btn" role="button"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="رؤية المنتج"></span></a>
                                          <button id='{{$product->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المنتج"></span></button>
                                          @endIsAdmin
 
@@ -178,12 +189,12 @@
                             },
 
                             success: function(response) {
-                                console.log(response);
                                 if (response.success) {
                                     Swal.fire('تم الإضافة!', response.message, 'success');
+                                    $(`.quantity[data-product-id="${id}"]`).text(response.quantity);
+
                                     // Optionally, you can update the UI here
                                 } else {
-                                    console.log(quantity)
                                     Swal.fire('خطأ!', response.message, 'error');
                                 }
                             },

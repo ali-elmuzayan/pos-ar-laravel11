@@ -24,6 +24,11 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    // Relationship to returns()
+    public function returns() {
+        return $this->hasMany(Returns::class);
+    }
+
     // calculate the profit of th order
     public function profit()
     {
@@ -109,8 +114,13 @@ class Order extends Model
     public function isValidToReturn():bool
     {
         $setting = Setting::first();
-
-        return $this->created_at  >= Carbon::now()->subDays($setting->return_period);
+        if($this->created_at  >= Carbon::now()->subDays($setting->return_period)) {
+            if ($this->total_products > $this->returns()->sum('total_quantity')) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     /**
@@ -123,7 +133,9 @@ class Order extends Model
         return self::where('created_at', '>=', now()->subDays($setting->return_period ?? 7) )->get();
     }
 
-    /*
+
+
+    /**
      * return the profit of today
      */
     public static function currentProfitOfToday() {
@@ -131,6 +143,57 @@ class Order extends Model
 
         return self::where('created_at', '>=', $today)
             ->sum('total_price');
+    }
+
+
+    /**
+     * change the status of the order in case that something change
+     */
+    public function changeStatusToReturned() :void {
+        if(!$this->order_status) {
+            $this->order_status = 1;
+            $this->save();
+        }
+    }
+
+    /**
+     * returned money from the returned
+     */
+    public function returnedMoney() {
+        return $this->returns()->sum('refund_amount');
+    }
+
+
+    /**
+     * return the count of the order of today
+     */
+    public static function getCurrentOrdersCount() {
+
+        return self::where('created_at', '>=', now()->startOfDay())->count();
+    }
+
+    /**
+     * total profit of each month for the last month of the year
+     */
+    public static function totalProfitOfEachMonthInCurrentYear() {
+        return self::selectRaw('MONTH(created_at) as month, SUM(total_price) as total_profit')
+            ->whereYear('created_at', now()->year) // Filter by current year
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+    }
+
+    /**
+     * total profit of each month for the last month of the year
+     */
+    public static function totalCountOfOrderForEachMonthOfTheYear()
+    {
+        return self::selectRaw('MONTH(created_at) as month, COUNT(*) as total_orders')
+            ->whereYear('created_at', now()->year) // Filter by current year
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
     }
 
 }

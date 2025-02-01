@@ -22,7 +22,7 @@
                          <div>
 
                          </div>
-                         <table class="table table-bordered table-hover w-100" id="table_product">
+                         <table class="table table-bordered table-hover w-100" id="table_returns">
                              <thead>
                              <tr>
                                  <td>#</td>
@@ -31,10 +31,8 @@
                                  <td>العميل</td>
                                  <td>الكمية</td>
                                  <td>المبلغ المستحق</td>
-                                 <td>بواسطة المستخدم</td>
-                                 @isAdmin
-                                 <td>النشاط</td>
-                                 @endIsAdmin
+                               @isAdmin  <td>بواسطة المستخدم</td> @endIsAdmin
+
                              </tr>
                              </thead>
                              <tbody>
@@ -43,17 +41,10 @@
                                  <td>{{$return->id}}</td>
                                  <td>{{$return->orderDetails->product->name}}</td>
                                  <td>{{$return->order->invoice_no}}</td>
-                                 <td>{{$return->order->customer->name ?? $return->order->customer->phone}}</td>
+                                 <td>{{$return->order->customer->phone ?? 'بدون عميل'}}</td>
                                  <td>{{$return->total_quantity}}</td>
                                  <td>{{$return->refund_amount}}</td>
-                                 <td>{{$return->user->name}}</td>
-                                     @isAdmin
-                                <td>
-                                     <div class="btn-group">
-                                         <button id='{{$return->id}}'  class="btn btn-danger btn-xs btndelete pr-btn"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="ازالة المرتجع"></span></button>
-                                     </div>
-                                 </td>
-                                     @endIsAdmin
+                               @isAdmin  <td>{{$return->user->name}}</td> @endIsAdmin
                                  </tr>
                              @endforeach
                              </tbody>
@@ -113,7 +104,9 @@
 
     <script>
         $(document).ready(function() {
-            $('#table_product').DataTable();
+            $('#table_returns').DataTable({
+                "order": [[0, "desc"]]
+            });
         });
     </script>
 

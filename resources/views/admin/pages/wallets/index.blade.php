@@ -76,7 +76,7 @@
                                                     <td>{{$transaction->amount}}</td>
                                                     <td>{{$transaction->wallet->name}}</td>
 {{--                                                    <td class="@if($transaction->type === 'deposit') text-success @else text-danger @endif ">{{$transaction->type}}</td>--}}
-                                                    <td><span class="badge @if($transaction->type === 'deposit')badge-success @else badge-danger @endif">{{$transaction->type}}</span></td>
+                                                    <td><span class="badge @if($transaction->type === 'deposit')badge-success @else badge-danger @endif">{{$transaction->type()}}</span></td>
                                                     <td>{{$transaction->description ?? 'بدون وصف'}}</td>
                                                     <
 
@@ -117,7 +117,7 @@
 @push('js')
 
 
-    {{--    add quantity to the product --}}
+    {{--    Withdraw--}}
     <script>
         $(document).ready(function () {
             $('.withdrawBtn').click(function () {

@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->decimal('quantity', 10, 2);
+            $table->decimal('unit_cost_without_discount', 8, 2)->nullable();
             $table->decimal('unit_cost', 10, 2)->nullable();
             $table->decimal('total_profit', 10, 2)->nullable();
             $table->decimal('total_cost', 12, 2)->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->foreignIdFor(Order::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->timestamps();

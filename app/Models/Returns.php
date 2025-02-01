@@ -9,6 +9,7 @@ class Returns extends Model
 
     protected $table = 'returns';
     protected $guarded = [];
+    public $timestamps = false;
 
     /**
      * Get the order associated with the return.
@@ -34,10 +35,18 @@ class Returns extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * return the total refund amount fo the day
+     */
     public static function totalReturnAmount() {
-        $today = now()->day;
 
-        return self::where('created_at', '>=', $today)->sum('refund_amount');
+        return self::whereDay('created_at', now()->day)->sum('refund_amount');
+    }
+
+    public static function currentMonthReturns() {
+        return self::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->count();
     }
 
 }

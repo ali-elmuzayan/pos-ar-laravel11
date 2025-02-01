@@ -8,11 +8,8 @@ use TCPDF;
 trait HandleBill
 {
     public function createBill($order) {
-
         // Initialize TCPDF
-//        $pdf = new TCPDF('', 'mm', 'A6', true, 'UTF-8', false);
-        $pdf = new TCPDF('', 'mm', array(80, 200), true, 'UTF-8', false); // 80 mm width, 200 mm height (adjust height as needed)
-
+        $pdf = new TCPDF('', 'mm', array(80, 200), true, 'UTF-8', false);
 
         // Remove default header and footer
         $pdf->setPrintHeader(false);
@@ -23,36 +20,34 @@ trait HandleBill
         $pdf->SetTitle('فاتورة شراء');
 
         // Set margins
-        $pdf->SetMargins(5, 5, 5); // Adjust these values as needed (left, top, right)
+        $pdf->SetMargins(5, 5, 5);
 
         // Set font for Arabic support
-        $pdf->SetFont('amiri', '', '11'); // Use a font that supports Arabic text
+        $pdf->SetFont('amiri', '', '11');
 
         // Add a page
         $pdf->AddPage();
 
         $content = $this->createBillView($order);
 
-
-// Write HTML content to the PDF
+        // Write HTML content to the PDF
         $pdf->writeHTML($content, true, false, true, false, '');
 
-        // Add JavaScript for auto-printing
-//        $js = 'print(true);';
+        // Add JavaScript for auto-printing and redirect
 //        $js = <<<EOD
-//    print(true); // Open the print dialog when the PDF is loaded
+//    window.onload = function() {
+//        window.print(); // Open the print dialog
+//        setTimeout(function() {
+//            window.location.href = "/pos"; // Redirect after printing
+//        }, 1000); // Adjust the delay as needed
+//    };
 //    EOD;
-        $js = 'window.onload = function() {
-        window.print();
-    };';
-
-        $pdf->IncludeJS($js);
+//
 //        $pdf->IncludeJS($js);
 
         // Output the PDF (stream to browser)
-        $pdf->Output('order_bill.pdf', 'I'); // 'I' streams it to the browser
+       return  $pdf->Output('order_bill.pdf', 'S');
     }
-
 
     public function createBillView($order) {
         // Start building the content

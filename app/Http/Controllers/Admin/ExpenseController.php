@@ -60,6 +60,7 @@ class ExpenseController extends Controller
 
                 // Notify the user && redirect the request
                 toastr()->success('تم انشاء النفقة بنجاح');
+                toastr()->success('تم خصم المبلغ من الحساب الرئيسي بنجاح');
                 return redirect()->route('expenses.index');
             }
             DB::rollBack();

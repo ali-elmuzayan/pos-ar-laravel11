@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\HandleBill;
 use App\Models\Order;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Milon\Barcode\Facades\DNS1DFacade as DNS1D;
 
@@ -19,10 +20,9 @@ class OrderController extends Controller
     {
 
         $data = Order::getAllValidOrder();
+        $wallet = Wallet::find(1);
 
-
-
-        return view('admin.pages.orders.index', compact('data'));
+        return view('admin.pages.orders.index', compact('data', 'wallet'));
     }
 
     public function generateBill(Order $order)
@@ -48,20 +48,6 @@ class OrderController extends Controller
         return view('admin.pages.orders.show', compact('order', 'barcode'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
 
 }

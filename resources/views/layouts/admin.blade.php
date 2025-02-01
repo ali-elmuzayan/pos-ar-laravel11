@@ -56,6 +56,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 {{-- routes --}}
 <script>
     const posRoute = "{{route('pos.index')}}";
+    const orderRoute = "{{route('orders.index')}}";
+    const categoryRoute = "{{route('categories.index')}}";
     const categories = "{{route('categories.index')}}";
 </script>
 @stack('js')
